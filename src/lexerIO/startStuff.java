@@ -8,9 +8,9 @@ import java.util.Scanner;
 public class startStuff {
 
     public static void main(String[] args) throws IOException {
-        File file = new File("FileOfThings.txt");
-        //FileInputStream stream = new FileInputStream(file);
-        Scanner s = new Scanner("123+2345-+4567");
+        String name = args[0];
+        File file = new File(name);
+        Scanner s = new Scanner(file);
         String line = s.nextLine();
         int start = 0;
         int length = line.length();
