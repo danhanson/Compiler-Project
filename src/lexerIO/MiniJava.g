@@ -14,11 +14,12 @@ WhiteSpace : ( ' ' | '\t' | '\r' | '\n' )+ {skip();};
 
 Integer : '0' | NonZeroDigit Digit*;
 
-ID : Letter (Letter | Digit)*;
-
 ReservedWord : 'class' | 'public' | 'static' | 'extends' | 'void' | 'int' |
 	'boolean' | 'if' | 'else' | 'while' | 'return' | 'null' | 'true' | 'false' |
 	'this' | 'new' | 'String' | 'main' | 'System.out.println';
+
+ID : Letter (Letter | Digit)*;
+
 
 Operator : '+' | '-' | '*' | '/' | '<' | '<=' | '>=' | '>' | '==' | '&&' | '||' | '!';
 Delimiter : ';' | '.' | ',' | '=' | '(' | ')' | '{' | '}' | '[' | ']';

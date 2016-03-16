@@ -1,7 +1,7 @@
 Comment=1
 WhiteSpace=2
 Integer=3
-ID=4
-ReservedWord=5
+ReservedWord=4
+ID=5
 Operator=6
 Delimiter=7
