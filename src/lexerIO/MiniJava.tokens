@@ -1,8 +1,7 @@
-Program=1
-Token=2
-Integer=3
-ID=4
-ReservedWord=5
-Operator=6
-Delimiter=7
-WhiteSpace=8
+Token=1
+Integer=2
+ID=3
+ReservedWord=4
+Operator=5
+Delimiter=6
+WhiteSpace=7

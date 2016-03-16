@@ -8,8 +8,6 @@ fragment Letter: ([a-z]|[A-Z]);
 fragment Digit: [0-9];
 fragment NonZeroDigit: [1-9];
 
-Program : (Token | WhiteSpace)+;
-
 Token : Operator | Delimiter | ReservedWord | Integer | ID;
 
 Integer : '0' | NonZeroDigit Digit*;
