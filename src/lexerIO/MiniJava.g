@@ -8,6 +8,10 @@ fragment Letter: ([a-z]|[A-Z]);
 fragment Digit: [0-9];
 fragment NonZeroDigit: [1-9];
 
+Comment: ('//' ~('\n'|'\r')* | '/*' .*? '*/') {skip();};
+
+WhiteSpace : ( ' ' | '\t' | '\r' | '\n' )+ {skip();};
+
 Token : Operator | Delimiter | ReservedWord | Integer | ID;
 
 Integer : '0' | NonZeroDigit Digit*;
@@ -20,5 +24,3 @@ ReservedWord : 'class' | 'public' | 'static' | 'extends' | 'void' | 'int' |
 
 Operator : '+' | '-' | '*' | '/' | '<' | '<=' | '>=' | '>' | '==' | '&&' | '||' | '!';
 Delimiter : ';' | '.' | ',' | '=' | '(' | ')' | '{' | '}' | '[' | ']';
-
-WhiteSpace : ( ' ' | '\t' | '\r' | '\n' )+ {skip();};
