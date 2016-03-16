@@ -11,8 +11,12 @@ public class startStuff {
     public static void main(String[] args) throws IOException {
         CharStream in = new ANTLRFileStream(args[0]);
         MiniJava mj = new MiniJava(in);
+        String[] strings = mj.getRuleNames();
         for(Token t = mj.nextToken(); t.getType() != Token.EOF; t = mj.nextToken()){
-            System.out.println(t.getText());
+            String output = strings[t.getType()+2];
+            output += ", ";
+            output += t.getText();
+            System.out.println(output);
         }
     }
 }
