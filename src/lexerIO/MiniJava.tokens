@@ -1,8 +1,7 @@
 Comment=1
 WhiteSpace=2
-Token=3
-Integer=4
-ID=5
-ReservedWord=6
-Operator=7
-Delimiter=8
+Integer=3
+ID=4
+ReservedWord=5
+Operator=6
+Delimiter=7

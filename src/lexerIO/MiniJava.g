@@ -12,8 +12,6 @@ Comment: ('//' ~('\n'|'\r')* | '/*' .*? '*/') {skip();};
 
 WhiteSpace : ( ' ' | '\t' | '\r' | '\n' )+ {skip();};
 
-Token : Operator | Delimiter | ReservedWord | Integer | ID;
-
 Integer : '0' | NonZeroDigit Digit*;
 
 ID : Letter (Letter | Digit)*;
