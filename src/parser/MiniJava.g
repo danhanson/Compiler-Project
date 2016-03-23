@@ -23,17 +23,17 @@ Type: 'int' | 'boolean' | 'void' | ID;
 Statement: Type ID '=' Expression | '{' Statement* '}' | 'if' '(' Expression ')' Statement ('else' Statement)?
     |  'while' '(' Expression ')' Statement | 'System.out.println' '(' Expression' ')' ';' | ID '=' Expression | 'return' Expression;
 
-Expression: Expression7 ('||' Expression | );
+Expression: Expression7 ('||' Expression)?;
 
-Expression7: Expression6 ('&&' Expression7 | );
+Expression7: Expression6 ('&&' Expression7)?;
 
-Expression6: Expression5 (('==' | '!=') Expression6 | );
+Expression6: Expression5 (('==' | '!=') Expression6)?;
 
-Expression5: Expression4 (('<' | '>' | '<=' | '>=') Expression5 | );
+Expression5: Expression4 (('<' | '>' | '<=' | '>=') Expression5)?;
 
-Expression4: Expression3 (('+' | '-') Expression4 | );
+Expression4: Expression3 (('+' | '-') Expression4)?;
 
-Expression3: Expression2 (('*' | '/') Expression3 | );
+Expression3: Expression2 (('*' | '/') Expression3)?;
 
 Expression2: (!|-)? Expression1;
 
