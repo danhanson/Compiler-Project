@@ -1,14 +1,14 @@
 lexer grammar MiniJava;
 
 @lexer::header {
-    package lexerIO;
+    package parser;
 }
 
 Program: ClassDecl+;
 
 ClassDecl: 'class' ID ('extends' ID)? ClassBody;
 
-ClassBody: '{' Member* '}'
+ClassBody: '{' Member* '}';
 
 Member: Method | Field;
 
@@ -21,7 +21,7 @@ Field: Type ID;
 Type: 'int' | 'boolean' | 'void' | ID;
 
 Statement: Type ID '=' Expression | '{' Statement* '}' | 'if' '(' Expression ')' Statement ('else' Statement)?
-    |  'while' '(' Expression ')' Statement | 'System.out.println' '(' Expression' ')' ';' | ID '=' Expression | 'return' Expression;
+    |  'while' '(' Expression ')' Statement | 'System.out.println' '(' Expression ')' ';' | ID '=' Expression | 'return' Expression;
 
 Expression: Expression7 ('||' Expression)?;
 
@@ -35,8 +35,16 @@ Expression4: Expression3 (('+' | '-') Expression4)?;
 
 Expression3: Expression2 (('*' | '/') Expression3)?;
 
-Expression2: (!|-)? Expression1;
+Expression2: ('!'|'-')? Expression1;
 
 Expression1: Terminal ('.' ID '(' ')')?;
 
-Terminal: 'new' ID '(' ')' | 'this' | 'null' | 'true' | 'false' | '(' Expression ')' | Number | Integer;
+Terminal: 'new' ID '(' ')' | 'this' | 'null' | 'true' | 'false' | '(' Expression ')' | ID | Integer;
+
+Integer : '0' | NonZeroDigit Digit*;
+
+ID : Letter (Letter | Digit)*;
+
+fragment Letter: ([a-z]|[A-Z]);
+fragment Digit: [0-9];
+fragment NonZeroDigit: [1-9];
