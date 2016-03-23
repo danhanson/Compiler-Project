@@ -1,0 +1,18 @@
+First(Program)={class}
+Follow(Program)={eof}
+First(MainClassDecl)={class}
+Follow(MainClassDecl)={eof, class}
+First(ClassDecl)={class}
+Follow(ClassDecl)={class, eof}
+First(ClassVarDecl)={int, boolean, ID}
+Follow(ClassVarDecl)={public}
+First(MethodDecl)={public}
+Follow(MethodDecl)={public,  }  }
+First(Formal)={int, boolean,ID}
+Follow(Formal)={,  ,Public}
+First(Type)={int,boolean,ID}
+Follow(Type)={ID}
+First(Stmt)={int, boolean, ID,  {  , if, while, System.out.println(  }
+Follow(Stmt)={return,  }  , else}
+First(Expr)={-, !, new, ID, this, Integer, null, true, false, (  }
+Follow(Expr)={  )  , +, -, *, /, <, <=, >, >=, ==, !=, &&, ||, ;}
