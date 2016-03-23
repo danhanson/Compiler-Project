@@ -1,50 +1,63 @@
-lexer grammar MiniJava;
+grammar MiniJava;
 
-@lexer::header {
+@header {
     package parser;
 }
 
-Program: ClassDecl+;
+prog : classDecl+;
 
-ClassDecl: 'class' ID ('extends' ID)? ClassBody;
+classDecl : 'class' ID ('extends' ID)? classBody;
 
-ClassBody: '{' Member* '}';
+classBody : '{' member* '}';
 
-Member: Method | Field;
+member: method | field;
 
-Method: 'public' Type ID '(' (Argument (',' Argument)*)? ')' '{' Statement* '}';
+method : 'public' type ID '(' (argument (',' argument)*)? ')' '{' statement* '}';
 
-Argument: Type ID;
+argument : type ID;
 
-Field: Type ID;
+field : type ID;
 
-Type: 'int' | 'boolean' | 'void' | ID;
+type : 'int' | 'boolean' | 'void' | ID;
 
-Statement: Type ID '=' Expression | '{' Statement* '}' | 'if' '(' Expression ')' Statement ('else' Statement)?
-    |  'while' '(' Expression ')' Statement | 'System.out.println' '(' Expression ')' ';' | ID '=' Expression | 'return' Expression;
+statement : type ID '=' expression | '{' statement* '}' | 'if' '(' expression ')' statement ('else' statement)?
+    |  'while' '(' expression ')' statement | 'System.out.println' '(' expression ')' ';' | ID '=' expression
+    | 'return' expression;
 
-Expression: Expression7 ('||' Expression)?;
+expression : expression7 ('||' expression)?;
 
-Expression7: Expression6 ('&&' Expression7)?;
+expression7 : expression6 ('&&' expression7)?;
 
-Expression6: Expression5 (('==' | '!=') Expression6)?;
+expression6 : expression5 (('==' | '!=') expression6)?;
 
-Expression5: Expression4 (('<' | '>' | '<=' | '>=') Expression5)?;
+expression5 : expression4 (('<' | '>' | '<=' | '>=') expression5)?;
 
-Expression4: Expression3 (('+' | '-') Expression4)?;
+expression4 : expression3 (('+' | '-') expression4)?;
 
-Expression3: Expression2 (('*' | '/') Expression3)?;
+expression3 : expression2 (('*' | '/') expression3)?;
 
-Expression2: ('!'|'-')? Expression1;
+expression2 : ('!'|'-')? expression1;
 
-Expression1: Terminal ('.' ID '(' ')')?;
+expression1 : terminal ('.' ID '(' ')')?;
 
-Terminal: 'new' ID '(' ')' | 'this' | 'null' | 'true' | 'false' | '(' Expression ')' | ID | Integer;
+terminal : 'new' ID '(' ')' | 'this' | 'null' | 'true' | 'false' | '(' expression ')' | ID | INTEGER;
 
-Integer : '0' | NonZeroDigit Digit*;
+fragment LETTER: ([a-z]|[A-Z]);
+fragment DIGIT: [0-9];
+fragment NON_ZERO_DIGIT: [1-9];
 
-ID : Letter (Letter | Digit)*;
+COMMENT: ('//' ~('\n'|'\r')* | '/*' .*? '*/') {skip();};
 
-fragment Letter: ([a-z]|[A-Z]);
-fragment Digit: [0-9];
-fragment NonZeroDigit: [1-9];
+WHITE_SPACE: ( ' ' | '\t' | '\r' | '\n' )+ {skip();};
+
+INTEGER : '0' | NON_ZERO_DIGIT DIGIT*;
+
+RESERVED_WORD : 'class' | 'public' | 'static' | 'extends' | 'void' | 'int' |
+    'boolean' | 'if' | 'else' | 'while' | 'return' | 'null' | 'true' | 'false' |
+    'this' | 'new' | 'String' | 'main' | 'System.out.println';
+
+ID : LETTER (LETTER | DIGIT)*;
+
+
+OPERATOR : '+' | '-' | '*' | '/' | '<' | '<=' | '>=' | '>' | '==' | '&&' | '||' | '!';
+DELIMETER : ';' | '.' | ',' | '=' | '(' | ')' | '{' | '}' | '[' | ']';
