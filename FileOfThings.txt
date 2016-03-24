@@ -1,1 +1,17 @@
-123+2345-1234
+class MyClass {
+
+	// hello
+	public int returnInt(){
+		return 5;
+	}
+	
+	boolean returnThing(int x, int y){
+	   int z = x + y * 2;
+	   return z == 5 || z > 3 == false;
+	}
+	/*
+	Test Comment
+	*/
+	/* test comment */
+
+}
