@@ -855,10 +855,8 @@ public class MiniJavaParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			{
 			setState(151);
 			equality();
-			}
 			setState(154);
 			_la = _input.LA(1);
 			if (_la==T__19) {

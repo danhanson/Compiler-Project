@@ -28,7 +28,7 @@ expression : or;
 
 or : and ('||' or)?;
 
-and : (equality) ('&&' and)?;
+and : equality ('&&' and)?;
 
 equality : comparison (('==' | '!=') equality)?;
 
