@@ -54,11 +54,11 @@ DELIMETER=44
 'boolean'=10
 'void'=11
 '='=12
-'if'=13
-'else'=14
-'while'=15
-'System.out.println'=16
-';'=17
+';'=13
+'if'=14
+'else'=15
+'while'=16
+'System.out.println'=17
 'return'=18
 '||'=19
 '&&'=20

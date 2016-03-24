@@ -12,7 +12,7 @@ classBody : '{' member* '}';
 
 member: method | field;
 
-method : 'public' type ID '(' (argument (',' argument)*)? ')' '{' statement* '}';
+method : ('public')? type ID '(' (argument (',' argument)*)? ')' '{' statement* '}';
 
 argument : type ID;
 
@@ -20,25 +20,27 @@ field : type ID;
 
 type : 'int' | 'boolean' | 'void' | ID;
 
-statement : type ID '=' expression | '{' statement* '}' | 'if' '(' expression ')' statement ('else' statement)?
-    |  'while' '(' expression ')' statement | 'System.out.println' '(' expression ')' ';' | ID '=' expression
-    | 'return' expression;
+statement : type ID '=' expression ';' | '{' statement* '}' | 'if' '(' expression ')' statement ('else' statement)?
+    |  'while' '(' expression ')' statement | 'System.out.println' '(' expression ')' ';' | ID '=' expression ';'
+    | 'return' expression ';';
 
-expression : expression7 ('||' expression)?;
+expression : or;
 
-expression7 : expression6 ('&&' expression7)?;
+or : and ('||' or)?;
 
-expression6 : expression5 (('==' | '!=') expression6)?;
+and : (equality) ('&&' and)?;
 
-expression5 : expression4 (('<' | '>' | '<=' | '>=') expression5)?;
+equality : comparison (('==' | '!=') equality)?;
 
-expression4 : expression3 (('+' | '-') expression4)?;
+comparison : sum (('<' | '>' | '<=' | '>=') comparison)?;
 
-expression3 : expression2 (('*' | '/') expression3)?;
+sum : product (('+' | '-') sum)?;
 
-expression2 : ('!'|'-')? expression1;
+product : factor (('*' | '/') product)?;
 
-expression1 : terminal ('.' ID '(' ')')?;
+factor : ('!'|'-')? access;
+
+access : terminal ('.' ID '(' ')')?;
 
 terminal : 'new' ID '(' ')' | 'this' | 'null' | 'true' | 'false' | '(' expression ')' | ID | INTEGER;
 
@@ -61,3 +63,4 @@ ID : LETTER (LETTER | DIGIT)*;
 
 OPERATOR : '+' | '-' | '*' | '/' | '<' | '<=' | '>=' | '>' | '==' | '&&' | '||' | '!';
 DELIMETER : ';' | '.' | ',' | '=' | '(' | ')' | '{' | '}' | '[' | ']';
+

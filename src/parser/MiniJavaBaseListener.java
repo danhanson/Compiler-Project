@@ -1,4 +1,4 @@
-// Generated from MiniJava.g by ANTLR 4.5.2
+// Generated from MiniJava.g4 by ANTLR 4.5.2
 
     package parser;
 
@@ -138,85 +138,97 @@ public class MiniJavaBaseListener implements MiniJavaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression7(MiniJavaParser.Expression7Context ctx) { }
+	@Override public void enterOr(MiniJavaParser.OrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression7(MiniJavaParser.Expression7Context ctx) { }
+	@Override public void exitOr(MiniJavaParser.OrContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression6(MiniJavaParser.Expression6Context ctx) { }
+	@Override public void enterAnd(MiniJavaParser.AndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression6(MiniJavaParser.Expression6Context ctx) { }
+	@Override public void exitAnd(MiniJavaParser.AndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression5(MiniJavaParser.Expression5Context ctx) { }
+	@Override public void enterEquality(MiniJavaParser.EqualityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression5(MiniJavaParser.Expression5Context ctx) { }
+	@Override public void exitEquality(MiniJavaParser.EqualityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression4(MiniJavaParser.Expression4Context ctx) { }
+	@Override public void enterComparison(MiniJavaParser.ComparisonContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression4(MiniJavaParser.Expression4Context ctx) { }
+	@Override public void exitComparison(MiniJavaParser.ComparisonContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression3(MiniJavaParser.Expression3Context ctx) { }
+	@Override public void enterSum(MiniJavaParser.SumContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression3(MiniJavaParser.Expression3Context ctx) { }
+	@Override public void exitSum(MiniJavaParser.SumContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression2(MiniJavaParser.Expression2Context ctx) { }
+	@Override public void enterProduct(MiniJavaParser.ProductContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression2(MiniJavaParser.Expression2Context ctx) { }
+	@Override public void exitProduct(MiniJavaParser.ProductContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression1(MiniJavaParser.Expression1Context ctx) { }
+	@Override public void enterFactor(MiniJavaParser.FactorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression1(MiniJavaParser.Expression1Context ctx) { }
+	@Override public void exitFactor(MiniJavaParser.FactorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAccess(MiniJavaParser.AccessContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAccess(MiniJavaParser.AccessContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
