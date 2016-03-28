@@ -30,7 +30,7 @@ public class Main {
 				return;
 			}
 			for(int i = 0; i < depth; i++){
-				System.out.print(" ");
+				System.out.print("  ");
 			}
 			System.out.println(p.getRuleNames()[rule.getRuleIndex()]);
 			for(int i = 0; i < con.getChildCount(); i++){
@@ -40,9 +40,15 @@ public class Main {
 			TerminalNode term = (TerminalNode) con;
 			Vocabulary v = p.getVocabulary();
 			for(int i = 0; i < depth; i++){
-				System.out.print(" ");
+				System.out.print("  ");
 			}
-			System.out.println(v.getDisplayName(term.getSymbol().getType()));
+			String dispName = v.getDisplayName(term.getSymbol().getType());
+			System.out.print(dispName);
+			if("INTEGER".equals(dispName) || "ID".equals(dispName)){
+				System.out.println(" " + term.getText());
+			} else {
+				System.out.println();
+			}
 		} else {
 			throw new IllegalArgumentException();
 		}
