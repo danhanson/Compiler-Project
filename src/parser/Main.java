@@ -3,15 +3,15 @@ package parser;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+
+import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.BufferedTokenStream;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.Vocabulary;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.Trees;
 
 public class Main {
@@ -22,6 +22,14 @@ public class Main {
         TokenStream tokens = new BufferedTokenStream(lexer);
         MiniJavaParser parser = new MiniJavaParser(tokens);
         parser.setErrorHandler(new MiniJavaErrorStrategy());
-        System.out.println(Trees.toStringTree(parser.prog(), parser));
+        parser.setBuildParseTree(true);
+        ParseTree tree = parser.prog();
+        System.out.println(Trees.toStringTree(tree, parser));
+        JFrame f = new JFrame();
+        f.setSize(800, 600);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        TreeViewer tv = new TreeViewer(Arrays.asList(parser.getRuleNames()), tree);
+        f.add(new JScrollPane(tv));
+        f.setVisible(true);
 	}
 }

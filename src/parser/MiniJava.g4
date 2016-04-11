@@ -4,7 +4,7 @@ grammar MiniJava;
     package parser;
 }
 
-prog : classDecl+;
+prog : classDecl* EOF;
 
 classDecl : 'class' ID ('extends' ID)? classBody;
 
@@ -12,37 +12,41 @@ classBody : '{' member* '}';
 
 member: method | field;
 
-method : 'public'? 'static'? type ID '(' (argument (',' argument)*)? ')' '{' statement* '}';
+method : 'public'? 'static'? (type | 'void') ID '(' arguments ')' '{' statement* '}';
+
+arguments: argument ',' arguments | argument | ;
 
 argument : type ID;
 
-field : type ID ('=' expression)? ';';
+field : type ID ('=' expression)? ';' ;
 
-type : ('int' | 'boolean' | 'void' | 'String' | ID) ('[' ']')*;
+type : ('int' | 'boolean' | 'String' | ID) ('[' ']')*;
 
-statement : type ID ('=' expression)? ';' | '{' statement* '}' | 'if' '(' expression ')' statement ('else' statement)?
-    |  'while' '(' expression ')' statement | 'System.out.println' '(' expression ')' ';' | ID '=' expression ';'
-    | 'return' expression ';';
+statement : type ID ('=' expression)? ';'                         #declaration
+          | '{' statement* '}'                                    #block
+          | 'if' '(' expression ')' statement ('else' statement)? #if
+          | 'while' '(' expression ')' statement                  #while
+          | 'System.out.println' '(' expression ')' ';'           #print
+          | ID '=' expression ';'                                 #assignment
+          | 'return' expression ';'                               #return
+          | ';'                                                   #emptyStatement ;
 
-expression : or;
-
-or : and ('||' or)?;
-
-and : equality ('&&' and)?;
-
-equality : comparison (('==' | '!=') equality)?;
-
-comparison : sum (('<' | '>' | '<=' | '>=') comparison)?;
-
-sum : product (('+' | '-') sum)?;
-
-product : factor (('*' | '/') product)?;
-
-factor : ('!'|'-')? access;
-
-access : terminal ('.' ID '(' ')')?;
-
-terminal : 'new' ID '(' ')' | 'this' | 'null' | 'true' | 'false' | '(' expression ')' | ID | INTEGER;
+expression : 'new' ID '(' ')'                          #instantiation
+           | 'this'                                    #this
+           | 'null'                                    #null
+           | 'true'                                    #boolean
+           | 'false'                                   #boolean
+           | '(' expression ')'                        #parenthExpression
+           | ID                                        #identifier
+           | INTEGER                                   #integer
+           | expression '.' ID                         #objectAccess
+           | ('-' | '!') expression                    #unaryOperation
+           | expression ('/'|'*') expression           #binaryOperation
+           | expression ('-'|'+') expression           #binaryOperation
+           | expression ('<'|'>'|'<='|'>=') expression #binaryOperation
+           | expression ('==' | '!=') expression       #binaryOperation
+           | expression '&&' expression                #binaryOperation
+           | expression '||' expression                #binaryOperation ;
 
 fragment LETTER: ([a-z]|[A-Z]);
 fragment DIGIT: [0-9];

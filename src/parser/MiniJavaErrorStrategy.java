@@ -25,7 +25,7 @@ public class MiniJavaErrorStrategy extends DefaultErrorStrategy {
 		// TODO Auto-generated method stub
 		super.reportMissingToken(recognizer);
 	}
-	
+
 	@Override
 	protected void reportNoViableAlternative(Parser arg0, NoViableAltException arg1) {
 		Token bad = arg1.getOffendingToken();
