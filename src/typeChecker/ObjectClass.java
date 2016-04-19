@@ -3,7 +3,7 @@ package typeChecker;
 public final class ObjectClass extends Class {
 
 	private ObjectClass() {
-		super(GlobalScope.instance());
+		super("Object", GlobalScope.instance());
 	}
 
 	private static final ObjectClass INSTANCE = new ObjectClass();

@@ -1,5 +1,6 @@
 package typeChecker;
 
-public class Type {
-
+public interface Type {
+	String id();
+	Scope parent();
 }

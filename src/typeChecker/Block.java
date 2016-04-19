@@ -17,7 +17,7 @@ public class Block extends AbstractScope {
 	}
 
 	public boolean addVariable(Variable v){
-		return variables.put(v.id, v) != null;
+		return variables.put(v.id(), v) != null;
 	}
 
 	@Override

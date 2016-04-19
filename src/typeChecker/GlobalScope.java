@@ -1,11 +1,19 @@
 package typeChecker;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class GlobalScope implements Scope {
 
-	private GlobalScope(){ }
+	private final Map<String, Class> classes;
+
+	private GlobalScope(){ 
+		classes = new HashMap<String, Class>();
+	}
 	
 	private static final GlobalScope scope = new GlobalScope();
-	
+
 	public static GlobalScope instance(){
 		return scope;
 	}
@@ -25,4 +33,11 @@ public class GlobalScope implements Scope {
 		return null;
 	}
 
+	public boolean addClass(Class c) {
+		return classes.put(c.id(), c) == null;
+	}
+	
+	public Map<String, Class> getClasses() {
+		return Collections.unmodifiableMap(classes);
+	}
 }
