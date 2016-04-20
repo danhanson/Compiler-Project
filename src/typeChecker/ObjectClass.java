@@ -4,6 +4,7 @@ public final class ObjectClass extends Class {
 
 	private ObjectClass() {
 		super("Object", GlobalScope.instance());
+		GlobalScope.instance().addType(this);
 	}
 
 	private static final ObjectClass INSTANCE = new ObjectClass();
@@ -20,5 +21,10 @@ public final class ObjectClass extends Class {
 	@Override
 	public Function resolveMethod(Signature id) {
 		return null;
+	}
+
+	@Override
+	public void checkTypes() throws TypeException {
+		// do nothing
 	}
 }

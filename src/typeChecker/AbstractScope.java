@@ -9,7 +9,7 @@ public abstract class AbstractScope implements Scope {
 	}
 	
 	@Override
-	public Type resolveType(String id) {
+	public Type resolveType(String id) throws NoSuchTypeException {
 		return parent().resolveType(id);
 	}
 

@@ -6,10 +6,12 @@ import java.util.Map;
 
 public class GlobalScope implements Scope {
 
-	private final Map<String, Class> classes;
+	private final Map<String, Type> types;
 
 	private GlobalScope(){ 
-		classes = new HashMap<String, Class>();
+		types = new HashMap<String, Type>();
+		addType(new Primitive("int"));
+		addType(new Primitive("boolean"));
 	}
 	
 	private static final GlobalScope scope = new GlobalScope();
@@ -19,8 +21,11 @@ public class GlobalScope implements Scope {
 	}
 
 	@Override
-	public Type resolveType(String id) {
-		return null;
+	public Type resolveType(String id) throws NoSuchTypeException {
+		if(types.containsKey(id)){
+			return types.get(id);
+		}
+		throw new NoSuchTypeException(id);
 	}
 
 	@Override
@@ -33,11 +38,19 @@ public class GlobalScope implements Scope {
 		return null;
 	}
 
-	public boolean addClass(Class c) {
-		return classes.put(c.id(), c) == null;
+	public boolean addType(Type c) {
+		return types.put(c.id(), c) == null;
 	}
 	
-	public Map<String, Class> getClasses() {
-		return Collections.unmodifiableMap(classes);
+	public Map<String, Type> getTypes() {
+		return Collections.unmodifiableMap(types);
+	}
+	
+	public void checkTypes() throws TypeException{
+		for(Type t : types.values()){
+			if(t instanceof Class){
+				((Class) t).checkTypes();
+			}
+		}
 	}
 }

@@ -42,6 +42,18 @@ public class MiniJavaBaseListener implements MiniJavaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInherits(MiniJavaParser.InheritsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInherits(MiniJavaParser.InheritsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterClassBody(MiniJavaParser.ClassBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -78,6 +90,18 @@ public class MiniJavaBaseListener implements MiniJavaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterReturnType(MiniJavaParser.ReturnTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReturnType(MiniJavaParser.ReturnTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterArguments(MiniJavaParser.ArgumentsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -85,18 +109,6 @@ public class MiniJavaBaseListener implements MiniJavaListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArguments(MiniJavaParser.ArgumentsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArgument(MiniJavaParser.ArgumentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArgument(MiniJavaParser.ArgumentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -114,18 +126,6 @@ public class MiniJavaBaseListener implements MiniJavaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterType(MiniJavaParser.TypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitType(MiniJavaParser.TypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterDeclaration(MiniJavaParser.DeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -138,73 +138,97 @@ public class MiniJavaBaseListener implements MiniJavaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlock(MiniJavaParser.BlockContext ctx) { }
+	@Override public void enterType(MiniJavaParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBlock(MiniJavaParser.BlockContext ctx) { }
+	@Override public void exitType(MiniJavaParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIf(MiniJavaParser.IfContext ctx) { }
+	@Override public void enterDeclarationStatement(MiniJavaParser.DeclarationStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIf(MiniJavaParser.IfContext ctx) { }
+	@Override public void exitDeclarationStatement(MiniJavaParser.DeclarationStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterWhile(MiniJavaParser.WhileContext ctx) { }
+	@Override public void enterBlockStatement(MiniJavaParser.BlockStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitWhile(MiniJavaParser.WhileContext ctx) { }
+	@Override public void exitBlockStatement(MiniJavaParser.BlockStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrint(MiniJavaParser.PrintContext ctx) { }
+	@Override public void enterIfStatement(MiniJavaParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrint(MiniJavaParser.PrintContext ctx) { }
+	@Override public void exitIfStatement(MiniJavaParser.IfStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssignment(MiniJavaParser.AssignmentContext ctx) { }
+	@Override public void enterWhileStatement(MiniJavaParser.WhileStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssignment(MiniJavaParser.AssignmentContext ctx) { }
+	@Override public void exitWhileStatement(MiniJavaParser.WhileStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturn(MiniJavaParser.ReturnContext ctx) { }
+	@Override public void enterPrintStatement(MiniJavaParser.PrintStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturn(MiniJavaParser.ReturnContext ctx) { }
+	@Override public void exitPrintStatement(MiniJavaParser.PrintStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAssignmentStatement(MiniJavaParser.AssignmentStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssignmentStatement(MiniJavaParser.AssignmentStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterReturnStatement(MiniJavaParser.ReturnStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReturnStatement(MiniJavaParser.ReturnStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

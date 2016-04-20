@@ -27,4 +27,10 @@ public class Block extends AbstractScope {
 		}
 		return super.resolveVariable(id);
 	}
+
+	public void checkTypes() throws NoSuchTypeException {
+		for(Variable v : variables.values()){
+			v.resolveType();
+		}
+	}
 }

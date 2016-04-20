@@ -16,7 +16,7 @@ import parser.MiniJavaParser.ProgContext;
 
 public class TypeChecker {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, TypeException {
         CharStream in = new ANTLRFileStream("FileOfThings.txt");
         MiniJavaLexer lexer = new MiniJavaLexer(in);
         TokenStream tokens = new BufferedTokenStream(lexer);
@@ -27,6 +27,8 @@ public class TypeChecker {
         GlobalScope global = GlobalScope.instance();
         for(ClassDeclContext classDec : tree.classDecl()){
         	Class c = Class.fromClassDecl(classDec, global);
+        	global.addType(c);
         }
+        global.checkTypes();
 	}
 }

@@ -3,7 +3,7 @@ package typeChecker;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class Subclass extends Class implements Type {
+public final class Subclass extends Class {
 
 	private final Map<String, Variable> fields;
 	private final Map<Signature, Function> methods; // We might need to deal with covariance somehow
@@ -15,23 +15,22 @@ public final class Subclass extends Class implements Type {
 		this.fields = new HashMap<>();
 	}
 
-	public boolean checkTypes(){
+	public void checkTypes() throws NoSuchTypeException{
 		if(typeChecked){
-			return true;
+			return;
 		}
 		for(Variable f : fields.values()){
 			if(!f.resolveType()){
-				System.err.println("Failed to resolve: "+f.id());
-				return false;
+				throw new NoSuchTypeException(f.typeId());
 			}
 		}
 		// TODO: check methods
 		typeChecked = true;
-		return true;
+		return;
 	}
 
 	@Override
-	public Type resolveType(String id) {
+	public Type resolveType(String id) throws NoSuchTypeException {
 		if(id == this.id()){
 			return this;
 		}

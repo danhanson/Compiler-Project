@@ -1,41 +1,36 @@
 package typeChecker;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.antlr.v4.runtime.tree.ParseTree;
-
 import parser.MiniJavaParser.ClassDeclContext;
 import parser.MiniJavaParser.MemberContext;
 
-public abstract class Class extends AbstractScope {
+public abstract class Class extends AbstractScope implements Type {
 	
 	private final String id;
 	
-	public static Class fromClassDecl(ClassDeclContext con, Scope scope){
-		String id = con.getChild(1).getText();
+	public static Class fromClassDecl(ClassDeclContext con, Scope scope) throws TypeException {
+		String id = con.ID().getText();
 		Class superClass;
-		int bodyI;
-		if(con.children.size() == 5){
-			// look it up
-			bodyI = 4;
-			throw new UnsupportedOperationException("extends not supported");
-		} else {
+		if(con.inherits() == null){
 			superClass = ObjectClass.instance();
-			bodyI = 2;
+		} else {
+			Type t = scope.resolveType(con.inherits().ID().getText());
+			if(t == null)
+				throw new NoSuchTypeException(con.inherits().ID().getText());
+			if(!(t instanceof Class))
+				throw new TypeException("type: " + t.id() + " is not a class");
+			superClass = (Class) t;
 		}
 		Subclass newClass = superClass.extend(id);
-		ParseTree members = con.getChild(bodyI);
-		for(int i = 1; i < members.getChildCount()-1; i++){
-			MemberContext mem = (MemberContext) members.getChild(i);
-			System.out.println("Method: " + mem.method());
-			System.out.println("Field: " + mem.field());
-			if(mem.field() == null){
+		for(MemberContext mem : con.classBody().member()){
+			if(mem.method() != null){
 				newClass.addMethod(Function.fromMethodContext(mem.method(), newClass));
+			} else if(mem.field() != null){
+				newClass.addField(Variable.fromDeclarationContext(mem.field().declaration(), newClass));
+			} else {
+				throw new IllegalArgumentException("What happened?");
 			}
 		}
-		return null;
+		return newClass;
 	}
 
 	public Class(String id, Scope parent) {
@@ -51,6 +46,8 @@ public abstract class Class extends AbstractScope {
 
 	public abstract Function resolveMethod(Signature id);
 
+	public abstract void checkTypes() throws TypeException;
+	
 	public final Subclass extend(String id) {
 		return new Subclass(this, id);
 	}

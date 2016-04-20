@@ -6,29 +6,33 @@ grammar MiniJava;
 
 prog : classDecl* EOF;
 
-classDecl : 'class' ID ('extends' ID)? classBody;
+classDecl : 'class' ID inherits? classBody;
+
+inherits : 'extends' ID;
 
 classBody : '{' member* '}';
 
 member: method | field;
 
-method : 'public'? 'static'? (type | 'void') ID '(' arguments ')' '{' statement* '}';
+method : 'public'? 'static'? returnType ID '(' arguments ')' '{' statement* '}';
 
-arguments: argument ',' arguments | argument | ;
+returnType : (type | 'void');
 
-argument : type ID;
+arguments: declaration ',' arguments | declaration | ;
 
-field : type ID ('=' expression)? ';' ;
+field : declaration ('=' expression)? ';' ;
+
+declaration : type ID ;
 
 type : ('int' | 'boolean' | 'String' | ID) ('[' ']')*;
 
-statement : type ID ('=' expression)? ';'                         #declaration
-          | '{' statement* '}'                                    #block
-          | 'if' '(' expression ')' statement ('else' statement)? #if
-          | 'while' '(' expression ')' statement                  #while
-          | 'System.out.println' '(' expression ')' ';'           #print
-          | ID '=' expression ';'                                 #assignment
-          | 'return' expression ';'                               #return
+statement : declaration ('=' expression)? ';'                     #declarationStatement
+          | '{' statement* '}'                                    #blockStatement
+          | 'if' '(' expression ')' statement ('else' statement)? #ifStatement
+          | 'while' '(' expression ')' statement                  #whileStatement
+          | 'System.out.println' '(' expression ')' ';'           #printStatement
+          | ID '=' expression ';'                                 #assignmentStatement
+          | 'return' expression ';'                               #returnStatement
           | ';'                                                   #emptyStatement ;
 
 expression : 'new' ID '(' ')'                          #instantiation
