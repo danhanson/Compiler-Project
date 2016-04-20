@@ -15,8 +15,8 @@ import parser.MiniJavaParser.NullContext;
 import parser.MiniJavaParser.ParenthExpressionContext;
 import parser.MiniJavaParser.ThisContext;
 import parser.MiniJavaParser.UnaryOperationContext;
-import typechecker.ExecutionScope;
-import typechecker.Type;
+import typechecker.scope.ExecutionScope;
+import typechecker.types.Type;
 
 public abstract class Expression {
 

@@ -1,7 +1,15 @@
-package typechecker;
+package typechecker.types;
 
 import parser.MiniJavaParser.ClassDeclContext;
 import parser.MiniJavaParser.MemberContext;
+import typechecker.exceptions.NoSuchTypeException;
+import typechecker.exceptions.TypeException;
+import typechecker.exceptions.TypeMismatchException;
+import typechecker.functions.Function;
+import typechecker.functions.Signature;
+import typechecker.scope.AbstractScope;
+import typechecker.scope.Scope;
+import typechecker.scope.Variable;
 
 public abstract class Class extends AbstractScope implements Type {
 	

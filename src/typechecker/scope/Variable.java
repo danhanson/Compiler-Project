@@ -1,8 +1,10 @@
-package typechecker;
+package typechecker.scope;
 
 import java.util.Objects;
 
 import parser.MiniJavaParser.DeclarationContext;
+import typechecker.exceptions.NoSuchTypeException;
+import typechecker.types.Type;
 
 public class Variable {
 
@@ -30,14 +32,14 @@ public class Variable {
 		}
 	}
 	
-	Variable(Type type, String id, Scope scope){
+	public Variable(Type type, String id, Scope scope){
 		this.id = id;
 		this.scope = scope;
 		this.type = type;
 		this.typeId = type.id();
 	}
 
-	Variable(String typeName, String id, Scope scope){
+	public Variable(String typeName, String id, Scope scope){
 		this.id = id;
 		this.scope = scope;
 		this.typeId = typeName;

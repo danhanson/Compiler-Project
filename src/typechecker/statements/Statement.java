@@ -13,7 +13,7 @@ import parser.MiniJavaParser.PrintStatementContext;
 import parser.MiniJavaParser.ReturnStatementContext;
 import parser.MiniJavaParser.StatementContext;
 import parser.MiniJavaParser.WhileStatementContext;
-import typechecker.ExecutionScope;
+import typechecker.scope.ExecutionScope;
 
 public abstract class Statement {
 

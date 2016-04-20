@@ -4,10 +4,10 @@ import parser.MiniJavaParser.ElseBodyContext;
 import parser.MiniJavaParser.IfBodyContext;
 import parser.MiniJavaParser.IfStatementContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.ExecutionScope;
-import typechecker.Primitive;
-import typechecker.TypeMismatchException;
+import typechecker.exceptions.TypeMismatchException;
 import typechecker.expressions.Expression;
+import typechecker.scope.ExecutionScope;
+import typechecker.types.Primitive;
 
 public class IfStatement extends Statement {
 

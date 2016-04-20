@@ -12,6 +12,8 @@ import parser.MiniJavaLexer;
 import parser.MiniJavaParser;
 import parser.MiniJavaParser.ClassDeclContext;
 import parser.MiniJavaParser.ProgContext;
+import typechecker.scope.GlobalScope;
+import typechecker.types.Class;
 
 public class TypeChecker {
 

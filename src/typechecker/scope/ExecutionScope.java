@@ -1,7 +1,10 @@
-package typechecker;
+package typechecker.scope;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import typechecker.exceptions.DuplicateDeclarationException;
+import typechecker.types.Type;
 
 /**
  * an execution scope is a scope that the program executes in, this

@@ -2,8 +2,8 @@ package typechecker.statements;
 
 import parser.MiniJavaParser.BlockStatementContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.Block;
-import typechecker.ExecutionScope;
+import typechecker.scope.Block;
+import typechecker.scope.ExecutionScope;
 
 public class BlockStatement extends Statement {
 	

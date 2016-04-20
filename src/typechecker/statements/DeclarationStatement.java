@@ -2,10 +2,10 @@ package typechecker.statements;
 
 import parser.MiniJavaParser.DeclarationStatementContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.ExecutionScope;
-import typechecker.TypeMismatchException;
-import typechecker.Variable;
+import typechecker.exceptions.TypeMismatchException;
 import typechecker.expressions.Expression;
+import typechecker.scope.ExecutionScope;
+import typechecker.scope.Variable;
 
 public class DeclarationStatement extends Statement {
 

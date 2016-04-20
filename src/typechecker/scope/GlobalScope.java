@@ -1,8 +1,16 @@
-package typechecker;
+package typechecker.scope;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import typechecker.exceptions.NoSuchTypeException;
+import typechecker.exceptions.TypeException;
+import typechecker.functions.Function;
+import typechecker.functions.Signature;
+import typechecker.types.Class;
+import typechecker.types.Primitive;
+import typechecker.types.Type;
 
 public class GlobalScope implements Scope {
 

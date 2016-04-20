@@ -1,8 +1,8 @@
 package typechecker.expressions;
 
 import parser.MiniJavaParser.ExpressionContext;
-import typechecker.ExecutionScope;
-import typechecker.Type;
+import typechecker.scope.ExecutionScope;
+import typechecker.types.Type;
 
 public class InvokeMethod extends Expression {
 

@@ -1,10 +1,16 @@
-package typechecker;
+package typechecker.functions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import parser.MiniJavaParser.ArgumentsContext;
 import parser.MiniJavaParser.MethodContext;
+import typechecker.exceptions.NoSuchTypeException;
+import typechecker.scope.Block;
+import typechecker.scope.ExecutionScope;
+import typechecker.scope.Variable;
+import typechecker.types.Class;
+import typechecker.types.Type;
 
 public class Function extends ExecutionScope{
 

@@ -2,8 +2,8 @@ package typechecker.statements;
 
 import parser.MiniJavaParser.PrintStatementContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.ExecutionScope;
 import typechecker.expressions.Expression;
+import typechecker.scope.ExecutionScope;
 
 public class PrintStatement extends Statement {
 

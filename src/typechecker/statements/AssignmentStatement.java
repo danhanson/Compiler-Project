@@ -2,9 +2,9 @@ package typechecker.statements;
 
 import parser.MiniJavaParser.AssignmentStatementContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.ExecutionScope;
-import typechecker.Variable;
 import typechecker.expressions.Expression;
+import typechecker.scope.ExecutionScope;
+import typechecker.scope.Variable;
 
 public class AssignmentStatement extends Statement {
 

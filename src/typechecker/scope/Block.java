@@ -1,4 +1,4 @@
-package typechecker;
+package typechecker.scope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import parser.MiniJavaParser.BlockContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.statements.Statement;
+import typechecker.types.Type;
 
 public class Block extends ExecutionScope {
 

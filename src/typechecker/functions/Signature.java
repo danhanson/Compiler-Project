@@ -1,8 +1,11 @@
-package typechecker;
+package typechecker.functions;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import typechecker.scope.Scope;
+import typechecker.scope.Variable;
 
 public final class Signature {
 

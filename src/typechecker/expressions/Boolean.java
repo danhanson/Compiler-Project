@@ -1,9 +1,9 @@
 package typechecker.expressions;
 
 import parser.MiniJavaParser.ExpressionContext;
-import typechecker.ExecutionScope;
-import typechecker.Primitive;
-import typechecker.Type;
+import typechecker.scope.ExecutionScope;
+import typechecker.types.Primitive;
+import typechecker.types.Type;
 
 public class Boolean extends Expression {
 

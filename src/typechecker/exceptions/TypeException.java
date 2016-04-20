@@ -1,4 +1,4 @@
-package typechecker;
+package typechecker.exceptions;
 
 public class TypeException extends RuntimeException {
 

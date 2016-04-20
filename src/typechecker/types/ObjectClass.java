@@ -1,4 +1,10 @@
-package typechecker;
+package typechecker.types;
+
+import typechecker.exceptions.TypeException;
+import typechecker.functions.Function;
+import typechecker.functions.Signature;
+import typechecker.scope.GlobalScope;
+import typechecker.scope.Variable;
 
 public final class ObjectClass extends Class {
 

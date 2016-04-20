@@ -1,7 +1,13 @@
-package typechecker;
+package typechecker.types;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import typechecker.exceptions.DuplicateDeclarationException;
+import typechecker.exceptions.NoSuchTypeException;
+import typechecker.functions.Function;
+import typechecker.functions.Signature;
+import typechecker.scope.Variable;
 
 public final class Subclass extends Class {
 

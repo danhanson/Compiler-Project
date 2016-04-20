@@ -2,9 +2,9 @@ package typechecker.statements;
 
 import parser.MiniJavaParser.ReturnStatementContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.ExecutionScope;
-import typechecker.TypeMismatchException;
+import typechecker.exceptions.TypeMismatchException;
 import typechecker.expressions.Expression;
+import typechecker.scope.ExecutionScope;
 
 public class ReturnStatement extends Statement {
 

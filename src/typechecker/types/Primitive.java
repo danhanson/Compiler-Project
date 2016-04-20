@@ -1,4 +1,7 @@
-package typechecker;
+package typechecker.types;
+
+import typechecker.scope.GlobalScope;
+import typechecker.scope.Scope;
 
 public class Primitive implements Type {
 

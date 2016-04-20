@@ -1,4 +1,4 @@
-package typechecker;
+package typechecker.exceptions;
 
 public class TypeMismatchException extends TypeException {
 

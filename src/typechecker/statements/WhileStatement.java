@@ -2,10 +2,10 @@ package typechecker.statements;
 
 import parser.MiniJavaParser.StatementContext;
 import parser.MiniJavaParser.WhileStatementContext;
-import typechecker.ExecutionScope;
-import typechecker.Primitive;
-import typechecker.TypeMismatchException;
+import typechecker.exceptions.TypeMismatchException;
 import typechecker.expressions.Expression;
+import typechecker.scope.ExecutionScope;
+import typechecker.types.Primitive;
 
 public class WhileStatement extends Statement {
 

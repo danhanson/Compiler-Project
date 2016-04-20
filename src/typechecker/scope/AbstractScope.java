@@ -1,4 +1,8 @@
-package typechecker;
+package typechecker.scope;
+
+import typechecker.functions.Function;
+import typechecker.functions.Signature;
+import typechecker.types.Type;
 
 public abstract class AbstractScope implements Scope {
 
