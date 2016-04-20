@@ -1,4 +1,4 @@
-package typeChecker;
+package typechecker;
 
 public interface Type {
 	String id();

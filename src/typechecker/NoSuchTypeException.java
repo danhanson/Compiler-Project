@@ -1,4 +1,4 @@
-package typeChecker;
+package typechecker;
 
 public class NoSuchTypeException extends TypeException {
 	public NoSuchTypeException(String string) {

@@ -1,4 +1,4 @@
-package typeChecker;
+package typechecker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,6 @@ public final class Subclass extends Class {
 
 	private final Map<String, Variable> fields;
 	private final Map<Signature, Function> methods; // We might need to deal with covariance somehow
-	private boolean typeChecked = false;
 
 	Subclass(Class parent, String id){
 		super(id, parent);
@@ -15,17 +14,10 @@ public final class Subclass extends Class {
 		this.fields = new HashMap<>();
 	}
 
-	public void checkTypes() throws NoSuchTypeException{
-		if(typeChecked){
-			return;
-		}
+	public void resolveTypes() throws NoSuchTypeException{
 		for(Variable f : fields.values()){
-			if(!f.resolveType()){
-				throw new NoSuchTypeException(f.typeId());
-			}
+			f.resolveType();
 		}
-		// TODO: check methods
-		typeChecked = true;
 		return;
 	}
 
@@ -73,11 +65,15 @@ public final class Subclass extends Class {
 		return (Class) this.parent();
 	}
 	
-	public boolean addField(Variable v){
-		return fields.put(v.id(), v) == null;
+	public void addField(Variable v){
+		if(fields.put(v.id(), v) != null){
+			throw new DuplicateDeclarationException("Duplicated declarations for " + v.id());
+		}
 	}
-	
-	public boolean addMethod(Function f){
-		return methods.put(f.signature(), f) == null;
+
+	public void addMethod(Function f){
+		if(methods.put(f.signature(), f) != null){
+			throw new DuplicateDeclarationException("Duplicated declarations for " + f.signature());
+		}
 	}
 }

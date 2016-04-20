@@ -1,4 +1,4 @@
-package typeChecker;
+package typechecker;
 
 public interface Scope {
 	Type resolveType(String id) throws NoSuchTypeException;

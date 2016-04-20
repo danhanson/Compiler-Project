@@ -1,4 +1,4 @@
-package typeChecker;
+package typechecker;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package typeChecker;
+package typechecker;
 
 import java.io.IOException;
 
@@ -6,7 +6,6 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.BufferedTokenStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import parser.MiniJavaErrorStrategy;
 import parser.MiniJavaLexer;
@@ -16,7 +15,7 @@ import parser.MiniJavaParser.ProgContext;
 
 public class TypeChecker {
 
-	public static void main(String[] args) throws IOException, TypeException {
+	public static void main(String[] args) throws IOException {
         CharStream in = new ANTLRFileStream("FileOfThings.txt");
         MiniJavaLexer lexer = new MiniJavaLexer(in);
         TokenStream tokens = new BufferedTokenStream(lexer);

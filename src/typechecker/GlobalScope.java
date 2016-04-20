@@ -1,4 +1,4 @@
-package typeChecker;
+package typechecker;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,8 +10,8 @@ public class GlobalScope implements Scope {
 
 	private GlobalScope(){ 
 		types = new HashMap<String, Type>();
-		addType(new Primitive("int"));
-		addType(new Primitive("boolean"));
+		addType(Primitive.INT);
+		addType(Primitive.BOOLEAN);
 	}
 	
 	private static final GlobalScope scope = new GlobalScope();
@@ -49,7 +49,7 @@ public class GlobalScope implements Scope {
 	public void checkTypes() throws TypeException{
 		for(Type t : types.values()){
 			if(t instanceof Class){
-				((Class) t).checkTypes();
+				((Class) t).resolveTypes();
 			}
 		}
 	}

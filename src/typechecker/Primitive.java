@@ -1,6 +1,9 @@
-package typeChecker;
+package typechecker;
 
 public class Primitive implements Type {
+
+	public static final Primitive BOOLEAN = new Primitive("boolean");
+	public static final Primitive INT = new Primitive("int");
 
 	private final String id;
 
@@ -15,6 +18,6 @@ public class Primitive implements Type {
 
 	@Override
 	public Scope parent() {
-		return null;
+		return GlobalScope.instance();
 	}
 }

@@ -1,9 +1,8 @@
-package typeChecker;
+package typechecker;
 
 import java.util.Objects;
 
 import parser.MiniJavaParser.DeclarationContext;
-import parser.MiniJavaParser.FieldContext;
 
 public class Variable {
 
@@ -12,7 +11,7 @@ public class Variable {
 	private final String typeId;
 	private Type type = null;
 
-	static final Variable fromDeclarationContext(DeclarationContext field, Class c){
+	public static final Variable fromDeclarationContext(DeclarationContext field, Scope c){
 		String typeName = field.type().getText();
 		String id = field.ID().getText();
 		return new Variable(typeName, id, c);
@@ -22,11 +21,20 @@ public class Variable {
 	 * Variables should be resolved once all classes are added to the scope
 	 * @throws NoSuchTypeException 
 	 */
-	public boolean resolveType() throws NoSuchTypeException{
+	public void resolveType() throws NoSuchTypeException{
 		if(this.type != null)
-			return false;
+			return;
 		this.type = scope.resolveType(typeId);
-		return this.type != null;
+		if(this.type == null) {
+			throw new NoSuchTypeException(typeId);
+		}
+	}
+	
+	Variable(Type type, String id, Scope scope){
+		this.id = id;
+		this.scope = scope;
+		this.type = type;
+		this.typeId = type.id();
 	}
 
 	Variable(String typeName, String id, Scope scope){

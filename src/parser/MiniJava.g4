@@ -14,7 +14,9 @@ classBody : '{' member* '}';
 
 member: method | field;
 
-method : 'public'? 'static'? returnType ID '(' arguments ')' '{' statement* '}';
+method : 'public'? 'static'? returnType ID '(' arguments ')' block;
+
+block : '{' statement* '}';
 
 returnType : (type | 'void');
 
@@ -27,13 +29,17 @@ declaration : type ID ;
 type : ('int' | 'boolean' | 'String' | ID) ('[' ']')*;
 
 statement : declaration ('=' expression)? ';'                     #declarationStatement
-          | '{' statement* '}'                                    #blockStatement
-          | 'if' '(' expression ')' statement ('else' statement)? #ifStatement
+          | block                                                 #blockStatement
+          | ifBody elseBody?                                      #ifStatement
           | 'while' '(' expression ')' statement                  #whileStatement
           | 'System.out.println' '(' expression ')' ';'           #printStatement
           | ID '=' expression ';'                                 #assignmentStatement
           | 'return' expression ';'                               #returnStatement
           | ';'                                                   #emptyStatement ;
+
+ifBody : 'if' '(' expression ')' statement ;
+
+elseBody : 'else' statement ;
 
 expression : 'new' ID '(' ')'                          #instantiation
            | 'this'                                    #this
@@ -43,7 +49,7 @@ expression : 'new' ID '(' ')'                          #instantiation
            | '(' expression ')'                        #parenthExpression
            | ID                                        #identifier
            | INTEGER                                   #integer
-           | expression '.' ID                         #objectAccess
+           | expression '.' ID '(' params ')'          #invokeMethod
            | ('-' | '!') expression                    #unaryOperation
            | expression ('/'|'*') expression           #binaryOperation
            | expression ('-'|'+') expression           #binaryOperation
@@ -51,6 +57,8 @@ expression : 'new' ID '(' ')'                          #instantiation
            | expression ('==' | '!=') expression       #binaryOperation
            | expression '&&' expression                #binaryOperation
            | expression '||' expression                #binaryOperation ;
+
+params : ID ',' params | ID | ;
 
 fragment LETTER: ([a-z]|[A-Z]);
 fragment DIGIT: [0-9];

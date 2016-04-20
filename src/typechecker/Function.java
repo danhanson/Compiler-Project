@@ -1,40 +1,36 @@
-package typeChecker;
+package typechecker;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import parser.MiniJavaParser.ArgumentsContext;
 import parser.MiniJavaParser.MethodContext;
 
-public class Function extends AbstractScope{
-	
+public class Function extends ExecutionScope{
+
 	private final Signature signature;
 	private final String returnTypeId;
-	private final Block body;
-	private final Map<String, Variable> arguments;
+	private Block body;
 	private Type returnType = null;
-	
-	Function(String id, String returnTypeId, List<Variable> args, Scope parent){
+
+	private Function(String id, String returnTypeId, List<Variable> args, Class parent){
 		super(parent);
-		this.arguments = new HashMap<String, Variable>();
 		for(Variable arg : args){
-			this.arguments.put(arg.id(), arg);
+			addVariable(arg);
 		}
 		this.signature = new Signature(id, returnTypeId, args, parent);
 		this.returnTypeId = returnTypeId;
-		this.body = new Block(this);
 	}
-	
-	public void checkTypes() throws NoSuchTypeException{
-		for(Variable arg : arguments.values()){
-			arg.resolveType();
-		}
+
+	private void setBody(Block body){
+		this.body = body;
+	}
+
+	public void resolveTypes() throws NoSuchTypeException{
 		returnType = parent().resolveType(returnTypeId);
 		if(returnType == null)
 			throw new NoSuchTypeException(returnTypeId);
-		this.body.checkTypes();
+		this.body.resolveTypes();
 	}
 
 	public Block body(){
@@ -54,6 +50,19 @@ public class Function extends AbstractScope{
 			argList.add(Variable.fromDeclarationContext(args.declaration(), c));
 			args = args.arguments();
 		}
-		return new Function(id, retType, argList, c);
+		Function f = new Function(id, retType, argList, c);
+		Block body = Block.fromBlockContext(method.block(), f);
+		f.setBody(body);
+		return f;
+	}
+
+	@Override
+	public Type returnType() {
+		return returnType;
+	}
+
+	@Override
+	public Variable thisVar() {
+		return ((Class) parent()).thisVar();
 	}
 }

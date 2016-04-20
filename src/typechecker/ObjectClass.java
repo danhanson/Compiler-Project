@@ -1,4 +1,4 @@
-package typeChecker;
+package typechecker;
 
 public final class ObjectClass extends Class {
 
@@ -24,7 +24,7 @@ public final class ObjectClass extends Class {
 	}
 
 	@Override
-	public void checkTypes() throws TypeException {
+	public void resolveTypes() throws TypeException {
 		// do nothing
 	}
 }

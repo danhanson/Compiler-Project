@@ -1,4 +1,4 @@
-package typeChecker;
+package typechecker;
 
 import parser.MiniJavaParser.ClassDeclContext;
 import parser.MiniJavaParser.MemberContext;
@@ -6,8 +6,9 @@ import parser.MiniJavaParser.MemberContext;
 public abstract class Class extends AbstractScope implements Type {
 	
 	private final String id;
+	private final Variable thisVar;
 	
-	public static Class fromClassDecl(ClassDeclContext con, Scope scope) throws TypeException {
+	public static Class fromClassDecl(ClassDeclContext con, Scope scope) {
 		String id = con.ID().getText();
 		Class superClass;
 		if(con.inherits() == null){
@@ -17,7 +18,7 @@ public abstract class Class extends AbstractScope implements Type {
 			if(t == null)
 				throw new NoSuchTypeException(con.inherits().ID().getText());
 			if(!(t instanceof Class))
-				throw new TypeException("type: " + t.id() + " is not a class");
+				throw new TypeMismatchException("type: " + t.id() + " is not a class");
 			superClass = (Class) t;
 		}
 		Subclass newClass = superClass.extend(id);
@@ -36,23 +37,24 @@ public abstract class Class extends AbstractScope implements Type {
 	public Class(String id, Scope parent) {
 		super(parent);
 		this.id = id;
+		this.thisVar = new Variable(this, "this", this);
 	}
 
 	public String id(){
 		return this.id;
 	}
-	
+
 	public abstract Variable resolveField(String id);
 
 	public abstract Function resolveMethod(Signature id);
 
-	public abstract void checkTypes() throws TypeException;
-	
+	public abstract void resolveTypes() throws TypeException;
+
 	public final Subclass extend(String id) {
 		return new Subclass(this, id);
 	}
-	
-	public final Block block(){
-		return new Block(this);
+
+	public final Variable thisVar() {
+		return thisVar;
 	}
 }

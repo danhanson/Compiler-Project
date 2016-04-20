@@ -1,4 +1,4 @@
-package typeChecker;
+package typechecker;
 
 public abstract class AbstractScope implements Scope {
 
@@ -9,7 +9,7 @@ public abstract class AbstractScope implements Scope {
 	}
 	
 	@Override
-	public Type resolveType(String id) throws NoSuchTypeException {
+	public Type resolveType(String id) {
 		return parent().resolveType(id);
 	}
 
