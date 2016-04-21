@@ -25,14 +25,14 @@ public abstract class Expression {
 	static {
 		factoryLookup.put(InstantiationContext.class, Instantiation::fromExpressionContext);
 		factoryLookup.put(ThisContext.class, This::fromExpressionContext);
-		factoryLookup.put(BooleanContext.class, Boolean::fromExpressionContext);
+		factoryLookup.put(BooleanContext.class, BooleanExp::fromExpressionContext);
 		factoryLookup.put(ParenthExpressionContext.class, ParenthExpression::fromExpressionContext);
 		factoryLookup.put(IdentifierContext.class, Identifier::fromExpressionContext);
-		factoryLookup.put(IntegerContext.class, Integer::fromExpressionContext);
+		factoryLookup.put(IntegerContext.class, IntegerExp::fromExpressionContext);
 		factoryLookup.put(InvokeMethodContext.class, InvokeMethod::fromExpressionContext);
-		factoryLookup.put(NullContext.class, Null::fromExpressionContext);
-		factoryLookup.put(UnaryOperationContext.class, UnaryOperation::fromExpressionContext);
-		factoryLookup.put(BinaryOperationContext.class, BinaryOperation::fromExpressionContext);
+		factoryLookup.put(NullContext.class, NullExp::fromExpressionContext);
+		factoryLookup.put(UnaryOperationContext.class, UnaryOperationExp::fromExpressionContext);
+		factoryLookup.put(BinaryOperationContext.class, BinaryOperationExp::fromExpressionContext);
 	}
 
 	public static Expression fromExpressionContext(ExpressionContext expression, ExecutionScope scope) {
@@ -47,7 +47,7 @@ public abstract class Expression {
 
 	public abstract Type returnType();
 
-	public abstract void resolveTypes();
+	public void resolveTypes(){ };
 
 	public ExecutionScope scope() {
 		return scope;

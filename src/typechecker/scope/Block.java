@@ -42,7 +42,7 @@ public class Block extends ExecutionScope {
 	}
 
 	@Override
-	public Variable thisVar() {
-		return ((ExecutionScope) parent()).thisVar();
+	public Type thisType() {
+		return ((ExecutionScope) parent()).thisType();
 	}
 }

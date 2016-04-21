@@ -27,7 +27,7 @@ public class WhileStatement extends Statement {
 	@Override
 	public void resolveTypes() {
 		conditional.resolveTypes();
-		if(conditional.returnType() != Primitive.BOOLEAN){
+		if(conditional.returnType() != Primitive.Boolean){
 			throw new TypeMismatchException("Conditional requires boolean type");
 		}
 		body.resolveTypes();

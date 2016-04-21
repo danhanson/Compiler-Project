@@ -6,13 +6,13 @@ import java.util.Map;
 import typechecker.exceptions.DuplicateDeclarationException;
 import typechecker.exceptions.NoSuchTypeException;
 import typechecker.functions.Function;
-import typechecker.functions.Signature;
+import typechecker.functions.FunctionSignature;
 import typechecker.scope.Variable;
 
 public final class Subclass extends Class {
 
 	private final Map<String, Variable> fields;
-	private final Map<Signature, Function> methods; // We might need to deal with covariance somehow
+	private final Map<FunctionSignature, Function> methods; // We might need to deal with covariance somehow
 
 	Subclass(Class parent, String id){
 		super(id, parent);
@@ -44,7 +44,7 @@ public final class Subclass extends Class {
 	}
 
 	@Override
-	public Function resolveFunction(Signature id) {
+	public Function resolveFunction(FunctionSignature id) {
 		if(methods.containsKey(id)){
 			return methods.get(id);
 		}
@@ -60,7 +60,7 @@ public final class Subclass extends Class {
 	}
 
 	@Override
-	public Function resolveMethod(Signature id) {
+	public Function resolveMethod(FunctionSignature id) {
 		if(methods.containsKey(id)){
 			return methods.get(id);
 		}
@@ -78,8 +78,13 @@ public final class Subclass extends Class {
 	}
 
 	public void addMethod(Function f){
-		if(methods.put(f.signature(), f) != null){
-			throw new DuplicateDeclarationException("Duplicated declarations for " + f.signature());
+		if(methods.put(f.functionSignature(), f) != null){
+			throw new DuplicateDeclarationException("Duplicated declarations for " + f.functionSignature());
 		}
+	}
+
+	@Override
+	public boolean isSubType(Type other) {
+		return this == other || ((Type) this.parent()).isSubType(other);
 	}
 }

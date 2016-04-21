@@ -11,18 +11,10 @@ public class This extends Expression {
 	}
 
 	public static This fromExpressionContext(ExpressionContext con, ExecutionScope scope){
-		return null;
+		return new This(scope);
 	}
 	@Override
 	public Type returnType() {
-		// TODO Auto-generated method stub
-		return null;
+		return scope().thisType();
 	}
-
-	@Override
-	public void resolveTypes() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

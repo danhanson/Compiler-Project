@@ -1,7 +1,7 @@
 package typechecker.scope;
 
 import typechecker.functions.Function;
-import typechecker.functions.Signature;
+import typechecker.functions.FunctionSignature;
 import typechecker.types.Type;
 
 public abstract class AbstractScope implements Scope {
@@ -23,7 +23,7 @@ public abstract class AbstractScope implements Scope {
 	}
 
 	@Override
-	public Function resolveFunction(Signature id) {
+	public Function resolveFunction(FunctionSignature id) {
 		return parent().resolveFunction(id);
 	}
 

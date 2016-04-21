@@ -20,9 +20,6 @@ public class AssignmentStatement extends Statement {
 		AssignmentStatementContext asc = (AssignmentStatementContext) con;
 		String varId = asc.ID().getText();
 		Variable var = scope.resolveVariable(varId);
-		if(var == null){
-			throw new RuntimeException("No variable with id:" + varId);
-		}
 		Expression exp = Expression.fromExpressionContext(asc.expression(), scope);
 		return new AssignmentStatement(var, exp);
 	}

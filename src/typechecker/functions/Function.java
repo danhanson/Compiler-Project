@@ -5,18 +5,19 @@ import java.util.List;
 
 import parser.MiniJavaParser.ArgumentsContext;
 import parser.MiniJavaParser.MethodContext;
+import parser.MiniJavaParser.StatementContext;
 import typechecker.exceptions.NoSuchTypeException;
-import typechecker.scope.Block;
 import typechecker.scope.ExecutionScope;
 import typechecker.scope.Variable;
+import typechecker.statements.Statement;
 import typechecker.types.Class;
 import typechecker.types.Type;
 
-public class Function extends ExecutionScope{
+public final class Function extends ExecutionScope{
 
-	private final Signature signature;
+	private FunctionSignature functionSignature;
 	private final String returnTypeId;
-	private Block body;
+	private List<Statement> statements;
 	private Type returnType = null;
 
 	private Function(String id, String returnTypeId, List<Variable> args, Class parent){
@@ -24,27 +25,23 @@ public class Function extends ExecutionScope{
 		for(Variable arg : args){
 			addVariable(arg);
 		}
-		this.signature = new Signature(id, returnTypeId, args, parent);
+		statements = new ArrayList<>();
 		this.returnTypeId = returnTypeId;
 	}
 
-	private void setBody(Block body){
-		this.body = body;
+	private void addStatement(Statement s){
+		this.statements.add(s);
 	}
 
 	public void resolveTypes() throws NoSuchTypeException{
+		super.resolveTypes();
 		returnType = parent().resolveType(returnTypeId);
 		if(returnType == null)
 			throw new NoSuchTypeException(returnTypeId);
-		this.body.resolveTypes();
 	}
 
-	public Block body(){
-		return body;
-	}
-
-	public Signature signature() {
-		return signature;
+	public FunctionSignature functionSignature() {
+		return functionSignature;
 	}
 
 	public static Function fromMethodContext(MethodContext method, Class c) {
@@ -57,8 +54,9 @@ public class Function extends ExecutionScope{
 			args = args.arguments();
 		}
 		Function f = new Function(id, retType, argList, c);
-		Block body = Block.fromBlockContext(method.block(), f);
-		f.setBody(body);
+		for(StatementContext statement : method.block().statement()){
+			f.addStatement(Statement.fromStatementContext(statement, f));
+		}
 		return f;
 	}
 
@@ -68,7 +66,7 @@ public class Function extends ExecutionScope{
 	}
 
 	@Override
-	public Variable thisVar() {
-		return ((Class) parent()).thisVar();
+	public Type thisType() {
+		return ((Class) parent()).thisType();
 	}
 }

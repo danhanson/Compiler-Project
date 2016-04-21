@@ -28,7 +28,7 @@ public abstract class ExecutionScope extends AbstractScope {
 
 	public abstract Type returnType();
 
-	public abstract Variable thisVar();
+	public abstract Type thisType();
 
 	@Override
 	public Variable resolveVariable(String id) {

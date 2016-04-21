@@ -4,10 +4,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import typechecker.exceptions.NoSuchFunctionException;
 import typechecker.exceptions.NoSuchTypeException;
+import typechecker.exceptions.NoSuchVariableException;
 import typechecker.exceptions.TypeException;
 import typechecker.functions.Function;
-import typechecker.functions.Signature;
+import typechecker.functions.FunctionSignature;
 import typechecker.types.Class;
 import typechecker.types.Primitive;
 import typechecker.types.Type;
@@ -18,8 +20,9 @@ public class GlobalScope implements Scope {
 
 	private GlobalScope(){ 
 		types = new HashMap<String, Type>();
-		addType(Primitive.INT);
-		addType(Primitive.BOOLEAN);
+		for(Primitive p : Primitive.values()){
+			addType(p);
+		}
 	}
 	
 	private static final GlobalScope scope = new GlobalScope();
@@ -38,12 +41,12 @@ public class GlobalScope implements Scope {
 
 	@Override
 	public Variable resolveVariable(String id) {
-		return null;
+		throw new NoSuchVariableException(id);
 	}
 
 	@Override
-	public Function resolveFunction(Signature id) {
-		return null;
+	public Function resolveFunction(FunctionSignature id) {
+		throw new NoSuchFunctionException(id.id());
 	}
 
 	public boolean addType(Type c) {
@@ -54,7 +57,7 @@ public class GlobalScope implements Scope {
 		return Collections.unmodifiableMap(types);
 	}
 	
-	public void checkTypes() throws TypeException{
+	public void resolveTypes() throws TypeException{
 		for(Type t : types.values()){
 			if(t instanceof Class){
 				((Class) t).resolveTypes();

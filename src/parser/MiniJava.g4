@@ -44,8 +44,7 @@ elseBody : 'else' statement ;
 expression : 'new' ID '(' ')'                          #instantiation
            | 'this'                                    #this
            | 'null'                                    #null
-           | 'true'                                    #boolean
-           | 'false'                                   #boolean
+           | booleanExp                                #boolean
            | '(' expression ')'                        #parenthExpression
            | ID                                        #identifier
            | INTEGER                                   #integer
@@ -58,7 +57,12 @@ expression : 'new' ID '(' ')'                          #instantiation
            | expression '&&' expression                #binaryOperation
            | expression '||' expression                #binaryOperation ;
 
-params : ID ',' params | ID | ;
+booleanExp : TRUE | FALSE ;
+
+TRUE: 'true';
+FALSE: 'false';
+
+params : expression ',' params | expression | ;
 
 fragment LETTER: ([a-z]|[A-Z]);
 fragment DIGIT: [0-9];

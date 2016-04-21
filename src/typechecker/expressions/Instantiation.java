@@ -19,11 +19,4 @@ public class Instantiation extends Expression {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void resolveTypes() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

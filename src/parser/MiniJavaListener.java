@@ -366,6 +366,16 @@ public interface MiniJavaListener extends ParseTreeListener {
 	 */
 	void exitInstantiation(MiniJavaParser.InstantiationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MiniJavaParser#booleanExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterBooleanExp(MiniJavaParser.BooleanExpContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MiniJavaParser#booleanExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitBooleanExp(MiniJavaParser.BooleanExpContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MiniJavaParser#params}.
 	 * @param ctx the parse tree
 	 */

@@ -30,6 +30,6 @@ public class TypeChecker {
         	Class c = Class.fromClassDecl(classDec, global);
         	global.addType(c);
         }
-        global.checkTypes();
+        global.resolveTypes();
 	}
 }

@@ -6,7 +6,7 @@ import typechecker.exceptions.NoSuchTypeException;
 import typechecker.exceptions.TypeException;
 import typechecker.exceptions.TypeMismatchException;
 import typechecker.functions.Function;
-import typechecker.functions.Signature;
+import typechecker.functions.FunctionSignature;
 import typechecker.scope.AbstractScope;
 import typechecker.scope.Scope;
 import typechecker.scope.Variable;
@@ -14,7 +14,6 @@ import typechecker.scope.Variable;
 public abstract class Class extends AbstractScope implements Type {
 	
 	private final String id;
-	private final Variable thisVar;
 	
 	public static Class fromClassDecl(ClassDeclContext con, Scope scope) {
 		String id = con.ID().getText();
@@ -45,7 +44,6 @@ public abstract class Class extends AbstractScope implements Type {
 	public Class(String id, Scope parent) {
 		super(parent);
 		this.id = id;
-		this.thisVar = new Variable(this, "this", this);
 	}
 
 	public String id(){
@@ -54,7 +52,7 @@ public abstract class Class extends AbstractScope implements Type {
 
 	public abstract Variable resolveField(String id);
 
-	public abstract Function resolveMethod(Signature id);
+	public abstract Function resolveMethod(FunctionSignature id);
 
 	public abstract void resolveTypes() throws TypeException;
 
@@ -62,7 +60,7 @@ public abstract class Class extends AbstractScope implements Type {
 		return new Subclass(this, id);
 	}
 
-	public final Variable thisVar() {
-		return thisVar;
+	public final Type thisType() {
+		return this;
 	}
 }

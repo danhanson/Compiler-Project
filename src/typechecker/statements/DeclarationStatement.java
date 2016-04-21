@@ -27,9 +27,9 @@ public class DeclarationStatement extends Statement {
 
 	@Override
 	public void resolveTypes() {
-		exp.resolveTypes();
 		variable.resolveType();
 		if(exp != null){
+			exp.resolveTypes();
 			if(exp.returnType() != variable.type()){
 				throw new TypeMismatchException("Types not matching: " + exp.returnType().id() + " and " + variable.typeId());
 			}

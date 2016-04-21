@@ -39,11 +39,11 @@ public class IfStatement extends Statement {
 	@Override
 	public void resolveTypes() {
 		conditional.resolveTypes();
+		if(conditional.returnType() != Primitive.Boolean){
+			throw new TypeMismatchException("if conditional requires boolean");
+		}
 		ifBody.resolveTypes();
 		if(elseBody != null)
 			elseBody.resolveTypes();
-		if(conditional.returnType() != Primitive.BOOLEAN){
-			throw new TypeMismatchException("if conditional requires boolean");
-		}
 	}
 }
