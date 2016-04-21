@@ -27,7 +27,7 @@ public abstract class Class extends ClassScope implements Type {
 		} else {
 			Optional<Type> opt = scope.resolveType(con.inherits().ID().getText());
 			if(!opt.isPresent()){
-				System.err.println("extended class does not exist");
+				System.err.println("Superclass name " + con.inherits().ID().getText() + " not in scope");
 				return Optional.empty();
 			}
 			Type t = opt.get();
