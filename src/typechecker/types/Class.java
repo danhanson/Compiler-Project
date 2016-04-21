@@ -6,7 +6,6 @@ import parser.MiniJavaParser.ClassDeclContext;
 import parser.MiniJavaParser.MainMethodContext;
 import parser.MiniJavaParser.MemberContext;
 import parser.MiniJavaParser.NormalMethodContext;
-import typechecker.exceptions.TypeMismatchException;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.functions.MainMethod;
@@ -25,9 +24,10 @@ public abstract class Class extends ClassScope implements Type {
 		if(con.inherits() == null){
 			superClass = ObjectClass.instance();
 		} else {
-			Optional<Type> opt = scope.resolveType(con.inherits().ID().getText());
+			String superId = con.inherits().ID().getText();
+			Optional<Type> opt = scope.resolveType(superId);
 			if(!opt.isPresent()){
-				System.err.println("extended class does not exist");
+				System.err.println("Superclass name "+superId+" not in scope");
 				return Optional.empty();
 			}
 			Type t = opt.get();

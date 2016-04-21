@@ -73,4 +73,9 @@ public class Variable {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return typeId+" "+id;
+	}
 }

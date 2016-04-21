@@ -34,13 +34,17 @@ public class ReturnStatement extends Statement {
 			if(scope.returnType() != Void.instance()){
 				throw new TypeMismatchException("Returns void but function has type: " + scope.returnType().id());
 			}
+			return true;
 		} else {
-			exp.checkTypes();
+			boolean isGood = true;
+			if(!exp.checkTypes()){
+				isGood =  false;
+			}
 			if(!exp.returnType().isSubTypeOf(exp.scope().returnType())) {
 				System.err.println("RETURN 70: BAD RETURN TYPE");
-				return false;
+				isGood = false;
 			}
+			return isGood;
 		}
-		return true;
 	}
 }

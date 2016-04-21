@@ -3,6 +3,7 @@ package typechecker.functions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import parser.MiniJavaParser.ArgumentsContext;
 import parser.MiniJavaParser.NormalMethodContext;
@@ -84,7 +85,7 @@ public final class Function extends ExecutionScope{
 
 	@Override
 	public String toString() {
-		return this.functionSignature.toString();
+		return returnTypeId + " " + id + "(" + args.stream().map(Variable::toString).collect(Collectors.joining(", ")) + ")";
 	}
 
 	@Override
