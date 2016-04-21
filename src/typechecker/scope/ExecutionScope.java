@@ -31,10 +31,8 @@ public abstract class ExecutionScope extends ClassScope {
 		super(parent);
 	}
 
-	public void addVariable(Variable v){
-		if(variables.put(v.id(), v) != null){
-			throw new DuplicateDeclarationException(v.id());
-		}
+	public boolean addVariable(Variable v){
+		return variables.put(v.id(), v) == null;
 	}
 
 	public abstract Type returnType();

@@ -43,7 +43,11 @@ public abstract class Class extends ClassScope implements Type {
 			if(mem.method() != null){
 				if(mem.method() instanceof NormalMethodContext){
 					NormalMethodContext method = (NormalMethodContext) mem.method();
-					newClass.addMethod(Function.fromMethodContext(method, newClass));
+					try {
+						newClass.addMethod(Function.fromMethodContext(method, newClass));
+					} catch(IllegalArgumentException e){
+						isGood = false;
+					}
 				} else {
 					MainMethodContext mmc = (MainMethodContext) mem.method();
 					MainMethod main = MainMethod.fromMainMethodContext(mmc, newClass);

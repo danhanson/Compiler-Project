@@ -3,7 +3,6 @@ package typechecker.functions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import parser.MiniJavaParser.ArgumentsContext;
 import parser.MiniJavaParser.NormalMethodContext;
@@ -26,12 +25,22 @@ public final class Function extends ExecutionScope{
 		super(parent);
 		this.id = id;
 		this.returnTypeId = returnTypeId;
+		boolean isGood = true;
+		for(Variable arg : args){
+			if(!this.addVariable(arg)){
+				System.err.println("Formal parameter named "+arg.id()+" duplicates the name of another formal parameter.");
+				isGood = false;
+			}
+		}
+		if(!isGood){
+			throw new IllegalArgumentException();
+		}
 		this.args = args;
 	}
 
 	public boolean resolveSignature() {
 		if(!parent().resolveType(returnTypeId).map(t -> this.returnType = t).isPresent()){
-			System.err.println("NO SUCH TYPE Function 40");
+			System.err.println("Cannot find class named " + this.returnTypeId);
 			return false;
 		}
 		List<Type> types = new ArrayList<>(args.size());
@@ -68,17 +77,7 @@ public final class Function extends ExecutionScope{
 		}
 		return f;
 	}
-	
-	@Override
-	public Optional<Variable> resolveVariable(String id) {
-		for(Variable var : args){
-			if(var.id().equals(id)){
-				return Optional.of(var);
-			}
-		}
-		return super.resolveVariable(id);
-	}
-	
+
 	public String id(){
 		return id;
 	}
