@@ -19,7 +19,11 @@ public class AssignmentStatement extends Statement {
 	public static AssignmentStatement fromStatementContext(StatementContext con, ExecutionScope scope){
 		AssignmentStatementContext asc = (AssignmentStatementContext) con;
 		String varId = asc.ID().getText();
+		
 		Variable var = scope.resolveVariable(varId).get();
+		
+		
+		
 		Expression exp = Expression.fromExpressionContext(asc.expression(), scope);
 		return new AssignmentStatement(var, exp);
 	}
@@ -27,9 +31,8 @@ public class AssignmentStatement extends Statement {
 	@Override
 	public boolean checkTypes(){
 		exp.checkTypes();
-		if(exp.returnType().isSubType(assignee.type())){
-			System.err.println("Cannot assign type "+exp.returnType().id()+" to variable "+assignee.id()+" of type "+assignee.typeId());
-			return false;
+		if(exp.returnType() != assignee.type()){
+			throw new RuntimeException("Type Mismatch");
 		}
 		return true;
 	}
