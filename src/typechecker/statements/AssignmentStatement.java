@@ -27,8 +27,9 @@ public class AssignmentStatement extends Statement {
 	@Override
 	public boolean checkTypes(){
 		exp.checkTypes();
-		if(exp.returnType() != assignee.type()){
-			throw new RuntimeException("Type Mismatch");
+		if(exp.returnType().isSubType(assignee.type())){
+			System.err.println("Cannot assign type "+exp.returnType().id()+" to variable "+assignee.id()+" of type "+assignee.typeId());
+			return false;
 		}
 		return true;
 	}

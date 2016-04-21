@@ -63,11 +63,15 @@ public class GlobalScope implements Scope {
 	
 	public boolean checkTypes(){		
 		List<Subclass> classes = types.values().stream().filter(t -> t instanceof Subclass).map(t -> (Subclass) t).collect(Collectors.toList());
-		return classes.stream().filter(Subclass::checkMembers)
+		boolean success = classes.stream().filter(Subclass::checkMembers)
 				.collect(Collectors.toList())
 				.stream().filter(Subclass::membersChecked)
 				.filter(Subclass::checkMethodBodies)
 				.count() == classes.size();
+		if(main.checkTypes()){
+			return success;
+		}
+		return false;
 	}
 
 	public void setMainMethod(MainMethod b){

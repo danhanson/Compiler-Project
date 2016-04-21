@@ -32,8 +32,9 @@ public class DeclarationStatement extends Statement {
 		}
 		if(exp != null){
 			exp.checkTypes();
-			if(exp.returnType() != variable.type()){
-				throw new TypeMismatchException("Types not matching: " + exp.returnType().id() + " and " + variable.typeId());
+			if(!exp.returnType().isSubType(variable.type())){
+				System.err.println("Cannot assign type "+exp.returnType().id()+" to variable "+variable.id()+" of type "+variable.typeId());
+				return false;
 			}
 		}
 		return true;
