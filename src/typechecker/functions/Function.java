@@ -2,9 +2,10 @@ package typechecker.functions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import parser.MiniJavaParser.ArgumentsContext;
-import parser.MiniJavaParser.MethodContext;
+import parser.MiniJavaParser.NormalMethodContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.exceptions.NoSuchTypeException;
 import typechecker.scope.ExecutionScope;
@@ -16,35 +17,38 @@ import typechecker.types.Type;
 public final class Function extends ExecutionScope{
 
 	private FunctionSignature functionSignature;
+	private final String id;
 	private final String returnTypeId;
-	private List<Statement> statements;
+	private final List<Variable> args;
 	private Type returnType = null;
 
 	private Function(String id, String returnTypeId, List<Variable> args, Class parent){
 		super(parent);
+		this.id = id;
 		for(Variable arg : args){
 			addVariable(arg);
 		}
-		statements = new ArrayList<>();
 		this.returnTypeId = returnTypeId;
+		this.args = args;
 	}
 
-	private void addStatement(Statement s){
-		this.statements.add(s);
-	}
-
-	public void resolveTypes() throws NoSuchTypeException{
+	public void resolveTypes() {
 		super.resolveTypes();
 		returnType = parent().resolveType(returnTypeId);
 		if(returnType == null)
 			throw new NoSuchTypeException(returnTypeId);
+		List<Type> argTypes = new ArrayList<>();
+		for(Variable v : args){
+			argTypes.add(v.type());
+		}
+		this.functionSignature = new FunctionSignature(id, argTypes);
 	}
 
 	public FunctionSignature functionSignature() {
 		return functionSignature;
 	}
 
-	public static Function fromMethodContext(MethodContext method, Class c) {
+	public static Function fromMethodContext(NormalMethodContext method, Class c) {
 		String id = method.ID().getText();
 		String retType = method.returnType().getText();
 		List<Variable> argList = new ArrayList<>();
@@ -58,6 +62,11 @@ public final class Function extends ExecutionScope{
 			f.addStatement(Statement.fromStatementContext(statement, f));
 		}
 		return f;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, returnTypeId, super.hashCode());
 	}
 
 	@Override

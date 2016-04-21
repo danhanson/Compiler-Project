@@ -14,7 +14,8 @@ classBody : '{' member* '}';
 
 member: method | field;
 
-method : 'public'? 'static'? returnType ID '(' arguments ')' block;
+method : 'public'? returnType ID '(' arguments ')' block                 #normalMethod
+       | 'public' 'static' 'void' 'main' '(' 'String[]' 'args' ')' block #mainMethod ;
 
 block : '{' statement* '}';
 
@@ -26,7 +27,7 @@ field : declaration ('=' expression)? ';' ;
 
 declaration : type ID ;
 
-type : ('int' | 'boolean' | 'String' | ID) ('[' ']')*;
+type : ('int' | 'boolean' | ID);
 
 statement : declaration ('=' expression)? ';'                     #declarationStatement
           | block                                                 #blockStatement

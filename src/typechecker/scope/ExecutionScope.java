@@ -1,9 +1,14 @@
 package typechecker.scope;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import typechecker.exceptions.DuplicateDeclarationException;
+import typechecker.statements.Statement;
 import typechecker.types.Type;
 
 /**
@@ -12,11 +17,16 @@ import typechecker.types.Type;
  * Execution Scopes have a return type that control what return
  * statements may return
  */
-public abstract class ExecutionScope extends AbstractScope {
+public abstract class ExecutionScope extends ClassScope {
 
 	private final Map<String, Variable> variables = new HashMap<>();
+	private final List<Statement> statements = new ArrayList<>();
 
-	public ExecutionScope(Scope parent) {
+	protected void addStatement(Statement s){
+		statements.add(s);
+	}
+	
+	public ExecutionScope(ClassScope parent) {
 		super(parent);
 	}
 
@@ -28,7 +38,9 @@ public abstract class ExecutionScope extends AbstractScope {
 
 	public abstract Type returnType();
 
-	public abstract Type thisType();
+	public Type thisType(){
+		return ((ClassScope) parent()).thisType();
+	}
 
 	@Override
 	public Variable resolveVariable(String id) {
@@ -42,5 +54,12 @@ public abstract class ExecutionScope extends AbstractScope {
 		for(Variable v : variables.values()){
 			v.resolveType();
 		}
+		for(Statement s : statements){
+			s.resolveTypes();
+		}
+	}
+
+	public final Collection<Variable> variables() {
+		return Collections.unmodifiableCollection(variables.values());
 	}
 }

@@ -4,12 +4,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import typechecker.exceptions.DuplicateDeclarationException;
 import typechecker.exceptions.NoSuchFunctionException;
 import typechecker.exceptions.NoSuchTypeException;
 import typechecker.exceptions.NoSuchVariableException;
 import typechecker.exceptions.TypeException;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
+import typechecker.functions.MainMethod;
 import typechecker.types.Class;
 import typechecker.types.Primitive;
 import typechecker.types.Type;
@@ -17,6 +19,7 @@ import typechecker.types.Type;
 public class GlobalScope implements Scope {
 
 	private final Map<String, Type> types;
+	private MainMethod main;
 
 	private GlobalScope(){ 
 		types = new HashMap<String, Type>();
@@ -52,7 +55,7 @@ public class GlobalScope implements Scope {
 	public boolean addType(Type c) {
 		return types.put(c.id(), c) == null;
 	}
-	
+
 	public Map<String, Type> getTypes() {
 		return Collections.unmodifiableMap(types);
 	}
@@ -63,5 +66,16 @@ public class GlobalScope implements Scope {
 				((Class) t).resolveTypes();
 			}
 		}
+	}
+
+	public void setMainMethod(MainMethod b){
+		if(main != null){
+			throw new DuplicateDeclarationException("Two Main Functions");
+		}
+		main = b;
+	}
+	
+	public MainMethod getMainMethod(){
+		return main;
 	}
 }

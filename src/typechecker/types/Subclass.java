@@ -1,34 +1,40 @@
 package typechecker.types;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import typechecker.exceptions.DuplicateDeclarationException;
-import typechecker.exceptions.NoSuchTypeException;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.scope.Variable;
 
 public final class Subclass extends Class {
 
-	private final Map<String, Variable> fields;
-	private final Map<FunctionSignature, Function> methods; // We might need to deal with covariance somehow
+	private final Map<String, Variable> fields = new HashMap<>();
+	private final List<Function> unresolvedMethods = new ArrayList<>();
+	private final Map<FunctionSignature, Function> methods = new HashMap<>();
 
 	Subclass(Class parent, String id){
 		super(id, parent);
-		this.methods = new HashMap<>();
-		this.fields = new HashMap<>();
 	}
 
-	public void resolveTypes() throws NoSuchTypeException{
-		for(Variable f : fields.values()){
-			f.resolveType();
+	public void resolveTypes() {
+		for(Variable v : fields.values()){
+			v.resolveType();
+		}
+		for(Function f : unresolvedMethods){
+			f.resolveTypes();
+			if(methods.put(f.functionSignature(), f) != null){
+				throw new DuplicateDeclarationException("Duplicated declarations for " + f.toString());
+			}
 		}
 		return;
 	}
 
 	@Override
-	public Type resolveType(String id) throws NoSuchTypeException {
+	public Type resolveType(String id) {
 		if(id == this.id()){
 			return this;
 		}
@@ -78,9 +84,7 @@ public final class Subclass extends Class {
 	}
 
 	public void addMethod(Function f){
-		if(methods.put(f.functionSignature(), f) != null){
-			throw new DuplicateDeclarationException("Duplicated declarations for " + f.functionSignature());
-		}
+		unresolvedMethods.add(f);
 	}
 
 	@Override

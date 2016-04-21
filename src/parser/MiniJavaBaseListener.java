@@ -78,13 +78,25 @@ public class MiniJavaBaseListener implements MiniJavaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMethod(MiniJavaParser.MethodContext ctx) { }
+	@Override public void enterNormalMethod(MiniJavaParser.NormalMethodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMethod(MiniJavaParser.MethodContext ctx) { }
+	@Override public void exitNormalMethod(MiniJavaParser.NormalMethodContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMainMethod(MiniJavaParser.MainMethodContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMainMethod(MiniJavaParser.MainMethodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
