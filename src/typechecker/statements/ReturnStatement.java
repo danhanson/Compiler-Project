@@ -38,4 +38,16 @@ public class ReturnStatement extends Statement {
 			return isGood;
 		}
 	}
+
+	public static ReturnStatement fromStatementContext(StatementContext con,
+            ExecutionScope scope) {
+        ReturnStatementContext rsc = (ReturnStatementContext) con;
+        Expression exp;
+        if (rsc.expression() != null) {
+            exp = Expression.fromExpressionContext(rsc.expression(), scope);
+        } else {
+            exp = null;
+        }
+        return new ReturnStatement(exp, scope);
+    }
 }
