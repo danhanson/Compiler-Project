@@ -15,7 +15,7 @@ public class IfStatement extends Statement {
 	private final Statement ifBody;
 	private final Statement elseBody;
 	
-	public IfStatement(Expression conditional, Statement ifBody, Statement elseBody) {
+	IfStatement(Expression conditional, Statement ifBody, Statement elseBody) {
 		this.conditional = conditional;
 		this.ifBody = ifBody;
 		this.elseBody = elseBody;
@@ -37,13 +37,14 @@ public class IfStatement extends Statement {
 	}
 
 	@Override
-	public void resolveTypes() {
-		conditional.resolveTypes();
+	public boolean checkTypes() {
+		conditional.checkTypes();
 		if(conditional.returnType() != Primitive.Boolean){
 			throw new TypeMismatchException("if conditional requires boolean");
 		}
-		ifBody.resolveTypes();
+		ifBody.checkTypes();
 		if(elseBody != null)
-			elseBody.resolveTypes();
+			elseBody.checkTypes();
+		return true;
 	}
 }

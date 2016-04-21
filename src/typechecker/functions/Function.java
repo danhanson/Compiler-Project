@@ -7,7 +7,6 @@ import java.util.Objects;
 import parser.MiniJavaParser.ArgumentsContext;
 import parser.MiniJavaParser.NormalMethodContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.exceptions.NoSuchTypeException;
 import typechecker.scope.ExecutionScope;
 import typechecker.scope.Variable;
 import typechecker.statements.Statement;
@@ -25,23 +24,28 @@ public final class Function extends ExecutionScope{
 	private Function(String id, String returnTypeId, List<Variable> args, Class parent){
 		super(parent);
 		this.id = id;
-		for(Variable arg : args){
-			addVariable(arg);
-		}
 		this.returnTypeId = returnTypeId;
 		this.args = args;
 	}
 
-	public void resolveTypes() {
-		super.resolveTypes();
-		returnType = parent().resolveType(returnTypeId);
-		if(returnType == null)
-			throw new NoSuchTypeException(returnTypeId);
-		List<Type> argTypes = new ArrayList<>();
-		for(Variable v : args){
-			argTypes.add(v.type());
+	public boolean resolveSignature() {
+		if(!parent().resolveType(returnTypeId).map(t -> this.returnType = t).isPresent()){
+			System.err.println("NO SUCH TYPE Function 40");
+			return false;
 		}
-		this.functionSignature = new FunctionSignature(id, argTypes);
+		List<Type> types = new ArrayList<>(args.size());
+		boolean ret = true;
+		for(Variable v : args){
+			if(!v.resolveType()){
+				ret = false;
+			}
+			types.add(v.type());
+		}
+		if(!ret){
+			return false;
+		}
+		functionSignature = new FunctionSignature(id, types);
+		return true;
 	}
 
 	public FunctionSignature functionSignature() {
@@ -62,6 +66,10 @@ public final class Function extends ExecutionScope{
 			f.addStatement(Statement.fromStatementContext(statement, f));
 		}
 		return f;
+	}
+	
+	public String id(){
+		return id;
 	}
 
 	@Override

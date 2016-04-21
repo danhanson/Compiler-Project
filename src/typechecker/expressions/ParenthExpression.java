@@ -25,8 +25,8 @@ public class ParenthExpression extends Expression {
 	}
 
 	@Override
-	public void resolveTypes() {
-		exp.resolveTypes();
+	public boolean checkTypes() {
+		return exp.checkTypes();
 	}
 
 }

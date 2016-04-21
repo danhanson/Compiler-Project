@@ -35,7 +35,7 @@ statement : declaration ('=' expression)? ';'                     #declarationSt
           | 'while' '(' expression ')' statement                  #whileStatement
           | 'System.out.println' '(' expression ')' ';'           #printStatement
           | ID '=' expression ';'                                 #assignmentStatement
-          | 'return' expression ';'                               #returnStatement
+          | 'return' expression? ';'                              #returnStatement
           | ';'                                                   #emptyStatement ;
 
 ifBody : 'if' '(' expression ')' statement ;

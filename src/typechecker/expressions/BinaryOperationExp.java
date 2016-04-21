@@ -34,9 +34,11 @@ public class BinaryOperationExp extends Expression {
 	}
 	
 	@Override
-	public void resolveTypes() {
-		arg1.resolveTypes();
-		arg2.resolveTypes();
+	public boolean checkTypes() {
+		if(!arg1.checkTypes() || !arg2.checkTypes()){
+			return false;
+		}
 		op = BinaryOperation.get(symbol, arg1.returnType(), arg2.returnType());
+		return true;
 	}
 }

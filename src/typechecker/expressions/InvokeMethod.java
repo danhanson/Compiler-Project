@@ -46,8 +46,8 @@ public class InvokeMethod extends Expression {
 	}
 
 	@Override
-	public void resolveTypes() {
-		getObject.resolveTypes();
+	public boolean checkTypes() {
+		getObject.checkTypes();
 		Class c;
 		Type t = getObject.returnType();
 		if(t instanceof Class){
@@ -57,9 +57,9 @@ public class InvokeMethod extends Expression {
 		}
 		List<Type> argList = new ArrayList<Type>();
 		for(Expression exp : args){
-			exp.resolveTypes();
+			exp.checkTypes();
 			argList.add(exp.returnType());
 		}
-		this.method = c.resolveMethod(new FunctionSignature(methodId, argList));
+		return c.resolveMethod(new FunctionSignature(methodId, argList)).map(m -> this.method = m).isPresent();
 	}
 }

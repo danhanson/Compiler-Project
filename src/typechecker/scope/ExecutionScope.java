@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import typechecker.exceptions.DuplicateDeclarationException;
 import typechecker.statements.Statement;
@@ -43,20 +44,30 @@ public abstract class ExecutionScope extends ClassScope {
 	}
 
 	@Override
-	public Variable resolveVariable(String id) {
-		if(variables.containsKey(id)){
-			return variables.get(id);
+	public Optional<Variable> resolveVariable(String id) {
+		Variable var = variables.get(id);
+		if(var == null){
+			return parent().resolveVariable(id);
 		}
-		return super.resolveVariable(id);
+		return Optional.of(var);
 	}
-	
-	public void resolveTypes(){
+
+	public boolean checkTypes(){
+		boolean ret = true;
 		for(Variable v : variables.values()){
-			v.resolveType();
+			if(!v.resolveType()){
+				ret = false;
+			}
+		}
+		if(!ret){
+			return false;
 		}
 		for(Statement s : statements){
-			s.resolveTypes();
+			if(!s.checkTypes()){
+				return false;
+			}
 		}
+		return true;
 	}
 
 	public final Collection<Variable> variables() {

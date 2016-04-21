@@ -19,16 +19,17 @@ public class AssignmentStatement extends Statement {
 	public static AssignmentStatement fromStatementContext(StatementContext con, ExecutionScope scope){
 		AssignmentStatementContext asc = (AssignmentStatementContext) con;
 		String varId = asc.ID().getText();
-		Variable var = scope.resolveVariable(varId);
+		Variable var = scope.resolveVariable(varId).get();
 		Expression exp = Expression.fromExpressionContext(asc.expression(), scope);
 		return new AssignmentStatement(var, exp);
 	}
 
 	@Override
-	public void resolveTypes(){
-		exp.resolveTypes();
+	public boolean checkTypes(){
+		exp.checkTypes();
 		if(exp.returnType() != assignee.type()){
 			throw new RuntimeException("Type Mismatch");
 		}
+		return true;
 	}
 }

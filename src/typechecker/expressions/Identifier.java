@@ -18,7 +18,7 @@ public class Identifier extends Expression {
 	public static Identifier fromExpressionContext(ExpressionContext con, ExecutionScope scope){
 		IdentifierContext ic = (IdentifierContext) con;
 		String id = ic.ID().getText();
-		return new Identifier(scope.resolveVariable(id), scope);
+		return new Identifier(scope.resolveVariable(id).get(), scope);
 	}
 
 	@Override

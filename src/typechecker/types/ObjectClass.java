@@ -1,6 +1,8 @@
 package typechecker.types;
 
-import typechecker.exceptions.TypeException;
+import java.util.Optional;
+
+import typechecker.exceptions.NoSuchFunctionException;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.scope.GlobalScope;
@@ -20,22 +22,27 @@ public final class ObjectClass extends Class {
 	}
 
 	@Override
-	public Variable resolveField(String id) {
-		return null;
+	public Optional<Variable> resolveField(String id) {
+		return Optional.empty();
 	}
 
 	@Override
-	public Function resolveMethod(FunctionSignature id) {
-		return null;
-	}
-
-	@Override
-	public void resolveTypes() throws TypeException {
-		// do nothing
+	public Optional<Function> resolveMethod(FunctionSignature id) {
+		return Optional.empty();
 	}
 
 	@Override
 	public boolean isSubType(Type other) {
 		return other == this;
+	}
+
+	@Override
+	public boolean membersChecked() {
+		return true;
+	}
+
+	@Override
+	public boolean bodiesChecked() {
+		return true;
 	}
 }

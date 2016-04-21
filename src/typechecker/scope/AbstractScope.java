@@ -1,5 +1,7 @@
 package typechecker.scope;
 
+import java.util.Optional;
+
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.types.Type;
@@ -13,17 +15,17 @@ public abstract class AbstractScope implements Scope {
 	}
 	
 	@Override
-	public Type resolveType(String id) {
+	public Optional<Type> resolveType(String id) {
 		return parent().resolveType(id);
 	}
 
 	@Override
-	public Variable resolveVariable(String id) {
+	public Optional<Variable> resolveVariable(String id) {
 		return parent().resolveVariable(id);
 	}
 
 	@Override
-	public Function resolveFunction(FunctionSignature id) {
+	public Optional<Function> resolveFunction(FunctionSignature id) {
 		return parent().resolveFunction(id);
 	}
 

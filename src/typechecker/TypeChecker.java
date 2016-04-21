@@ -34,6 +34,8 @@ public class TypeChecker {
 			Class c = Class.fromClassDecl(classDec, global);
 			global.addType(c);
 		}
-		global.resolveTypes();
+		if(global.checkTypes()){
+			System.out.println("Success!");
+		}
 	}
 }

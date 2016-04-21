@@ -25,11 +25,13 @@ public class WhileStatement extends Statement {
 	}
 
 	@Override
-	public void resolveTypes() {
-		conditional.resolveTypes();
+	public boolean checkTypes() {
+		conditional.checkTypes();
 		if(conditional.returnType() != Primitive.Boolean){
+			System.err.println("Type Mismatch");
 			throw new TypeMismatchException("Conditional requires boolean type");
 		}
-		body.resolveTypes();
+		body.checkTypes();
+		return true;
 	}
 }

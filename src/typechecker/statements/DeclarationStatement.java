@@ -26,13 +26,14 @@ public class DeclarationStatement extends Statement {
 	}
 
 	@Override
-	public void resolveTypes() {
+	public boolean checkTypes() {
 		variable.resolveType();
 		if(exp != null){
-			exp.resolveTypes();
+			exp.checkTypes();
 			if(exp.returnType() != variable.type()){
 				throw new TypeMismatchException("Types not matching: " + exp.returnType().id() + " and " + variable.typeId());
 			}
 		}
+		return true;
 	}
 }

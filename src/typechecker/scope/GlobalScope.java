@@ -1,19 +1,19 @@
 package typechecker.scope;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import typechecker.exceptions.DuplicateDeclarationException;
-import typechecker.exceptions.NoSuchFunctionException;
 import typechecker.exceptions.NoSuchTypeException;
-import typechecker.exceptions.NoSuchVariableException;
-import typechecker.exceptions.TypeException;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.functions.MainMethod;
-import typechecker.types.Class;
 import typechecker.types.Primitive;
+import typechecker.types.Subclass;
 import typechecker.types.Type;
 
 public class GlobalScope implements Scope {
@@ -22,7 +22,7 @@ public class GlobalScope implements Scope {
 	private MainMethod main;
 
 	private GlobalScope(){ 
-		types = new HashMap<String, Type>();
+		types = new LinkedHashMap<String, Type>();
 		for(Primitive p : Primitive.values()){
 			addType(p);
 		}
@@ -35,37 +35,39 @@ public class GlobalScope implements Scope {
 	}
 
 	@Override
-	public Type resolveType(String id) throws NoSuchTypeException {
-		if(types.containsKey(id)){
-			return types.get(id);
-		}
-		throw new NoSuchTypeException(id);
+	public Optional<Type> resolveType(String id) throws NoSuchTypeException {
+		return Optional.ofNullable(types.get(id));
 	}
 
 	@Override
-	public Variable resolveVariable(String id) {
-		throw new NoSuchVariableException(id);
+	public Optional<Variable> resolveVariable(String id) {
+		return Optional.empty();
 	}
 
 	@Override
-	public Function resolveFunction(FunctionSignature id) {
-		throw new NoSuchFunctionException(id.id());
+	public Optional<Function> resolveFunction(FunctionSignature id) {
+		return Optional.empty();
 	}
 
 	public boolean addType(Type c) {
-		return types.put(c.id(), c) == null;
+		if(types.put(c.id(), c) != null){
+			System.err.println("Class named " + c.id() + " already exists.");
+			return false;
+		}
+		return true;
 	}
 
 	public Map<String, Type> getTypes() {
 		return Collections.unmodifiableMap(types);
 	}
 	
-	public void resolveTypes() throws TypeException{
-		for(Type t : types.values()){
-			if(t instanceof Class){
-				((Class) t).resolveTypes();
-			}
-		}
+	public boolean checkTypes(){		
+		List<Subclass> classes = types.values().stream().filter(t -> t instanceof Subclass).map(t -> (Subclass) t).collect(Collectors.toList());
+		return classes.stream().filter(Subclass::checkMembers)
+				.collect(Collectors.toList())
+				.stream().filter(Subclass::membersChecked)
+				.filter(Subclass::checkMethodBodies)
+				.count() == classes.size();
 	}
 
 	public void setMainMethod(MainMethod b){

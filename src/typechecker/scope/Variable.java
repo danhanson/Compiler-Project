@@ -3,7 +3,6 @@ package typechecker.scope;
 import java.util.Objects;
 
 import parser.MiniJavaParser.DeclarationContext;
-import typechecker.exceptions.NoSuchTypeException;
 import typechecker.types.Type;
 
 public class Variable {
@@ -21,17 +20,17 @@ public class Variable {
 
 	/**
 	 * Variables should be resolved once all classes are added to the scope
-	 * @throws NoSuchTypeException 
 	 */
-	public void resolveType() throws NoSuchTypeException{
-		if(this.type != null)
-			return;
-		this.type = scope.resolveType(typeId);
-		if(this.type == null) {
-			throw new NoSuchTypeException(typeId);
-		}
+	public boolean resolveType() {
+		return scope.resolveType(id).map(type -> {
+			this.type = type;
+			return true;
+		}).orElseGet(() -> {
+			System.err.println("Cannot find class named "+id);
+			return false;
+		});
 	}
-	
+
 	public Variable(Type type, String id, Scope scope){
 		this.id = id;
 		this.scope = scope;

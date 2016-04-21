@@ -36,7 +36,7 @@ public abstract class Expression {
 	}
 
 	public static Expression fromExpressionContext(ExpressionContext expression, ExecutionScope scope) {
-		return null;
+		return factoryLookup.get(expression.getClass()).apply(expression, scope);
 	}
 
 	private final ExecutionScope scope;
@@ -47,7 +47,9 @@ public abstract class Expression {
 
 	public abstract Type returnType();
 
-	public void resolveTypes(){ };
+	public boolean checkTypes(){
+		return true;
+	}
 
 	public ExecutionScope scope() {
 		return scope;

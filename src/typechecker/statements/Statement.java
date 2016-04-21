@@ -34,5 +34,5 @@ public abstract class Statement {
 		return factoryLookup.get(s.getClass()).apply(s, parent);
 	}
 
-	public abstract void resolveTypes();
+	public abstract boolean checkTypes();
 }

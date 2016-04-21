@@ -1,10 +1,11 @@
 package typechecker.types;
 
+import java.util.Optional;
+
 import parser.MiniJavaParser.ClassDeclContext;
 import parser.MiniJavaParser.MainMethodContext;
 import parser.MiniJavaParser.MemberContext;
 import parser.MiniJavaParser.NormalMethodContext;
-import typechecker.exceptions.NoSuchTypeException;
 import typechecker.exceptions.TypeMismatchException;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
@@ -24,9 +25,7 @@ public abstract class Class extends ClassScope implements Type {
 		if(con.inherits() == null){
 			superClass = ObjectClass.instance();
 		} else {
-			Type t = scope.resolveType(con.inherits().ID().getText());
-			if(t == null)
-				throw new NoSuchTypeException(con.inherits().ID().getText());
+			Type t = scope.resolveType(con.inherits().ID().getText()).get();
 			if(!(t instanceof Class))
 				throw new TypeMismatchException("type: " + t.id() + " is not a class");
 			superClass = (Class) t;
@@ -60,11 +59,9 @@ public abstract class Class extends ClassScope implements Type {
 		return this.id;
 	}
 
-	public abstract Variable resolveField(String id);
+	public abstract Optional<Variable> resolveField(String id);
 
-	public abstract Function resolveMethod(FunctionSignature id);
-
-	public abstract void resolveTypes();
+	public abstract Optional<Function> resolveMethod(FunctionSignature id);
 
 	public final Subclass extend(String id) {
 		return new Subclass(this, id);
@@ -73,4 +70,8 @@ public abstract class Class extends ClassScope implements Type {
 	public final Type thisType() {
 		return this;
 	}
+
+	public abstract boolean membersChecked();
+	
+	public abstract boolean bodiesChecked();
 }

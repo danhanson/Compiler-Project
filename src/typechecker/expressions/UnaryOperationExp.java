@@ -30,9 +30,10 @@ public class UnaryOperationExp extends Expression {
 	}
 
 	@Override
-	public void resolveTypes() {
-		exp.resolveTypes();
+	public boolean checkTypes() {
+		exp.checkTypes();
 		op = UnaryOperation.get(symbol, exp.returnType());
+		return true;
 	}
 
 }

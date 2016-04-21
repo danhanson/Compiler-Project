@@ -20,8 +20,8 @@ public class BlockStatement extends Statement {
 	}
 	
 	@Override
-	public void resolveTypes() {
-		block.resolveTypes();
+	public boolean checkTypes() {
+		return block.checkTypes();
 	}
 
 }

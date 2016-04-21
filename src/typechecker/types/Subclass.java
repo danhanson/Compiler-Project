@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import typechecker.exceptions.DuplicateDeclarationException;
 import typechecker.functions.Function;
@@ -15,62 +16,114 @@ public final class Subclass extends Class {
 	private final Map<String, Variable> fields = new HashMap<>();
 	private final List<Function> unresolvedMethods = new ArrayList<>();
 	private final Map<FunctionSignature, Function> methods = new HashMap<>();
+	private boolean membersChecked = false;
+	private boolean bodiesChecked = false;
 
 	Subclass(Class parent, String id){
 		super(id, parent);
 	}
-
-	public void resolveTypes() {
-		for(Variable v : fields.values()){
-			v.resolveType();
+	
+	private boolean addResolvedMethod(Function method){
+		if(methods.containsKey(method.functionSignature())){
+			System.err.println("Cannot redeclare method "+method.functionSignature()+
+					". Method "+method.functionSignature()+" is already declared in class "+id()+".");
+			return false;
 		}
-		for(Function f : unresolvedMethods){
-			f.resolveTypes();
-			if(methods.put(f.functionSignature(), f) != null){
-				throw new DuplicateDeclarationException("Duplicated declarations for " + f.toString());
+		return ((Class) parent()).resolveFunction(method.functionSignature()).map( superFun -> {
+			if(superFun.returnType() != method.returnType()){
+				System.err.println(
+					"Cannot overload methods. Method "+method.id()+" has different type signature than inherited method of the same name. "
+					+ "Actual return type "+method.returnType().id()+" of method start does not match declared type "+superFun.returnType().id()
+				);
+				return false;
+			}
+			methods.put(method.functionSignature(), method);
+			return true;
+		}).orElseGet(() -> {
+			methods.put(method.functionSignature(), method);
+			return true;
+		});
+	}
+
+	public boolean checkMembers() {
+		boolean ret = true;
+		
+		// resolve the field types
+		for(Variable v : fields.values()){
+			if(!v.resolveType()){
+				ret = false;
 			}
 		}
-		return;
+
+		// resolve method signatures
+		for(Function f : unresolvedMethods){
+			if(f.resolveSignature()){
+				if(!addResolvedMethod(f)){
+					ret = false;
+				}
+			} else {
+				ret = false;
+			}
+		}
+		this.membersChecked = ret;
+		return ret;
+	}
+
+	public boolean checkMethodBodies(){
+		boolean ret = true;
+
+		// resolve method bodies
+		for(Function f : methods.values()){
+			if(!f.checkTypes()){
+				ret = false;
+			}
+		}
+		this.bodiesChecked = ret;
+		return ret;
 	}
 
 	@Override
-	public Type resolveType(String id) {
+	public Optional<Type> resolveType(String id) {
 		if(id == this.id()){
-			return this;
+			return Optional.of(this);
 		}
 		return super.resolveType(id);
 	}
 
 	@Override
-	public Variable resolveVariable(String id) {
-		if(fields.containsKey(id)){
-			return fields.get(id);
+	public Optional<Variable> resolveVariable(String id) {
+		Variable field = fields.get(id);
+		if(field == null){
+			return super.resolveVariable(id);
 		}
-		return super.resolveVariable(id);
+		return Optional.of(field);
 	}
 
 	@Override
-	public Function resolveFunction(FunctionSignature id) {
-		if(methods.containsKey(id)){
-			return methods.get(id);
+	public Optional<Function> resolveFunction(FunctionSignature id) {
+		Function method = methods.get(id);
+		if(method == null){
+			return superClass().resolveMethod(id);
 		}
-		return super.resolveFunction(id);
+		return Optional.of(method);
 	}
 
 	@Override
-	public Variable resolveField(String id) {
-		if(fields.containsKey(id)){
-			return fields.get(id);
+	public Optional<Variable> resolveField(String id) {
+		Variable local = fields.get(id);
+		if(local == null){
+			return superClass().resolveField(id);
 		}
-		return this.superClass().resolveField(id);
+		return Optional.of(local);
 	}
 
 	@Override
-	public Function resolveMethod(FunctionSignature id) {
-		if(methods.containsKey(id)){
-			return methods.get(id);
+	public Optional<Function> resolveMethod(FunctionSignature id) {
+		Function local = methods.get(id);
+		if(local == null){
+			return superClass().resolveMethod(id);
 		}
-		return this.superClass().resolveMethod(id);
+		return Optional.of(local);
 	}
 	
 	public Class superClass(){
@@ -90,5 +143,15 @@ public final class Subclass extends Class {
 	@Override
 	public boolean isSubType(Type other) {
 		return this == other || ((Type) this.parent()).isSubType(other);
+	}
+
+	@Override
+	public boolean membersChecked(){
+		return this.membersChecked && ((Class)this.parent()).membersChecked();
+	}
+
+	@Override
+	public boolean bodiesChecked() {
+		return this.bodiesChecked && ((Class)this.parent()).bodiesChecked();
 	}
 }

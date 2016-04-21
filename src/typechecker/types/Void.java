@@ -21,7 +21,7 @@ public class Void implements Type {
 
 	@Override
 	public boolean isSubType(Type other) {
-		return false;
+		return this == other;
 	}
 
 	private static final Void INSTANCE = new Void();

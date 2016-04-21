@@ -20,7 +20,7 @@ public class PrintStatement extends Statement {
 	}
 
 	@Override
-	public void resolveTypes() {
-		exp.resolveTypes();
+	public boolean checkTypes() {
+		return exp.checkTypes();
 	}
 }
