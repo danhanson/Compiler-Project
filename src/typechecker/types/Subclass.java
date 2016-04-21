@@ -136,7 +136,8 @@ public final class Subclass extends Class {
 			return false;
 		}
 		if(fields.put(v.id(), v) != null){
-			throw new DuplicateDeclarationException("Duplicated declarations for " + v.id());
+			System.err.println("The class variable "+v.id()+" is already declared. Redeclaration and shadowing fields are not allowed.");
+			return false;
 		}
 		return true;
 	}

@@ -3,6 +3,7 @@ package typechecker.functions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import parser.MiniJavaParser.ArgumentsContext;
 import parser.MiniJavaParser.NormalMethodContext;
@@ -68,8 +69,23 @@ public final class Function extends ExecutionScope{
 		return f;
 	}
 	
+	@Override
+	public Optional<Variable> resolveVariable(String id) {
+		for(Variable var : args){
+			if(var.id().equals(id)){
+				return Optional.of(var);
+			}
+		}
+		return super.resolveVariable(id);
+	}
+	
 	public String id(){
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return this.functionSignature.toString();
 	}
 
 	@Override

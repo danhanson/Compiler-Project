@@ -43,6 +43,6 @@ public final class FunctionSignature {
 		if(argTypes.length == 0){
 			return id()+"(void)";
 		}
-		return id()+Arrays.stream(argTypes).map(Type::id).collect(Collectors.joining(", "));
+		return id()+"("+Arrays.stream(argTypes).map(Type::id).collect(Collectors.joining(", "))+")";
 	}
 }
