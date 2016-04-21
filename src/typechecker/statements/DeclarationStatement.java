@@ -27,7 +27,9 @@ public class DeclarationStatement extends Statement {
 
 	@Override
 	public boolean checkTypes() {
-		variable.resolveType();
+		if(!variable.resolveType()){
+			return false;
+		}
 		if(exp != null){
 			exp.checkTypes();
 			if(exp.returnType() != variable.type()){

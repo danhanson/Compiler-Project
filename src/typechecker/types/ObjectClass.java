@@ -2,7 +2,6 @@ package typechecker.types;
 
 import java.util.Optional;
 
-import typechecker.exceptions.NoSuchFunctionException;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.scope.GlobalScope;

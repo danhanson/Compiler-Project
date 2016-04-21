@@ -130,10 +130,15 @@ public final class Subclass extends Class {
 		return (Class) this.parent();
 	}
 	
-	public void addField(Variable v){
+	public boolean addField(Variable v){
+		if(superClass().resolveField(v.id()).isPresent()){
+			System.err.println("The class variable "+v.id()+" is already declared. Redeclaration and shadowing are not allowed.");
+			return false;
+		}
 		if(fields.put(v.id(), v) != null){
 			throw new DuplicateDeclarationException("Duplicated declarations for " + v.id());
 		}
+		return true;
 	}
 
 	public void addMethod(Function f){

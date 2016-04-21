@@ -19,18 +19,26 @@ public abstract class Class extends ClassScope implements Type {
 	
 	private final String id;
 	
-	public static Class fromClassDecl(ClassDeclContext con, Scope scope) {
+	public static Optional<Class> fromClassDecl(ClassDeclContext con, Scope scope) {
 		String id = con.ID().getText();
 		Class superClass;
 		if(con.inherits() == null){
 			superClass = ObjectClass.instance();
 		} else {
-			Type t = scope.resolveType(con.inherits().ID().getText()).get();
-			if(!(t instanceof Class))
-				throw new TypeMismatchException("type: " + t.id() + " is not a class");
+			Optional<Type> opt = scope.resolveType(con.inherits().ID().getText());
+			if(!opt.isPresent()){
+				System.err.println("extended class does not exist");
+				return Optional.empty();
+			}
+			Type t = opt.get();
+			if(!(t instanceof Class)) {
+				System.err.println("type: " + t.id() + " is not a class");
+				return Optional.empty();
+			}
 			superClass = (Class) t;
 		}
 		Subclass newClass = superClass.extend(id);
+		boolean isGood = true;
 		for(MemberContext mem : con.classBody().member()){
 			if(mem.method() != null){
 				if(mem.method() instanceof NormalMethodContext){
@@ -42,12 +50,17 @@ public abstract class Class extends ClassScope implements Type {
 					GlobalScope.instance().setMainMethod(main);
 				}
 			} else if(mem.field() != null){
-				newClass.addField(Variable.fromDeclarationContext(mem.field().declaration(), newClass));
+				if(newClass.addField(Variable.fromDeclarationContext(mem.field().declaration(), newClass))){
+					isGood = false;
+				}
 			} else {
 				throw new IllegalArgumentException("What happened?");
 			}
 		}
-		return newClass;
+		if(isGood){
+			return Optional.empty();
+		}
+		return Optional.of(newClass);
 	}
 
 	public Class(String id, Scope parent) {

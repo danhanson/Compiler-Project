@@ -22,11 +22,11 @@ public class Variable {
 	 * Variables should be resolved once all classes are added to the scope
 	 */
 	public boolean resolveType() {
-		return scope.resolveType(id).map(type -> {
+		return scope.resolveType(typeId).map(type -> {
 			this.type = type;
 			return true;
 		}).orElseGet(() -> {
-			System.err.println("Cannot find class named "+id);
+			System.err.println("Cannot find class named "+typeId);
 			return false;
 		});
 	}
