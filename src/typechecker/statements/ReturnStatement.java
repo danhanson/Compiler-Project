@@ -9,38 +9,43 @@ import typechecker.types.Void;
 
 public class ReturnStatement extends Statement {
 
-	private final Expression exp;
-	private final ExecutionScope scope;
-	
-	ReturnStatement(Expression exp, ExecutionScope scope){
-		this.exp = exp;
-		this.scope = scope;
-	}
+    private final Expression exp;
+    private final ExecutionScope scope;
 
-	public static ReturnStatement fromStatementContext(StatementContext con, ExecutionScope scope){
-		ReturnStatementContext rsc = (ReturnStatementContext) con;
-		Expression exp;
-		if(rsc.expression() != null){
-			exp = Expression.fromExpressionContext(rsc.expression(), scope);
-		} else {
-			exp = null;
-		}
-		return new ReturnStatement(exp, scope);
-	}
+    ReturnStatement(Expression exp, ExecutionScope scope) {
+        this.exp = exp;
+        this.scope = scope;
+    }
 
-	@Override
-	public boolean checkTypes() {
-		if(exp == null){
-			if(scope.returnType() != Void.instance()){
-				throw new TypeMismatchException("Returns void but function has type: " + scope.returnType().id());
-			}
-		} else {
-			exp.checkTypes();
-			if(!exp.returnType().isSubTypeOf(exp.scope().returnType())) {
-				System.err.println("RETURN 70: BAD RETURN TYPE");
-				return false;
-			}
-		}
-		return true;
-	}
+    public static ReturnStatement fromStatementContext(StatementContext con,
+            ExecutionScope scope) {
+        ReturnStatementContext rsc = (ReturnStatementContext) con;
+        Expression exp;
+        if (rsc.expression() != null) {
+            exp = Expression.fromExpressionContext(rsc.expression(), scope);
+        } else {
+            exp = null;
+        }
+        return new ReturnStatement(exp, scope);
+    }
+
+    @Override
+    public boolean checkTypes() {
+        if (exp == null) {
+            if (scope.returnType() != Void.instance()) {
+                throw new TypeMismatchException(
+                        "Returns void but function has type: "
+                                + scope.returnType().id());
+            }
+        } else {
+            exp.checkTypes();
+            if (!exp.returnType().isSubTypeOf(exp.scope().returnType())) {
+                System.err.println("Expression is of type "
+                        + exp.returnType().id() + " but should be of type "
+                        + exp.scope().returnType().id());
+                return false;
+            }
+        }
+        return true;
+    }
 }
