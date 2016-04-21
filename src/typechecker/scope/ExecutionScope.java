@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import typechecker.exceptions.DuplicateDeclarationException;
+import typechecker.functions.Function;
 import typechecker.statements.Statement;
 import typechecker.types.Type;
 
@@ -35,7 +36,11 @@ public abstract class ExecutionScope extends ClassScope {
 		return variables.put(v.id(), v) == null;
 	}
 
-	public abstract Type returnType();
+	public Type returnType(){
+		return callee().returnType();
+	}
+
+	public abstract Function callee();
 
 	public Type thisType(){
 		return ((ClassScope) parent()).thisType();
@@ -62,10 +67,10 @@ public abstract class ExecutionScope extends ClassScope {
 		}
 		for(Statement s : statements){
 			if(!s.checkTypes()){
-				return false;
+				ret = false;
 			}
 		}
-		return true;
+		return ret;
 	}
 
 	public final Collection<Variable> variables() {

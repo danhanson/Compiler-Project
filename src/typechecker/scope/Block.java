@@ -2,6 +2,7 @@ package typechecker.scope;
 
 import parser.MiniJavaParser.BlockContext;
 import parser.MiniJavaParser.StatementContext;
+import typechecker.functions.Function;
 import typechecker.statements.Statement;
 import typechecker.types.Type;
 
@@ -27,5 +28,10 @@ public class Block extends ExecutionScope {
 	@Override
 	public Type thisType() {
 		return ((ExecutionScope) parent()).thisType();
+	}
+
+	@Override
+	public Function callee() {
+		return ((ExecutionScope) parent()).callee();
 	}
 }

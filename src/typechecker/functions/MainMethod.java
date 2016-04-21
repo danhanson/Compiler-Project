@@ -3,23 +3,23 @@ package typechecker.functions;
 import parser.MiniJavaParser.MainMethodContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.scope.ClassScope;
-import typechecker.scope.ExecutionScope;
 import typechecker.statements.Statement;
 import typechecker.types.Type;
 import typechecker.types.Void;
+import typechecker.types.Class;
 
-public class MainMethod extends ExecutionScope {
+public class MainMethod extends Function {
 	
-	public static MainMethod fromMainMethodContext(MainMethodContext con, ClassScope parent){
+	public static MainMethod fromMainMethodContext(MainMethodContext con, Class parent){
 		MainMethod m = new MainMethod(parent);
 		for(StatementContext s : con.block().statement()){
 			m.addStatement(Statement.fromStatementContext(s, m));
 		}
 		return m;
 	}
-	
-	MainMethod(ClassScope parent) {
-		super(parent);
+
+	MainMethod(Class parent) {
+		super("main", Void.instance(), parent);
 	}
 
 	@Override
@@ -30,5 +30,10 @@ public class MainMethod extends ExecutionScope {
 	@Override
 	public Type returnType() {
 		return Void.instance();
+	}
+
+	@Override
+	public Function callee() {
+		return this;
 	}
 }

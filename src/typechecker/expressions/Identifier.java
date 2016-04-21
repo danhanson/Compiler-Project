@@ -8,17 +8,18 @@ import typechecker.types.Type;
 
 public class Identifier extends Expression {
 
-	private final Variable var;
+	private final String varId;
+	private Variable var;
 	
-	Identifier(Variable var, ExecutionScope scope) {
+	Identifier(String varId, ExecutionScope scope) {
 		super(scope);
-		this.var = var;
+		this.varId = varId;
 	}
 
 	public static Identifier fromExpressionContext(ExpressionContext con, ExecutionScope scope){
 		IdentifierContext ic = (IdentifierContext) con;
 		String id = ic.ID().getText();
-		return new Identifier(scope.resolveVariable(id).get(), scope);
+		return new Identifier(id, scope);
 	}
 
 	@Override
@@ -26,5 +27,14 @@ public class Identifier extends Expression {
 		return var.type();
 	}
 	
-	// we do not check the type here, it should be checked when the variable is declared
+	@Override
+	public boolean checkTypes() {
+		return scope().resolveVariable(varId).map(v -> {
+			var = v;
+			return true;
+		}).orElseGet(() -> {
+			System.err.println("Variable "+varId+" is not declared");
+			return false;
+		});
+	}
 }

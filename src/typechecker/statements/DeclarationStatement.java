@@ -2,17 +2,18 @@ package typechecker.statements;
 
 import parser.MiniJavaParser.DeclarationStatementContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.exceptions.TypeMismatchException;
 import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.scope.Variable;
 
 public class DeclarationStatement extends Statement {
 
+	private final ExecutionScope scope;
 	private final Variable variable;
 	private final Expression exp;
 	
-	DeclarationStatement(Variable var, Expression exp){
+	DeclarationStatement(ExecutionScope scope, Variable var, Expression exp){
+		this.scope = scope;
 		this.variable = var;
 		this.exp = exp;
 	}
@@ -20,13 +21,20 @@ public class DeclarationStatement extends Statement {
 	public static DeclarationStatement fromStatementContext(StatementContext con, ExecutionScope scope){
 		DeclarationStatementContext ds = (DeclarationStatementContext) con;
 		Variable v = Variable.fromDeclarationContext(ds.declaration(), scope);
-		scope.addVariable(v);
-		Expression exp = Expression.fromExpressionContext(ds.expression(), scope);
-		return new DeclarationStatement(v, exp);
+		Expression exp;
+		if(ds.expression() != null){
+			exp = Expression.fromExpressionContext(ds.expression(), scope);
+		} else {
+			exp = null;
+		}
+		return new DeclarationStatement(scope, v, exp);
 	}
 
 	@Override
 	public boolean checkTypes() {
+		if(!scope.addVariable(variable)){
+			return false;
+		}
 		if(!variable.resolveType()){
 			return false;
 		}

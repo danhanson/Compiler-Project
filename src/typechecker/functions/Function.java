@@ -1,6 +1,7 @@
 package typechecker.functions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -14,15 +15,23 @@ import typechecker.statements.Statement;
 import typechecker.types.Class;
 import typechecker.types.Type;
 
-public final class Function extends ExecutionScope{
+public class Function extends ExecutionScope{
 
 	private FunctionSignature functionSignature;
 	private final String id;
 	private final String returnTypeId;
 	private final List<Variable> args;
 	private Type returnType = null;
+	
+	protected Function(String id, Type returnType, Class parent){
+		super(parent);
+		this.args = Collections.emptyList();
+		this.returnType = returnType;
+		this.id = id;
+		this.returnTypeId = returnType.id();
+	}
 
-	private Function(String id, String returnTypeId, List<Variable> args, Class parent){
+	protected Function(String id, String returnTypeId, List<Variable> args, Class parent){
 		super(parent);
 		this.id = id;
 		this.returnTypeId = returnTypeId;
@@ -101,5 +110,10 @@ public final class Function extends ExecutionScope{
 	@Override
 	public Type thisType() {
 		return ((Class) parent()).thisType();
+	}
+
+	@Override
+	public Function callee() {
+		return this;
 	}
 }

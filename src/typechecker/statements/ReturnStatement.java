@@ -30,9 +30,8 @@ public class ReturnStatement extends Statement {
 				isGood =  false;
 			}
 			if(!exp.returnType().isSubTypeOf(exp.scope().returnType())) {
-				 System.err.println("Expression is of type "
-	                        + exp.returnType().id() + " but should be of type "
-	                        + exp.scope().returnType().id());
+				System.err.println("Actual return type "+exp.returnType().id()+" of method "+exp.scope().callee().id()+
+						" does not match declared type "+exp.scope().returnType().id()+".");
 				isGood = false;
 			}
 			return isGood;
