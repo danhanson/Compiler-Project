@@ -29,7 +29,7 @@ public final class Subclass extends Class {
 					". Method "+method.functionSignature()+" is already declared in class "+id()+".");
 			return false;
 		}
-		return ((Class) parent()).resolveFunction(method.functionSignature()).map( superFun -> {
+		return ((Class) parent()).resolveMethod(method.functionSignature()).map( superFun -> {
 			if(superFun.returnType() != method.returnType()){
 				System.err.println(
 					"Cannot overload methods. Method "+method.id()+" has different type signature than inherited method of the same name. "
