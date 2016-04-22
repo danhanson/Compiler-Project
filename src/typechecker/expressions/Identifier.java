@@ -32,6 +32,9 @@ public class Identifier extends Expression {
 		return scope().resolveVariable(varId).map(v -> {
 			var = v;
 			return true;
-		}).orElse(false);
+		}).orElseGet(() -> {
+			System.err.println("Variable "+varId+" is not declared");
+			return false;
+		});
 	}
 }

@@ -15,7 +15,7 @@ classBody : '{' member* '}';
 member: method | field;
 
 method : 'public'? returnType ID '(' arguments ')' block                 #normalMethod
-       | 'public' 'static' 'void' 'main' '(' 'String[]' 'args' ')' block #mainMethod ;
+       | 'public' 'static' 'void' 'main' '(' 'String[]' ID ')' block #mainMethod ;
 
 block : '{' statement* '}';
 
@@ -79,7 +79,7 @@ RESERVED_WORD : 'class' | 'public' | 'static' | 'extends' | 'void' | 'int' |
     'boolean' | 'if' | 'else' | 'while' | 'return' | 'null' | 'true' | 'false' |
     'this' | 'new' | 'String' | 'System.out.println';
 
-ID : LETTER (LETTER | DIGIT)*;
+ID : (LETTER (LETTER | DIGIT)*) ;
 
 
 OPERATOR : '+' | '-' | '*' | '/' | '<' | '<=' | '>=' | '>' | '==' | '&&' | '||' | '!';

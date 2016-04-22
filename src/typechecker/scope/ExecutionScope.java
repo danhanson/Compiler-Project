@@ -34,9 +34,13 @@ public abstract class ExecutionScope extends ClassScope {
 	public boolean addVariable(Variable v){
 		Variable past = variables.put(v.id(), v);
 		if(past != null){
-			System.err.println("The variable "+v.id()+" is already declared in the current scope");
 			variables.put(v.id(), past);
-			return false;
+			if(past.declared()){
+				System.err.println("The variable "+v.id()+" is already declared in the current scope");
+				return false;
+			}
+			past.setDeclared(v.declared());
+			return true;
 		}
 		return true;
 	}
@@ -63,7 +67,7 @@ public abstract class ExecutionScope extends ClassScope {
 	public boolean checkTypes(){
 		boolean ret = true;
 		for(Variable v : variables.values()){
-			if(!v.resolveType()){
+			if(!v.resolveType(true)){
 				ret = false;
 			}
 		}

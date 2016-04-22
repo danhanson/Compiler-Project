@@ -4,6 +4,7 @@ import parser.MiniJavaParser.PrintStatementContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
+import typechecker.types.Primitive;
 
 public class PrintStatement extends Statement {
 
@@ -21,6 +22,13 @@ public class PrintStatement extends Statement {
 
 	@Override
 	public boolean checkTypes() {
-		return exp.checkTypes();
+		if(exp.checkTypes()){
+			if(exp.returnType() != Primitive.Integer){
+				System.err.println("System.out.println() requires integer as an argument");
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 }

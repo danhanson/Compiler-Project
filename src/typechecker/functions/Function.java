@@ -56,7 +56,7 @@ public class Function extends ExecutionScope{
 		List<Type> types = new ArrayList<>(args.size());
 		boolean ret = true;
 		for(Variable v : args){
-			if(!v.resolveType()){
+			if(!v.resolveType(true)){
 				ret = false;
 			}
 			types.add(v.type());

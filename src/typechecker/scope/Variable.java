@@ -11,7 +11,8 @@ public class Variable {
 	private final Scope scope;
 	private final String typeId;
 	private Type type = null;
-
+	private boolean declared = false;
+	
 	public static final Variable fromDeclarationContext(DeclarationContext field, Scope c){
 		String typeName = field.type().getText();
 		String id = field.ID().getText();
@@ -21,9 +22,10 @@ public class Variable {
 	/**
 	 * Variables should be resolved once all classes are added to the scope
 	 */
-	public boolean resolveType() {
+	public boolean resolveType(boolean declared) {
 		return scope.resolveType(typeId).map(type -> {
 			this.type = type;
+			this.declared = declared;
 			return true;
 		}).orElseGet(() -> {
 			System.err.println("Cannot find class named "+typeId);
@@ -31,11 +33,12 @@ public class Variable {
 		});
 	}
 
-	public Variable(Type type, String id, Scope scope){
+	public Variable(Type type, String id, Scope scope, boolean declared){
 		this.id = id;
 		this.scope = scope;
 		this.type = type;
 		this.typeId = type.id();
+		this.declared = declared;
 	}
 
 	public Variable(String typeName, String id, Scope scope){
@@ -58,6 +61,14 @@ public class Variable {
 	
 	public Scope scope(){
 		return scope;
+	}
+
+	public void setDeclared(boolean d){
+		this.declared = true;
+	}
+	
+	public boolean declared(){
+		return declared;
 	}
 
 	@Override

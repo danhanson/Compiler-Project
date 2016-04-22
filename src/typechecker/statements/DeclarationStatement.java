@@ -35,7 +35,7 @@ public class DeclarationStatement extends Statement {
 		if(!scope.addVariable(variable)){
 			return false;
 		}
-		if(!variable.resolveType()){
+		if(!variable.resolveType(true)){
 			return false;
 		}
 		if(exp != null){

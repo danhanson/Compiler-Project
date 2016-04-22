@@ -50,7 +50,7 @@ public final class Subclass extends Class {
 		
 		// resolve the field types
 		for(Variable v : fields.values()){
-			if(!v.resolveType()){
+			if(!v.resolveType(true)){
 				ret = false;
 			}
 		}

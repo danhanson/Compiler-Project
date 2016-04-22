@@ -25,16 +25,15 @@ public class ReturnStatement extends Statement {
 			}
 			return true;
 		} else {
-			boolean isGood = true;
-			if(!exp.checkTypes()){
-				isGood =  false;
+			if(exp.checkTypes()){
+				if(!exp.returnType().isSubTypeOf(exp.scope().returnType())) {
+					System.err.println("Actual return type "+exp.returnType().id()+" of method "+exp.scope().callee().id()+
+							" does not match declared type "+exp.scope().returnType().id()+".");
+					return false;
+				}
+				return true;
 			}
-			if(!exp.returnType().isSubTypeOf(exp.scope().returnType())) {
-				System.err.println("Actual return type "+exp.returnType().id()+" of method "+exp.scope().callee().id()+
-						" does not match declared type "+exp.scope().returnType().id()+".");
-				isGood = false;
-			}
-			return isGood;
+			return false;
 		}
 	}
 

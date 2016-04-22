@@ -45,7 +45,7 @@ public class AssignmentStatement extends Statement {
 			}
 			return true;
 		} else { // this statement could have intended to be a bad declaration
-			Variable v = new Variable(exp.returnType(), assigneeId, exp.scope());
+			Variable v = new Variable(exp.returnType(), assigneeId, exp.scope(), false);
 			exp.scope().addVariable(v);
 		}
 		return false;
