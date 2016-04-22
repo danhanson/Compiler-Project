@@ -32,6 +32,11 @@ public abstract class ExecutionScope extends ClassScope {
 	}
 
 	public boolean addVariable(Variable v){
+		if(parent().resolveVariable(v.id()).isPresent()){
+			variables.remove(v.id());
+			System.err.println("the variable "+v.id()+" is already declared in current scope");
+			return false;
+		}
 		Variable past = variables.put(v.id(), v);
 		if(past != null){
 			variables.put(v.id(), past);

@@ -19,7 +19,7 @@ public final class Null implements Type {
 
 	@Override
 	public boolean isSubType(Type other) {
-		return other instanceof Class;
+		return false;
 	}
 
 	private static final Null instance = new Null();

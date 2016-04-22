@@ -148,7 +148,7 @@ public final class Subclass extends Class {
 
 	@Override
 	public boolean isSubType(Type other) {
-		if(this == other){
+		if(this == other || other == Null.instance()){
 			return true;
 		}
 		if(other instanceof Subclass){

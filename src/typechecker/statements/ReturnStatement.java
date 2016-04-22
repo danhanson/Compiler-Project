@@ -26,7 +26,7 @@ public class ReturnStatement extends Statement {
 			return true;
 		} else {
 			if(exp.checkTypes()){
-				if(!exp.returnType().isSubTypeOf(exp.scope().returnType())) {
+				if(!exp.scope().returnType().isSubType(exp.returnType())) {
 					System.err.println("Actual return type "+exp.returnType().id()+" of method "+exp.scope().callee().id()+
 							" does not match declared type "+exp.scope().returnType().id()+".");
 					return false;

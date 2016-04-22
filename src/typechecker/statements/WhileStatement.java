@@ -31,7 +31,9 @@ public class WhileStatement extends Statement {
 			System.err.println("Type Mismatch");
 			throw new TypeMismatchException("Conditional requires boolean type");
 		}
-		body.checkTypes();
+		if(!body.checkTypes()){
+			return false;
+		}
 		return true;
 	}
 }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import typechecker.exceptions.NoSuchOperationException;
 import typechecker.types.ObjectClass;
 import typechecker.types.Primitive;
 import typechecker.types.Type;
@@ -37,10 +36,10 @@ public enum BinaryOperation {
 	}
 
 	public static BinaryOperation get(String symbol, Type t1, Type t2){
-		if(t1.isSubTypeOf(OBJECT)){
+		if(OBJECT.isSubType(t1)){
 			t1 = OBJECT;
 		}
-		if(t2.isSubTypeOf(OBJECT)){
+		if(OBJECT.isSubType(t2)){
 			t2 = OBJECT;
 		}
 		BinaryOperation op = ops.get(new Signature(symbol, t1, t2));
