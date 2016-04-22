@@ -7,7 +7,7 @@ import typechecker.types.Type;
 import typechecker.types.Void;
 import typechecker.types.Class;
 
-public class MainMethod extends Function {
+public final class MainMethod extends Function {
 	
 	public static MainMethod fromMainMethodContext(MainMethodContext con, Class parent){
 		MainMethod m = new MainMethod(parent);
