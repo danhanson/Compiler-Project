@@ -98,11 +98,6 @@ public class Function extends ExecutionScope{
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(id, returnTypeId, super.hashCode());
-	}
-
-	@Override
 	public Type returnType() {
 		return returnType;
 	}
