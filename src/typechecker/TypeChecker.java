@@ -30,11 +30,10 @@ public class TypeChecker {
 		parser.setBuildParseTree(true);
 		ProgContext tree = parser.prog();
 		GlobalScope global = GlobalScope.instance();
-		boolean allClassesAdded = true;
 		for(ClassDeclContext classDec : tree.classDecl()){
 			GlobalScope.instance().addType(Class.fromClassDecl(classDec, global));
 		}
-		if(global.checkTypes() && allClassesAdded){
+		if(global.checkTypes()){
 			System.out.println("Success!");
 		}
 	}
