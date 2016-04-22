@@ -45,8 +45,7 @@ public enum BinaryOperation {
 		}
 		BinaryOperation op = ops.get(new Signature(symbol, t1, t2));
 		if(op == null){
-		    System.err.println("Symbol " + symbol + " does not exist for types " + t1.id() + " and " + t2.id());
-			throw new NoSuchOperationException("No Operation");
+		    System.err.println("Operator " + symbol + " does not exist for types " + t1.id() + " and " + t2.id());
 		}
 		return op;
 	}

@@ -38,13 +38,21 @@ public class IfStatement extends Statement {
 
 	@Override
 	public boolean checkTypes() {
-		conditional.checkTypes();
-		if(conditional.returnType() != Primitive.Boolean){
-			throw new TypeMismatchException("if conditional requires boolean");
+		boolean isGood = true;
+		if(conditional.checkTypes()){
+			if(conditional.returnType() != Primitive.Boolean){
+				System.err.println("if conditional resquires boolean receives "+conditional.returnType().id()+".");
+				isGood = false;
+			}
 		}
-		ifBody.checkTypes();
-		if(elseBody != null)
-			elseBody.checkTypes();
-		return true;
+		if(ifBody.checkTypes()){
+			isGood = false;
+		}
+		if(elseBody != null){
+			if(elseBody.checkTypes()){
+				isGood = false;
+			}
+		}
+		return isGood;
 	}
 }

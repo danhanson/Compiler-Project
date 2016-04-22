@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import typechecker.exceptions.DuplicateDeclarationException;
 import typechecker.functions.Function;
 import typechecker.statements.Statement;
 import typechecker.types.Type;

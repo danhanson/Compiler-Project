@@ -39,6 +39,6 @@ public class BinaryOperationExp extends Expression {
 			return false;
 		}
 		op = BinaryOperation.get(symbol, arg1.returnType(), arg2.returnType());
-		return true;
+		return op != null;
 	}
 }
