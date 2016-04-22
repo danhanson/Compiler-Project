@@ -26,15 +26,12 @@ public class Identifier extends Expression {
 	public Type returnType() {
 		return var.type();
 	}
-	
+
 	@Override
 	public boolean checkTypes() {
 		return scope().resolveVariable(varId).map(v -> {
 			var = v;
 			return true;
-		}).orElseGet(() -> {
-			System.err.println("Variable "+varId+" is not declared");
-			return false;
-		});
+		}).orElse(false);
 	}
 }

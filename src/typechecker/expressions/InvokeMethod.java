@@ -47,7 +47,10 @@ public class InvokeMethod extends Expression {
 
 	@Override
 	public boolean checkTypes() {
-		getObject.checkTypes();
+		if(!getObject.checkTypes()){
+			System.err.println("Invoke method 51");
+			return false;
+		}
 		Class c;
 		Type t = getObject.returnType();
 		if(t instanceof Class){

@@ -38,13 +38,15 @@ public class AssignmentStatement extends Statement {
 		}
 		if(!exp.checkTypes()){
 			isGood = false;
-		}
-		if(isGood){
+		} else if(isGood){
 			if(!exp.returnType().isSubType(assignee.type())){
 				System.err.println("Cannot assign type "+exp.returnType().id()+" to variable "+assignee.id()+" of type "+assignee.typeId());
 				return false;
 			}
 			return true;
+		} else { // this statement could have intended to be a bad declaration
+			Variable v = new Variable(exp.returnType(), assigneeId, exp.scope());
+			exp.scope().addVariable(v);
 		}
 		return false;
 	}

@@ -33,7 +33,13 @@ public abstract class ExecutionScope extends ClassScope {
 	}
 
 	public boolean addVariable(Variable v){
-		return variables.put(v.id(), v) == null;
+		Variable past = variables.put(v.id(), v);
+		if(past != null){
+			System.err.println("The variable "+v.id()+" is already declared in the current scope");
+			variables.put(v.id(), past);
+			return false;
+		}
+		return true;
 	}
 
 	public Type returnType(){
