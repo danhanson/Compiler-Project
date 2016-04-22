@@ -1,20 +1,21 @@
 package typechecker.types;
 
+import java.util.Optional;
+
+import typechecker.functions.Function;
+import typechecker.functions.FunctionSignature;
 import typechecker.scope.GlobalScope;
-import typechecker.scope.Scope;
+import typechecker.scope.Variable;
 
-public final class Null implements Type {
+public final class Null extends Class {
 
-	private Null() { }
+	private Null() {
+		super("Null", GlobalScope.instance());
+	}
 	
 	@Override
 	public String id() {
 		return "Null";
-	}
-
-	@Override
-	public Scope parent() {
-		return GlobalScope.instance();
 	}
 
 	@Override
@@ -26,5 +27,15 @@ public final class Null implements Type {
 
 	public static Null instance(){
 		return instance;
+	}
+
+	@Override
+	public Optional<Variable> resolveField(String id) {
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Function> resolveMethod(FunctionSignature id) {
+		return Optional.empty();
 	}
 }

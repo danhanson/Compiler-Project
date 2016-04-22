@@ -4,7 +4,6 @@ import parser.MiniJavaParser.ElseBodyContext;
 import parser.MiniJavaParser.IfBodyContext;
 import parser.MiniJavaParser.IfStatementContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.exceptions.TypeMismatchException;
 import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Primitive;
@@ -41,15 +40,15 @@ public class IfStatement extends Statement {
 		boolean isGood = true;
 		if(conditional.checkTypes()){
 			if(conditional.returnType() != Primitive.Boolean){
-				System.err.println("if conditional resquires boolean receives "+conditional.returnType().id()+".");
+				System.err.println("if statement condition requires type boolean but conditional expression is type "+conditional.returnType().id()+".");
 				isGood = false;
 			}
 		}
-		if(ifBody.checkTypes()){
+		if(!ifBody.checkTypes()){
 			isGood = false;
 		}
 		if(elseBody != null){
-			if(elseBody.checkTypes()){
+			if(!elseBody.checkTypes()){
 				isGood = false;
 			}
 		}

@@ -3,7 +3,7 @@ package typechecker.types;
 import typechecker.scope.GlobalScope;
 import typechecker.scope.Scope;
 
-public class Void implements Type {
+public final class Void implements Type {
 
 	private Void() {
 		// nothing

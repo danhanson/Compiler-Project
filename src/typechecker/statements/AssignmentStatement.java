@@ -39,7 +39,7 @@ public class AssignmentStatement extends Statement {
 		if(!exp.checkTypes()){
 			isGood = false;
 		} else if(isGood){
-			if(!exp.returnType().isSubType(assignee.type())){
+			if(!assignee.type().isSubType(exp.returnType())){
 				System.err.println("Cannot assign type "+exp.returnType().id()+" to variable "+assignee.id()+" of type "+assignee.typeId());
 				return false;
 			}

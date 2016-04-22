@@ -2,7 +2,6 @@ package typechecker.statements;
 
 import parser.MiniJavaParser.ReturnStatementContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.exceptions.TypeMismatchException;
 import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Void;
@@ -21,14 +20,15 @@ public class ReturnStatement extends Statement {
 	public boolean checkTypes() {
 		if(exp == null){
 			if(scope.returnType() != Void.instance()){
-				throw new TypeMismatchException("Returns void but function has type: " + scope.returnType().id());
+				System.err.println("Empty return statement in method "+scope.callee().functionSignature().id());
+				return false;
 			}
 			return true;
 		} else {
 			if(exp.checkTypes()){
 				if(!exp.scope().returnType().isSubType(exp.returnType())) {
-					System.err.println("Actual return type "+exp.returnType().id()+" of method "+exp.scope().callee().id()+
-							" does not match declared type "+exp.scope().returnType().id()+".");
+					System.err.println("Actual return type "+exp.returnType().id()+" of method "+scope.callee().functionSignature().id()+
+							" does not match declared type "+scope.returnType().id()+".");
 					return false;
 				}
 				return true;

@@ -34,14 +34,4 @@ public final class ObjectClass extends Class {
 	public boolean isSubType(Type other) {
 		return other == this;
 	}
-
-	@Override
-	public boolean membersChecked() {
-		return true;
-	}
-
-	@Override
-	public boolean bodiesChecked() {
-		return true;
-	}
 }

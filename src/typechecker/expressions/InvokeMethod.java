@@ -11,7 +11,6 @@ import typechecker.functions.FunctionSignature;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 import typechecker.types.Class;
-import typechecker.exceptions.NoSuchMethodException;
 
 public class InvokeMethod extends Expression {
 
@@ -57,10 +56,9 @@ public class InvokeMethod extends Expression {
         boolean isGood = true;
         Class c;
         Type t = getObject.returnType();
-        if (t instanceof Class) {
-            c = (Class) t;
-        } else {
-            throw new NoSuchMethodException("Not an object");
+        if(!(t instanceof Class)) {
+            System.err.println("Type "+t.id()+" has no method "+method.toString()+", "+t.id()+" is not a class.");
+            isGood = false;
         }
         List<Type> argList = new ArrayList<Type>();
         for (Expression exp : args) {
@@ -73,7 +71,14 @@ public class InvokeMethod extends Expression {
         if (!isGood){
             return false;
         }
-        return c.resolveMethod(new FunctionSignature(methodId, argList))
-                .map(m -> this.method = m).isPresent();
+        c = (Class) t;
+        FunctionSignature sig = new FunctionSignature(methodId, argList);
+        return c.resolveMethod(sig).map(m -> {
+        	this.method = m;
+        	return true;	
+        }).orElseGet(() -> {
+        	System.err.println("Class "+scope().thisClass().id()+" has no method "+sig.toString());
+        	return false;
+        });
     }
 }

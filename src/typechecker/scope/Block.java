@@ -1,5 +1,7 @@
 package typechecker.scope;
 
+import java.util.Optional;
+
 import parser.MiniJavaParser.BlockContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.functions.Function;
@@ -26,12 +28,30 @@ public class Block extends ExecutionScope {
 	}
 
 	@Override
-	public Type thisType() {
-		return ((ExecutionScope) parent()).thisType();
+	public Function callee() {
+		return ((ExecutionScope) parent()).callee();
 	}
 
 	@Override
-	public Function callee() {
-		return ((ExecutionScope) parent()).callee();
+	public Optional<Variable> resolveField(String v) {
+		return ((ExecutionScope) parent()).resolveField(v);
+	}
+
+
+	public Optional<Variable> resolveLocalVariable(String id){
+		Variable var = variables.get(id);
+		if(var == null){
+			return ((ExecutionScope) parent()).resolveLocalVariable(id);
+		}
+		return Optional.of(var);
+	}
+
+	@Override
+	public Optional<Variable> resolveVariable(String id){
+		Variable var = variables.get(id);
+		if(var == null){
+			return ((ExecutionScope) parent()).resolveVariable(id);
+		}
+		return Optional.of(var);
 	}
 }

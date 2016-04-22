@@ -89,4 +89,8 @@ public class Variable {
 	public String toString() {
 		return typeId+" "+id;
 	}
+
+	public boolean resolveType() {
+		return resolveType(true);
+	}
 }

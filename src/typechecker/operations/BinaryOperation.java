@@ -7,6 +7,7 @@ import java.util.Objects;
 import typechecker.types.ObjectClass;
 import typechecker.types.Primitive;
 import typechecker.types.Type;
+import typechecker.types.Class;
 
 public enum BinaryOperation {
 	DIV("/", Primitive.Integer, Primitive.Integer, Primitive.Integer),
@@ -36,10 +37,10 @@ public enum BinaryOperation {
 	}
 
 	public static BinaryOperation get(String symbol, Type t1, Type t2){
-		if(OBJECT.isSubType(t1)){
+		if(t1 instanceof Class){
 			t1 = OBJECT;
 		}
-		if(OBJECT.isSubType(t2)){
+		if(t2 instanceof Class){
 			t2 = OBJECT;
 		}
 		BinaryOperation op = ops.get(new Signature(symbol, t1, t2));

@@ -15,7 +15,7 @@ classBody : '{' member* '}';
 member: method | field;
 
 method : 'public'? returnType ID '(' arguments ')' block                 #normalMethod
-       | 'public' 'static' 'void' 'main' '(' 'String[]' ID ')' block #mainMethod ;
+       | 'public' 'static' 'void' 'main' '(' 'String' '[' ']' ID ')' block #mainMethod ;
 
 block : '{' statement* '}';
 

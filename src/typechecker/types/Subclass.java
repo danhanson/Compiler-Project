@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import typechecker.exceptions.DuplicateDeclarationException;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.scope.Variable;
@@ -16,13 +15,12 @@ public final class Subclass extends Class {
 	private final Map<String, Variable> fields = new HashMap<>();
 	private final List<Function> unresolvedMethods = new ArrayList<>();
 	private final Map<FunctionSignature, Function> methods = new HashMap<>();
-	private boolean membersChecked = false;
-	private boolean bodiesChecked = false;
+	private boolean classIsGood = true;
 
 	Subclass(Class parent, String id){
 		super(id, parent);
 	}
-	
+
 	private boolean addResolvedMethod(Function method){
 		if(methods.containsKey(method.functionSignature())){
 			System.err.println("Cannot redeclare method "+method.functionSignature()+
@@ -30,7 +28,7 @@ public final class Subclass extends Class {
 			return false;
 		}
 		return ((Class) parent()).resolveMethod(method.functionSignature()).map( superFun -> {
-			if(superFun.returnType() != method.returnType()){
+			if(!superFun.returnType().isSubType(method.returnType())){
 				System.err.println(
 					"Cannot overload methods. Method "+method.id()+" has different type signature than inherited method of the same name. "
 					+ "Actual return type "+method.returnType().id()+" of method start does not match declared type "+superFun.returnType().id()
@@ -65,7 +63,7 @@ public final class Subclass extends Class {
 				ret = false;
 			}
 		}
-		this.membersChecked = ret;
+		updateStatus(ret);
 		return ret;
 	}
 
@@ -78,7 +76,7 @@ public final class Subclass extends Class {
 				ret = false;
 			}
 		}
-		this.bodiesChecked = ret;
+		updateStatus(ret);
 		return ret;
 	}
 
@@ -88,24 +86,6 @@ public final class Subclass extends Class {
 			return Optional.of(this);
 		}
 		return super.resolveType(id);
-	}
-
-	@Override
-	public Optional<Variable> resolveVariable(String id) {
-		Variable field = fields.get(id);
-		if(field == null){
-			return super.resolveVariable(id);
-		}
-		return Optional.of(field);
-	}
-
-	@Override
-	public Optional<Function> resolveFunction(FunctionSignature id) {
-		Function method = methods.get(id);
-		if(method == null){
-			return superClass().resolveMethod(id);
-		}
-		return Optional.of(method);
 	}
 
 	@Override
@@ -157,13 +137,13 @@ public final class Subclass extends Class {
 		return false;
 	}
 
-	@Override
-	public boolean membersChecked(){
-		return this.membersChecked && ((Class)this.parent()).membersChecked();
+	public boolean status(){
+		return classIsGood && superClass().status();
 	}
 
-	@Override
-	public boolean bodiesChecked() {
-		return this.bodiesChecked && ((Class)this.parent()).bodiesChecked();
+	public void updateStatus(boolean stat){
+		if(!stat){
+			this.classIsGood = false;
+		}
 	}
 }

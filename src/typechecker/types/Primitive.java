@@ -40,6 +40,6 @@ public enum Primitive implements Type {
 
 	@Override
 	public boolean isSubType(Type other) {
-		return other == this;
+		return equals(other);
 	}
 }

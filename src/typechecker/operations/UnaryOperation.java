@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import typechecker.exceptions.NoSuchOperationException;
 import typechecker.types.Primitive;
 import typechecker.types.Type;
 
@@ -45,8 +44,9 @@ public enum UnaryOperation {
 
 	public static UnaryOperation get(String symbol, Type type){
 		UnaryOperation res = ops.get(new Signature(symbol, type));
-		if(res == null)
-			throw new NoSuchOperationException("No operation "+symbol+" "+type.id());
+		if(res == null) {
+		    System.err.println("Operator " + symbol + " does not exist for type " + type.id());
+		}
 		return res;
 	}
 

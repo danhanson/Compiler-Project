@@ -2,7 +2,6 @@ package typechecker.statements;
 
 import parser.MiniJavaParser.StatementContext;
 import parser.MiniJavaParser.WhileStatementContext;
-import typechecker.exceptions.TypeMismatchException;
 import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Primitive;
@@ -26,14 +25,18 @@ public class WhileStatement extends Statement {
 
 	@Override
 	public boolean checkTypes() {
-		conditional.checkTypes();
-		if(conditional.returnType() != Primitive.Boolean){
-			System.err.println("Type Mismatch");
-			throw new TypeMismatchException("Conditional requires boolean type");
+		boolean isGood = true;
+		if(conditional.checkTypes()){
+			if(conditional.returnType() != Primitive.Boolean){
+				System.err.println("While conditional must return type boolean.");
+				isGood = false;
+			}
+		} else {
+			isGood = false;
 		}
-		if(!body.checkTypes()){
-			return false;
+		if(isGood){
+			return body.checkTypes();
 		}
-		return true;
+		return false;
 	}
 }

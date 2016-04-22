@@ -18,27 +18,33 @@ public abstract class Class extends ClassScope implements Type {
 	
 	private final String id;
 	
-	public static Optional<Class> fromClassDecl(ClassDeclContext con, Scope scope) {
+	public static Class fromClassDecl(ClassDeclContext con, Scope scope) {
 		String id = con.ID().getText();
 		Class superClass;
+		boolean isGood;
 		if(con.inherits() == null){
 			superClass = ObjectClass.instance();
+			isGood = true;
 		} else {
+			isGood = false;
 			String superId = con.inherits().ID().getText();
 			Optional<Type> opt = scope.resolveType(superId);
-			if(!opt.isPresent()){
+			if(opt.isPresent()){
+				Type t = opt.get();
+				if(t instanceof Class) {
+					isGood = true;
+					superClass = (Class) t;
+				} else {
+					System.err.println("type: " + t.id() + " is not a class");
+					superClass = ObjectClass.instance();
+				}
+			} else {
 				System.err.println("Superclass name "+superId+" not in scope");
-				return Optional.empty();
+				superClass = ObjectClass.instance();
 			}
-			Type t = opt.get();
-			if(!(t instanceof Class)) {
-				System.err.println("type: " + t.id() + " is not a class");
-				return Optional.empty();
-			}
-			superClass = (Class) t;
 		}
-		Subclass newClass = superClass.extend(id);
-		boolean isGood = true;
+		Subclass newClass = new Subclass(superClass, id);
+		newClass.updateStatus(isGood);
 		for(MemberContext mem : con.classBody().member()){
 			if(mem.method() != null){
 				if(mem.method() instanceof NormalMethodContext){
@@ -46,7 +52,7 @@ public abstract class Class extends ClassScope implements Type {
 					try {
 						newClass.addMethod(Function.fromMethodContext(method, newClass));
 					} catch(IllegalArgumentException e){
-						isGood = false;
+						newClass.updateStatus(false);
 					}
 				} else {
 					MainMethodContext mmc = (MainMethodContext) mem.method();
@@ -55,16 +61,13 @@ public abstract class Class extends ClassScope implements Type {
 				}
 			} else if(mem.field() != null){
 				if(!newClass.addField(Variable.fromDeclarationContext(mem.field().declaration(), newClass))){
-					isGood = false;
+					newClass.updateStatus(false);
 				}
 			} else {
 				throw new IllegalArgumentException("What happened?");
 			}
 		}
-		if(!isGood){
-			return Optional.empty();
-		}
-		return Optional.of(newClass);
+		return newClass;
 	}
 
 	public Class(String id, Scope parent) {
@@ -80,15 +83,11 @@ public abstract class Class extends ClassScope implements Type {
 
 	public abstract Optional<Function> resolveMethod(FunctionSignature id);
 
-	public final Subclass extend(String id) {
-		return new Subclass(this, id);
-	}
-
-	public final Type thisType() {
+	public final Class thisClass() {
 		return this;
 	}
 
-	public abstract boolean membersChecked();
-	
-	public abstract boolean bodiesChecked();
+	public boolean status(){
+		return true;
+	}
 }

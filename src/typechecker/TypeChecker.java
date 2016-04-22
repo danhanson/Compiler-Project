@@ -32,9 +32,7 @@ public class TypeChecker {
 		GlobalScope global = GlobalScope.instance();
 		boolean allClassesAdded = true;
 		for(ClassDeclContext classDec : tree.classDecl()){
-			if(!Class.fromClassDecl(classDec, global).map(global::addType).isPresent()){
-				allClassesAdded = false;
-			}
+			GlobalScope.instance().addType(Class.fromClassDecl(classDec, global));
 		}
 		if(global.checkTypes() && allClassesAdded){
 			System.out.println("Success!");

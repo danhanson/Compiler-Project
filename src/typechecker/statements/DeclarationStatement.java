@@ -42,7 +42,7 @@ public class DeclarationStatement extends Statement {
 			if(!exp.checkTypes()){
 				return false;
 			}
-			if(!exp.returnType().isSubType(variable.type())){
+			if(!variable.type().isSubType(exp.returnType())){
 				System.err.println("Cannot assign type "+exp.returnType().id()+" to variable "+variable.id()+" of type "+variable.typeId());
 				return false;
 			}

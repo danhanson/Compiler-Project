@@ -31,8 +31,13 @@ public class UnaryOperationExp extends Expression {
 
 	@Override
 	public boolean checkTypes() {
-		exp.checkTypes();
+		if(!exp.checkTypes()){
+			return false;
+		}
 		op = UnaryOperation.get(symbol, exp.returnType());
+		if(op == null){
+			return false;
+		}
 		return true;
 	}
 

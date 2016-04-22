@@ -2,7 +2,6 @@ package typechecker.functions;
 
 import parser.MiniJavaParser.MainMethodContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.scope.ClassScope;
 import typechecker.statements.Statement;
 import typechecker.types.Type;
 import typechecker.types.Void;
@@ -23,17 +22,7 @@ public class MainMethod extends Function {
 	}
 
 	@Override
-	public Type thisType() {
-		return ((ClassScope) parent()).thisType();
-	}
-
-	@Override
 	public Type returnType() {
 		return Void.instance();
-	}
-
-	@Override
-	public Function callee() {
-		return this;
 	}
 }

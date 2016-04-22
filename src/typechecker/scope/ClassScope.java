@@ -1,6 +1,10 @@
 package typechecker.scope;
 
-import typechecker.types.Type;
+import java.util.Optional;
+
+import typechecker.functions.Function;
+import typechecker.functions.FunctionSignature;
+import typechecker.types.Class;;
 
 public abstract class ClassScope extends AbstractScope {
 
@@ -8,5 +12,9 @@ public abstract class ClassScope extends AbstractScope {
 		super(parent);
 	}
 
-	public abstract Type thisType();
+	public abstract Optional<Function> resolveMethod(FunctionSignature fs);
+
+	public abstract Optional<Variable> resolveField(String v);
+
+	public abstract Class thisClass();
 }

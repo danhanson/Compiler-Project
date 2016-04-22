@@ -15,6 +15,6 @@ public class This extends Expression {
 	}
 	@Override
 	public Type returnType() {
-		return scope().thisType();
+		return scope().thisClass();
 	}
 }

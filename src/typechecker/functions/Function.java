@@ -108,11 +108,6 @@ public class Function extends ExecutionScope{
 	}
 
 	@Override
-	public Type thisType() {
-		return ((Class) parent()).thisType();
-	}
-
-	@Override
 	public Function callee() {
 		return this;
 	}

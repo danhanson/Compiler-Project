@@ -7,10 +7,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import typechecker.exceptions.DuplicateDeclarationException;
-import typechecker.exceptions.NoSuchTypeException;
-import typechecker.functions.Function;
-import typechecker.functions.FunctionSignature;
 import typechecker.functions.MainMethod;
 import typechecker.types.Primitive;
 import typechecker.types.Subclass;
@@ -27,7 +23,7 @@ public class GlobalScope implements Scope {
 			addType(p);
 		}
 	}
-	
+
 	private static final GlobalScope scope = new GlobalScope();
 
 	public static GlobalScope instance(){
@@ -35,18 +31,8 @@ public class GlobalScope implements Scope {
 	}
 
 	@Override
-	public Optional<Type> resolveType(String id) throws NoSuchTypeException {
+	public Optional<Type> resolveType(String id) {
 		return Optional.ofNullable(types.get(id));
-	}
-
-	@Override
-	public Optional<Variable> resolveVariable(String id) {
-		return Optional.empty();
-	}
-
-	@Override
-	public Optional<Function> resolveFunction(FunctionSignature id) {
-		return Optional.empty();
 	}
 
 	public boolean addType(Type c) {
@@ -60,27 +46,25 @@ public class GlobalScope implements Scope {
 	public Map<String, Type> getTypes() {
 		return Collections.unmodifiableMap(types);
 	}
-	
-	public boolean checkTypes(){		
+
+	public boolean checkTypes(){
 		List<Subclass> classes = types.values().stream().filter(t -> t instanceof Subclass).map(t -> (Subclass) t).collect(Collectors.toList());
-		boolean success = classes.stream().filter(Subclass::checkMembers)
-				.collect(Collectors.toList())
-				.stream().filter(Subclass::membersChecked)
-				.filter(Subclass::checkMethodBodies)
-				.count() == classes.size();
-		if(main.checkTypes()){
-			return success;
+		classes.stream().forEach(Subclass::checkMembers);
+		classes.stream().forEach(Subclass::checkMethodBodies);
+		boolean isGood = classes.stream().allMatch(Subclass::status);
+		if(!main.checkTypes()){
+			isGood = false;
 		}
-		return false;
+		return isGood;
 	}
 
 	public void setMainMethod(MainMethod b){
 		if(main != null){
-			throw new DuplicateDeclarationException("Two Main Functions");
+			throw new IllegalStateException("Two main functions in global scope");
 		}
 		main = b;
 	}
-	
+
 	public MainMethod getMainMethod(){
 		return main;
 	}
