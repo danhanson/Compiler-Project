@@ -1,0 +1,703 @@
+running test ./test-data/FullTests/testcase00_01.java
+expecting:
+Class named A already exists.
+Class named A already exists.
+\n
+running test ./test-data/FullTests/testcase00_02.java
+expecting:
+Cannot find class named C
+Cannot find class named C
+\n
+running test ./test-data/FullTests/testcase00_03.java
+expecting:
+Cannot find class named C
+Cannot find class named C
+\n
+running test ./test-data/FullTests/testcase00_04.java
+expecting:
+Cannot overload methods. Method start has different type signature than inherited method of the same name. Actual return type boolean of method start does not match declared type int
+Cannot overload methods. Method start has different type signature than inherited method of the same name. Actual return type boolean of method start does not match declared type int
+Actual return type boolean of method start does not match declared type int.
+\n
+running test ./test-data/FullTests/testcase00_05.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_06.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_07.java
+expecting:
+Cannot redeclare method start Cannot overload methods. Method start has different type signature than inherited method of the same name. Cannot assign type boolean to variable b of type int
+Cannot redeclare method start(void). Method start(void) is already declared in class B.
+\n
+running test ./test-data/FullTests/testcase00_08.java
+expecting:
+The class variable a is already declared. Redeclaration and shadowing are not allowed.
+The class variable a is already declared. Redeclaration and shadowing are not allowed.
+\n
+running test ./test-data/FullTests/testcase00_09.java
+expecting:
+Cannot redeclare method setB
+Cannot redeclare method setB(int). Method setB(int) is already declared in class noPoint2.
+\n
+running test ./test-data/FullTests/testcase00_10.java
+expecting:
+The class variable a is already declared. Redeclaration and shadowing are not allowed.
+The class variable a is already declared. Redeclaration and shadowing fields are not allowed.
+\n
+running test ./test-data/FullTests/testcase00_11.java
+expecting:
+Cannot redeclare method equal Cannot overload methods. Method equal has different type signature than inherited method of the same name. Cannot overload methods. Method equal has different type signature than inherited method of the same name.
+\n
+running test ./test-data/FullTests/testcase00_12.java
+expecting:
+Cannot find class named bool Cannot overload methods. Method bad has different type signature than inherited method of the same name. Actual return type boolean of method bad does not match declared type bool
+Cannot find class named bool
+\n
+running test ./test-data/FullTests/testcase00_13.java
+expecting:
+Class named start already exists.
+Class named start already exists.
+\n
+running test ./test-data/FullTests/testcase00_14.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_15.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_16.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_17.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_18.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_19.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_20.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_21.java
+expecting:
+Superclass name Foo1 not in scope.
+Superclass name Foo1 not in scope
+\n
+running test ./test-data/FullTests/testcase00_22.java
+expecting:
+Formal parameter named Foo duplicates the name of another formal parameter.
+\n
+running test ./test-data/FullTests/testcase00_23.java
+expecting:
+Superclass name Foo not in scope. Superclass name Foo not in scope.
+Superclass name Foo not in scope
+Superclass name Foo not in scope
+\n
+running test ./test-data/FullTests/testcase00_24.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_25.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_26.java
+expecting:
+The class variable x is already declared. Redeclaration and shadowing are not allowed.
+The class variable x is already declared. Redeclaration and shadowing are not allowed.
+\n
+running test ./test-data/FullTests/testcase00_27.java
+expecting:
+Cannot find class named Baz
+Cannot find class named Baz
+\n
+running test ./test-data/FullTests/testcase00_28.java
+expecting:
+Cannot redeclare method self
+Cannot redeclare method self(void). Method self(void) is already declared in class Bar.
+\n
+running test ./test-data/FullTests/testcase00_29.java
+expecting:
+Superclass name Bar not in scope.
+Superclass name Bar not in scope
+\n
+running test ./test-data/FullTests/testcase00_30.java
+expecting:
+Cannot overload methods. Method self has different type signature than inherited method of the same name.
+\n
+running test ./test-data/FullTests/testcase00_31.java
+expecting:
+Superclass name Bar not in scope. Cannot redeclare method self Cannot find class named Nonexistant Actual return type Baz of method self does not match declared type Bar Actual return type Baz of method self does not match declared type Bar Actual return type Bar of method self2 does not match declared type Nonexistant
+Superclass name Bar not in scope
+Cannot redeclare method self(int). Method self(int) is already declared in class Baz.
+Cannot find class named Nonexistant
+Actual return type Baz of method self does not match declared type Bar.
+\n
+running test ./test-data/FullTests/testcase00_32.java
+expecting:
+Variable this is not declared.
+\n
+running test ./test-data/FullTests/testcase00_33.java
+expecting:
+Variable this is not declared.
+\n
+running test ./test-data/FullTests/testcase00_34.java
+expecting:
+Cannot find class named C Variable this is not declared. Cannot instantiate undeclared class named C
+Cannot find class named C
+\n
+running test ./test-data/FullTests/testcase00_35.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_36.java
+expecting:
+Cannot assign type boolean to variable b of type int
+Cannot assign type boolean to variable b of type int
+\n
+running test ./test-data/FullTests/testcase00_37.java
+expecting:
+Cannot instantiate undeclared class named C
+Cannot find class named C
+\n
+running test ./test-data/FullTests/testcase00_38.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_39.java
+expecting:
+Actual return type boolean of method start does not match declared type int
+Actual return type boolean of method start does not match declared type int.
+\n
+running test ./test-data/FullTests/testcase00_40.java
+expecting:
+No variable named a exists in the current scope. Variable a is not declared. Argument type null is incompatible with formal parameter type int The variable c is already declared in the current scope. The variable x is already declared in the current scope.
+the variable x is already declared in the current scope
+No variable named a exists in the current scope.
+the variable c is already declared in the current scope
+\n
+running test ./test-data/FullTests/testcase00_41.java
+expecting:
+Cannot assign type boolean to variable alpha of type int Argument type int is incompatible with formal parameter type boolean Cannot assign type Bar to variable gamma of type int Left argument of type boolean does not match expected type int for operator GT
+Operator > does not exist for types boolean and int
+Cannot assign type boolean to variable alpha of type int
+Class myMainClass has no method commit(int)
+Cannot assign type Bar to variable gamma of type int
+\n
+running test ./test-data/FullTests/testcase00_42.java
+expecting:
+Actual return type boolean of method inc does not match declared type int Right argument of type boolean does not match expected type int for operator MINUS Cannot assign type boolean to variable myInt of type int
+Actual return type boolean of method inc does not match declared type int.
+Cannot assign type boolean to variable myInt of type int
+Operator - does not exist for types int and boolean
+\n
+running test ./test-data/FullTests/testcase00_43.java
+expecting:
+Variable bar is not declared. No method named add found for class null In MiniJava, System.out.println only takes an int. The expression has type null
+Variable bar is not declared
+\n
+running test ./test-data/FullTests/testcase00_44.java
+expecting:
+Variable bar is not declared. No method named fib found for class null In MiniJava, System.out.println only takes an int. The expression has type null Actual return type boolean of method fib does not match declared type int
+Actual return type boolean of method fib does not match declared type int.
+Variable bar is not declared
+\n
+running test ./test-data/FullTests/testcase00_45.java
+expecting:
+Variable bar is not declared. No method named fib found for class null In MiniJava, System.out.println only takes an int. The expression has type null Variable baz is not declared. No method named fib found for class null Actual return type null of method fib2 does not match declared type boolean
+Variable baz is not declared
+Variable bar is not declared
+\n
+running test ./test-data/FullTests/testcase00_46.java
+expecting:
+Variable bar is not declared. No method named fib found for class null In MiniJava, System.out.println only takes an int. The expression has type null Variable bar is not declared. No method named fib found for class null Variable bar is not declared. No method named fib found for class null Left argument of type null does not match expected type int for operator PLUS Right argument of type null does not match expected type int for operator PLUS
+Variable bar is not declared
+Variable bar is not declared
+\n
+running test ./test-data/FullTests/testcase00_47.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_48.java
+expecting:
+No variable named b exists in the current scope.
+No variable named b exists in the current scope.
+\n
+running test ./test-data/FullTests/testcase00_49.java
+expecting:
+No variable named b exists in the current scope.
+No variable named b exists in the current scope.
+\n
+running test ./test-data/FullTests/testcase00_50.java
+expecting:
+No variable named b exists in the current scope.
+No variable named b exists in the current scope.
+\n
+running test ./test-data/FullTests/testcase00_51.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_52.java
+expecting:
+Cannot assign type int to variable a of type bool
+Cannot find class named bool
+\n
+running test ./test-data/FullTests/testcase00_53.java
+expecting:
+Cannot assign type boolean to variable x of type int
+Cannot assign type boolean to variable x of type int
+\n
+running test ./test-data/FullTests/testcase00_54.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_55.java
+expecting:
+The variable x is already declared in the current scope. Cannot assign type int to variable x of type boolean
+the variable x is already declared in the current scope
+\n
+running test ./test-data/FullTests/testcase00_56.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_57.java
+expecting:
+Superclass name NextOne not in scope.
+Superclass name NextOne not in scope
+\n
+running test ./test-data/FullTests/testcase00_58.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_59.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_60.java
+expecting:
+The variable x is already declared in the current scope.
+the variable x is already declared in the current scope
+\n
+running test ./test-data/FullTests/testcase00_61.java
+expecting:
+Cannot overload methods. Method ossifrage has different type signature than inherited method of the same name.
+\n
+running test ./test-data/FullTests/testcase00_62.java
+expecting:
+Variable this is not declared. Left argument of type boolean does not match expected type int for operator PLUS Argument type boolean is incompatible with formal parameter type int Cannot assign type Test6 to variable e of type Test7 Cannot assign type Test6 to variable f of type Test8 Cannot assign type Test8 to variable h of type Test9
+Class Test5 has no method foo(Null)
+Operator + does not exist for types boolean and int
+Class Test5 has no method xyzzy(boolean)
+Cannot assign type Test6 to variable e of type Test7
+Cannot assign type Test6 to variable f of type Test8
+Cannot assign type Test8 to variable h of type Test9
+\n
+running test ./test-data/FullTests/testcase00_63.java
+expecting:
+Right argument of type boolean does not match expected type int for operator PLUS Right argument of type boolean does not match expected type int for operator DIVIDE Right argument of type int does not match expected type boolean for operator AND Left argument of type boolean does not match expected type int for operator MINUS Right argument of type boolean does not match expected type int for operator MINUS Left argument of type int does not match expected type boolean for operator OR Right argument of type int does not match expected type boolean for operator OR Cannot assign type boolean to variable z of type int Variable x is not declared. Cannot assign type null to variable z of type int
+Operator + does not exist for types int and boolean
+Operator / does not exist for types int and boolean
+Operator && does not exist for types boolean and int
+Variable x is not declared
+\n
+running test ./test-data/FullTests/testcase00_64.java
+expecting:
+Right argument of type boolean does not match expected type int for operator LT Variable y is not declared. Left argument of type null does not match expected type int for operator PLUS No variable named y exists in the current scope. Variable y is not declared. Cannot assign type null to variable x of type int In MiniJava, System.out.println only takes an int. The expression has type boolean
+Operator < does not exist for types int and boolean
+Variable y is not declared
+System.out.println() requires integer as an argument
+\n
+running test ./test-data/FullTests/testcase00_65.java
+expecting:
+Operand type int is not compatible with expected type boolean of operator NOT Operand type boolean is not compatible with expected type int of operator MINUS The variable x is already declared in the current scope. Cannot assign type boolean to variable x of type int The variable y is already declared in the current scope. Cannot assign type int to variable y of type boolean
+Operator ! does not exist for type int
+Operator - does not exist for type boolean
+the variable x is already declared in the current scope
+the variable y is already declared in the current scope
+\n
+running test ./test-data/FullTests/testcase00_66.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_67.java
+expecting:
+Variable args is not declared. In MiniJava, System.out.println only takes an int. The expression has type null
+Variable args is not declared
+\n
+running test ./test-data/FullTests/testcase00_68.java
+expecting:
+Variable args is not declared. In MiniJava, System.out.println only takes an int. The expression has type null
+Variable args is not declared
+\n
+running test ./test-data/FullTests/testcase00_69.java
+expecting:
+Cannot redeclare method predicate Cannot overload methods. Method predicate has different type signature than inherited method of the same name.
+\n
+running test ./test-data/FullTests/testcase00_70.java
+expecting:
+The class variable avar is already declared. Redeclaration and shadowing are not allowed.
+The class variable avar is already declared. Redeclaration and shadowing are not allowed.
+\n
+running test ./test-data/FullTests/testcase00_71.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_72.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_73.java
+expecting:
+Cannot assign type Foo to variable bar of type Foo2
+Cannot assign type Foo to variable bar of type Foo2
+\n
+running test ./test-data/FullTests/testcase00_74.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_75.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_76.java
+expecting:
+Right argument of type boolean does not match expected type int for operator PLUS
+Operator + does not exist for types int and boolean
+\n
+running test ./test-data/FullTests/testcase00_77.java
+expecting:
+Cannot find class named Point Cannot redeclare method tryToRedeclare Cannot overload methods. Method overrideWithTooFew has different type signature than inherited method of the same name. Cannot overload methods. Method overrideWithTooMany has different type signature than inherited method of the same name. Cannot overload methods. Method switchParameterTypes has different type signature than inherited method of the same name. Cannot find class named Point The class variable x is already declared. Redeclaration and shadowing are not allowed. Cannot instantiate undeclared class named Point Variable a is not declared. In MiniJava, System.out.println only takes an int. The expression has type null In MiniJava, System.out.println only takes an int. The expression has type boolean Cannot instantiate undeclared class named Point Actual return type int of method returnTypeDoesNotMatch1 does not match declared type boolean Actual return type boolean of method returnTypeDoesNotMatch2 does not match declared type int The class variable x is already declared. Redeclaration and shadowing are not allowed. The class variable y is already declared. Redeclaration and shadowing are not allowed. Cannot instantiate undeclared class named Point
+The class variable x is already declared. Redeclaration and shadowing fields are not allowed.
+The class variable x is already declared. Redeclaration and shadowing are not allowed.
+The class variable y is already declared. Redeclaration and shadowing are not allowed.
+Cannot find class named Point
+Cannot redeclare method tryToRedeclare(void). Method tryToRedeclare(void) is already declared in class EntryPoint2.
+Cannot find class named Point
+Cannot find class named Point
+Variable a is not declared
+System.out.println() requires integer as an argument
+Actual return type boolean of method returnTypeDoesNotMatch2 does not match declared type int.
+Actual return type int of method returnTypeDoesNotMatch1 does not match declared type boolean.
+\n
+running test ./test-data/FullTests/testcase00_78.java
+expecting:
+Condition for if statement is of type int instead of boolean While loop condition must be a boolean. The expressions has type int
+if statement condition requires type boolean but conditional expression is type int.
+While conditional must return type boolean.
+\n
+running test ./test-data/FullTests/testcase00_79.java
+expecting:
+The variable maybe is already declared in the current scope.
+the variable maybe is already declared in the current scope
+\n
+running test ./test-data/FullTests/testcase00_80.java
+expecting:
+Superclass name DoesNotExist not in scope. Class named Point already exists. Class named Point already exists.
+Superclass name DoesNotExist not in scope
+Class named Point already exists.
+Class named Point already exists.
+\n
+running test ./test-data/FullTests/testcase00_81.java
+expecting:
+Variable c is not declared. No variable named a exists in the current scope. The variable i is already declared in the current scope. Cannot assign type int to variable b of type boolean Cannot assign type boolean to variable i of type int Cannot assign type boolean to variable i of type int In MiniJava, System.out.println only takes an int. The expression has type boolean In MiniJava, System.out.println only takes an int. The expression has type boolean
+No variable named a exists in the current scope.
+Variable c is not declared
+the variable i is already declared in the current scope
+Cannot assign type int to variable b of type boolean
+Cannot assign type boolean to variable i of type int
+Cannot assign type boolean to variable i of type int
+System.out.println() requires integer as an argument
+System.out.println() requires integer as an argument
+\n
+running test ./test-data/FullTests/testcase00_82.java
+expecting:
+Cannot assign type boolean to variable x of type int
+Cannot assign type boolean to variable x of type int
+\n
+running test ./test-data/FullTests/testcase00_83.java
+expecting:
+Left argument of type int does not match expected type boolean for operator AND Right argument of type int does not match expected type boolean for operator AND Cannot assign type boolean to variable result of type int
+Operator && does not exist for types int and int
+\n
+running test ./test-data/FullTests/testcase00_84.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_85.java
+expecting:
+Cannot assign type int to variable x of type boolean
+Cannot assign type int to variable x of type boolean
+\n
+running test ./test-data/FullTests/testcase00_86.java
+expecting:
+Variable arg is not declared. Cannot assign type null to variable z of type boolean
+Variable arg is not declared
+\n
+running test ./test-data/FullTests/testcase00_87.java
+expecting:
+Cannot assign type boolean to variable x of type int
+Cannot assign type boolean to variable x of type int
+\n
+running test ./test-data/FullTests/testcase00_88.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_89.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_90.java
+expecting:
+Left argument of type null does not match expected type boolean for operator OR
+Operator || does not exist for types Object and boolean
+\n
+running test ./test-data/FullTests/testcase00_91.java
+expecting:
+Actual return type int of method gety does not match declared type boolean Left argument of type null does not match expected type boolean for operator OR
+Actual return type int of method gety does not match declared type boolean.
+Operator || does not exist for types Object and boolean
+\n
+running test ./test-data/FullTests/testcase00_92.java
+expecting:
+Condition for if statement is of type int instead of boolean
+if statement condition requires type boolean but conditional expression is type int.
+\n
+running test ./test-data/FullTests/testcase00_93.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_94.java
+expecting:
+In MiniJava, System.out.println only takes an int. The expression has type boolean
+System.out.println() requires integer as an argument
+\n
+running test ./test-data/FullTests/testcase00_95.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase00_96.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase01_01.java
+expecting:
+No method named a5 found for class A6 The operand types, null and int, are not compatible for equality comparison
+Class A6 has no method a5(int)
+\n
+running test ./test-data/FullTests/testcase01_02.java
+expecting:
+Actual return type int of method a4 does not match declared type double No method named a5 found for class A6 The operand types, null and int, are not compatible for equality comparison Actual return type boolean of method a4 does not match declared type double
+Actual return type int of method a4 does not match declared type double.
+Actual return type boolean of method a4 does not match declared type double.
+Class A6 has no method a5(int)
+\n
+running test ./test-data/FullTests/testcase01_03.java
+expecting:
+Right argument of type int does not match expected type boolean for operator AND
+Operator && does not exist for types boolean and int
+\n
+running test ./test-data/FullTests/testcase01_04.java
+expecting:
+Actual return type int of method a4 does not match declared type double Left argument of type boolean does not match expected type int for operator PLUS Actual return type int of method a9 does not match declared type boolean
+Actual return type int of method a4 does not match declared type double.
+Operator + does not exist for types boolean and int
+\n
+running test ./test-data/FullTests/testcase02_01.java
+expecting:
+Left argument of type boolean does not match expected type int for operator PLUS
+Operator + does not exist for types boolean and int
+\n
+running test ./test-data/FullTests/testcase02_02.java
+expecting:
+In MiniJava, System.out.println only takes an int. The expression has type boolean
+System.out.println() requires integer as an argument
+\n
+running test ./test-data/FullTests/testcase02_03.java
+expecting:
+Cannot assign type boolean to variable myBoolean of type int No method named nonExistingMethod found for class Foo Cannot assign type null to variable nonExisting of type int
+Cannot assign type boolean to variable myBoolean of type int
+Class Baz has no method nonExistingMethod(void)
+\n
+running test ./test-data/FullTests/testcase02_04.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase03_01.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase03_02.java
+expecting:
+Left argument of type int does not match expected type boolean for operator AND In MiniJava, System.out.println only takes an int. The expression has type boolean
+Operator && does not exist for types int and boolean
+System.out.println() requires integer as an argument
+\n
+running test ./test-data/FullTests/testcase03_03.java
+expecting:
+Actual return type int of method getX3 does not match declared type Test3a
+Actual return type int of method getX3 does not match declared type Test3a.
+\n
+running test ./test-data/FullTests/testcase03_04.java
+expecting:
+Cannot assign type boolean to variable x of type int
+Cannot assign type boolean to variable x of type int
+\n
+running test ./test-data/FullTests/testcase04_01.java
+expecting:
+Actual return type boolean of method baz does not match declared type int
+Actual return type boolean of method baz does not match declared type int.
+\n
+running test ./test-data/FullTests/testcase04_02.java
+expecting:
+Left argument of type boolean does not match expected type int for operator PLUS
+Operator + does not exist for types boolean and int
+\n
+running test ./test-data/FullTests/testcase04_03.java
+expecting:
+Condition for if statement is of type int instead of boolean
+if statement condition requires type boolean but conditional expression is type int.
+\n
+running test ./test-data/FullTests/testcase04_04.java
+expecting:
+Condition for if statement is of type int instead of boolean While loop condition must be a boolean. The expressions has type int Left argument of type int does not match expected type boolean for operator OR Right argument of type int does not match expected type boolean for operator OR Cannot assign type boolean to variable l1 of type int
+if statement condition requires type boolean but conditional expression is type int.
+While conditional must return type boolean.
+\n
+running test ./test-data/FullTests/testcase04_05.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase04_06.java
+expecting:
+Argument type int is incompatible with formal parameter type boolean
+Class Bar has no method meth(int)
+\n
+running test ./test-data/FullTests/testcase04_07.java
+expecting:
+The variable a is already declared in the current scope. The variable b is already declared in the current scope. The variable a is already declared in the current scope. The variable b is already declared in the current scope.
+the variable a is already declared in the current scope
+the variable b is already declared in the current scope
+the variable a is already declared in the current scope
+the variable b is already declared in the current scope
+Operator && does not exist for types int and int
+\n
+running test ./test-data/FullTests/testcase04_08.java
+expecting:
+In MiniJava, System.out.println only takes an int. The expression has type Class2
+System.out.println() requires integer as an argument
+\n
+running test ./test-data/FullTests/testcase91-01.java
+expecting:
+Cannot overload methods. Method method has different type signature than inherited method of the same name.
+Cannot overload methods. Method method has different type signature than inherited method of the same name. Actual return type boolean of method start does not match declared type int
+\n
+running test ./test-data/FullTests/testcase91-02.java
+expecting:
+Actual return type boolean of method method does not match declared type int
+Actual return type boolean of method method does not match declared type int.
+\n
+running test ./test-data/FullTests/testcase91-03.java
+expecting:
+Cannot assign type boolean to variable b of type int Cannot assign type boolean to variable value of type int
+Cannot assign type boolean to variable b of type int
+Cannot assign type boolean to variable value of type int
+\n
+running test ./test-data/FullTests/testcase93-01.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase93-02.java
+expecting:
+Cannot assign type int to variable hasCartoonishMascot of type boolean
+Cannot assign type int to variable hasCartoonishMascot of type boolean
+\n
+running test ./test-data/FullTests/testcase93-03.java
+expecting:
+Variable this is not declared.
+\n
+running test ./test-data/FullTests/testcase93-04.java
+expecting:
+Condition for if statement is of type int instead of boolean
+if statement condition requires type boolean but conditional expression is type int.
+\n
+running test ./test-data/FullTests/testcase94-01.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase94-02.java
+expecting:
+Cannot assign type int to variable a3 of type boolean
+Cannot assign type int to variable a3 of type boolean
+\n
+running test ./test-data/FullTests/testcase94-03.java
+expecting:
+Right argument of type boolean does not match expected type int for operator PLUS
+Operator + does not exist for types int and boolean
+\n
+running test ./test-data/FullTests/testcase95-01.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase95-02.java
+expecting:
+In MiniJava, System.out.println only takes an int. The expression has type boolean
+System.out.println() requires integer as an argument
+\n
+running test ./test-data/FullTests/testcase95-03.java
+expecting:
+Left argument of type int does not match expected type boolean for operator OR Right argument of type int does not match expected type boolean for operator OR
+Operator || does not exist for types int and int
+\n
+running test ./test-data/FullTests/testcase95-04.java
+expecting:
+Cannot assign type AClass to variable b of type AnotherClass
+Cannot assign type AClass to variable b of type AnotherClass
+\n
+running test ./test-data/FullTests/testcase96-02.java
+expecting:
+Actual return type int of method foo does not match declared type Blob
+Actual return type int of method foo does not match declared type Blob.
+\n
+running test ./test-data/FullTests/testcase96-03.java
+expecting:
+Left argument of type boolean does not match expected type int for operator PLUS Actual return type int of method isTasty does not match declared type boolean
+Operator + does not exist for types boolean and int
+\n
+running test ./test-data/FullTests/testcase96-04.java
+expecting:
+Success!
+\n
+running test ./test-data/FullTests/testcase97-01.java
+expecting:
+Right argument of type LightBulb does not match expected type int for operator PLUS
+Operator + does not exist for types int and Object
+\n
+running test ./test-data/FullTests/testcase97-02.java
+expecting:
+Argument type boolean is incompatible with formal parameter type int No method named developLists found for class Dude Cannot assign type null to variable numNaughty of type int Actual return type int of method eliminateNaughty does not match declared type boolean Cannot assign type Xmas to variable roboticSanta of type Santa Actual return type Santa of method developLists does not match declared type int
+Actual return type int of method eliminateNaughty does not match declared type boolean.
+Cannot assign type Xmas to variable roboticSanta of type Santa
+Actual return type Santa of method developLists does not match declared type int.
+Class Xmas has no method eliminateNaughty(boolean)
+Class Xmas has no method developLists(void)
+\n
+running test ./test-data/FullTests/testcase97-03.java
+expecting:
+Right argument of type boolean does not match expected type int for operator PLUS
+Operator + does not exist for types int and boolean
+\n
+running test ./test-data/FullTests/testcase97-04.java
+expecting:
+Success!
+\n
