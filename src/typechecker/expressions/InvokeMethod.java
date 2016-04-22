@@ -15,53 +15,65 @@ import typechecker.exceptions.NoSuchMethodException;
 
 public class InvokeMethod extends Expression {
 
-	private final String methodId;
-	private final Expression getObject;
-	private final List<Expression> args;
-	private Function method;
+    private final String methodId;
+    private final Expression getObject;
+    private final List<Expression> args;
+    private Function method;
 
-	public InvokeMethod(String id, Expression object, List<Expression> args, ExecutionScope scope) {
-		super(scope);
-		this.methodId = id;
-		this.getObject = object;
-		this.args = args;
-	}
+    public InvokeMethod(String id, Expression object, List<Expression> args,
+            ExecutionScope scope) {
+        super(scope);
+        this.methodId = id;
+        this.getObject = object;
+        this.args = args;
+    }
 
-	public static InvokeMethod fromExpressionContext(ExpressionContext con, ExecutionScope scope){
-		InvokeMethodContext imc = (InvokeMethodContext) con;
-		Expression exp = Expression.fromExpressionContext(imc.expression(), scope);
-		String methodId = imc.ID().getText();
-		List<Expression> args = new ArrayList<>();
-		ParamsContext params = imc.params();
-		while(params != null && params.expression() != null){
-			args.add(Expression.fromExpressionContext(params.expression(), scope));
-			params = params.params();
-		}
-		return new InvokeMethod(methodId, exp, args, scope);
-	}
+    public static InvokeMethod fromExpressionContext(ExpressionContext con,
+            ExecutionScope scope) {
+        InvokeMethodContext imc = (InvokeMethodContext) con;
+        Expression exp = Expression.fromExpressionContext(imc.expression(),
+                scope);
+        String methodId = imc.ID().getText();
+        List<Expression> args = new ArrayList<>();
+        ParamsContext params = imc.params();
+        while (params != null && params.expression() != null) {
+            args.add(Expression.fromExpressionContext(params.expression(),
+                    scope));
+            params = params.params();
+        }
+        return new InvokeMethod(methodId, exp, args, scope);
+    }
 
-	@Override
-	public Type returnType() {
-		return method.returnType();
-	}
+    @Override
+    public Type returnType() {
+        return method.returnType();
+    }
 
-	@Override
-	public boolean checkTypes() {
-		if(!getObject.checkTypes()){
-			return false;
-		}
-		Class c;
-		Type t = getObject.returnType();
-		if(t instanceof Class){
-			c = (Class) t;
-		} else {
-			throw new NoSuchMethodException("Not an object");
-		}
-		List<Type> argList = new ArrayList<Type>();
-		for(Expression exp : args){
-			exp.checkTypes();
-			argList.add(exp.returnType());
-		}
-		return c.resolveMethod(new FunctionSignature(methodId, argList)).map(m -> this.method = m).isPresent();
-	}
+    @Override
+    public boolean checkTypes() {
+        if (!getObject.checkTypes()) {
+            return false;
+        }
+        boolean isGood = true;
+        Class c;
+        Type t = getObject.returnType();
+        if (t instanceof Class) {
+            c = (Class) t;
+        } else {
+            throw new NoSuchMethodException("Not an object");
+        }
+        List<Type> argList = new ArrayList<Type>();
+        for (Expression exp : args) {
+            if (exp.checkTypes()) {
+                argList.add(exp.returnType());
+            } else{
+                isGood = false;
+            }
+        }
+        if (!isGood){
+            return false;
+        }
+        return c.resolveMethod(new FunctionSignature(methodId, argList))
+                .map(m -> this.method = m).isPresent();
+    }
 }
