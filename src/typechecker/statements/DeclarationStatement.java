@@ -6,7 +6,7 @@ import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.scope.Variable;
 
-public class DeclarationStatement extends Statement {
+public final class DeclarationStatement extends Statement {
 
 	private final ExecutionScope scope;
 	private final Variable variable;
@@ -35,7 +35,12 @@ public class DeclarationStatement extends Statement {
 		if(!scope.addVariable(variable)){
 			return false;
 		}
-		if(!variable.resolveType(true)){
+		if(!variable.resolveType()){
+			if(exp.checkTypes()){
+				if(!variable.typeId().equals(exp.returnType().id())){
+					System.err.println("Cannot assign type "+exp.returnType().id()+" to variable "+variable.id()+" of type "+variable.typeId());
+				}
+			}
 			return false;
 		}
 		if(exp != null){

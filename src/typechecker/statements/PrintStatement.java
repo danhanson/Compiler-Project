@@ -6,7 +6,7 @@ import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Primitive;
 
-public class PrintStatement extends Statement {
+public final class PrintStatement extends Statement {
 
 	private final Expression exp;
 	

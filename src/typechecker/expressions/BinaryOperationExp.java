@@ -6,7 +6,7 @@ import typechecker.operations.BinaryOperation;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 
-public class BinaryOperationExp extends Expression {
+public final class BinaryOperationExp extends Expression {
 
 	public static BinaryOperationExp fromExpressionContext(ExpressionContext con, ExecutionScope scope){
 		BinaryOperationContext boc = (BinaryOperationContext) con;

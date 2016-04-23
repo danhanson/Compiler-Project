@@ -5,7 +5,7 @@ import parser.MiniJavaParser.StatementContext;
 import typechecker.scope.Block;
 import typechecker.scope.ExecutionScope;
 
-public class BlockStatement extends Statement {
+public final class BlockStatement extends Statement {
 	
 	private final Block block;
 	

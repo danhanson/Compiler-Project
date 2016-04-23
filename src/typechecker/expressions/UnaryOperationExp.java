@@ -6,7 +6,7 @@ import typechecker.operations.UnaryOperation;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 
-public class UnaryOperationExp extends Expression {
+public final class UnaryOperationExp extends Expression {
 
 	private final String symbol;
 	private final Expression exp;

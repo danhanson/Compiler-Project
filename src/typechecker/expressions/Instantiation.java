@@ -8,7 +8,7 @@ import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 import typechecker.types.Class;
 
-public class Instantiation extends Expression {
+public final class Instantiation extends Expression {
 
 	private final String classId;
 	private Class type;

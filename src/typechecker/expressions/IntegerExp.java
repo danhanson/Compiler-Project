@@ -5,7 +5,7 @@ import typechecker.scope.ExecutionScope;
 import typechecker.types.Primitive;
 import typechecker.types.Type;
 
-public class IntegerExp extends Expression {
+public final class IntegerExp extends Expression {
 	
 	IntegerExp(ExecutionScope scope) {
 		super(scope);

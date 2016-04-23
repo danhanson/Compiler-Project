@@ -5,7 +5,7 @@ import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 import typechecker.types.Primitive;
 
-public class BooleanExp extends Expression {
+public final class BooleanExp extends Expression {
 
 	BooleanExp(ExecutionScope scope) {
 		super(scope);

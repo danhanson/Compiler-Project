@@ -6,7 +6,7 @@ import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Primitive;
 
-public class WhileStatement extends Statement {
+public final class WhileStatement extends Statement {
 
 	private final Expression conditional;
 	private final Statement body;
@@ -34,9 +34,9 @@ public class WhileStatement extends Statement {
 		} else {
 			isGood = false;
 		}
-		if(isGood){
-			return body.checkTypes();
+		if(!body.checkTypes()){
+			isGood = false;
 		}
-		return false;
+		return isGood;
 	}
 }

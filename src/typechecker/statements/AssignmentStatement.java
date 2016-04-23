@@ -8,7 +8,7 @@ import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.scope.Variable;
 
-public class AssignmentStatement extends Statement {
+public final class AssignmentStatement extends Statement {
 
 	private Variable assignee;
 	private final String assigneeId;

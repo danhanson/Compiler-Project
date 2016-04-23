@@ -5,7 +5,7 @@ import typechecker.scope.ExecutionScope;
 import typechecker.types.Null;
 import typechecker.types.Type;
 
-public class NullExp extends Expression {
+public final class NullExp extends Expression {
 
 	public NullExp(ExecutionScope scope) {
 		super(scope);

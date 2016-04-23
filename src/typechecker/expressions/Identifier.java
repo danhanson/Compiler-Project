@@ -6,7 +6,7 @@ import typechecker.scope.ExecutionScope;
 import typechecker.scope.Variable;
 import typechecker.types.Type;
 
-public class Identifier extends Expression {
+public final class Identifier extends Expression {
 
 	private final String varId;
 	private Variable var;

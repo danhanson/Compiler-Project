@@ -3,7 +3,7 @@ package typechecker.statements;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.scope.ExecutionScope;
 
-public class EmptyStatement extends Statement {
+public final class EmptyStatement extends Statement {
 	
 	public static EmptyStatement fromStatementContext(StatementContext con, ExecutionScope scope){
 		return new EmptyStatement();

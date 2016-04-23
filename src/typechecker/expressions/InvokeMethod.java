@@ -12,7 +12,7 @@ import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 import typechecker.types.Class;
 
-public class InvokeMethod extends Expression {
+public final class InvokeMethod extends Expression {
 
     private final String methodId;
     private final Expression getObject;

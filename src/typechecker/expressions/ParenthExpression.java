@@ -5,7 +5,7 @@ import parser.MiniJavaParser.ParenthExpressionContext;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 
-public class ParenthExpression extends Expression {
+public final class ParenthExpression extends Expression {
 
 	private final Expression exp;
 	

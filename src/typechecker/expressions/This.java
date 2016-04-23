@@ -4,7 +4,7 @@ import parser.MiniJavaParser.ExpressionContext;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 
-public class This extends Expression {
+public final class This extends Expression {
 
 	This(ExecutionScope scope) {
 		super(scope);

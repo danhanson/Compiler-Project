@@ -8,7 +8,7 @@ import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Primitive;
 
-public class IfStatement extends Statement {
+public final class IfStatement extends Statement {
 
 	private final Expression conditional;
 	private final Statement ifBody;
@@ -40,7 +40,7 @@ public class IfStatement extends Statement {
 		boolean isGood = true;
 		if(conditional.checkTypes()){
 			if(conditional.returnType() != Primitive.Boolean){
-				System.err.println("if statement condition requires type boolean but conditional expression is type "+conditional.returnType().id()+".");
+				System.err.println("If statement condition requires type boolean but conditional expression is type "+conditional.returnType().id()+".");
 				isGood = false;
 			}
 		}

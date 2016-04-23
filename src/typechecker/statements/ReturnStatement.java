@@ -6,7 +6,7 @@ import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Void;
 
-public class ReturnStatement extends Statement {
+public final class ReturnStatement extends Statement {
 
     private final Expression exp;
     private final ExecutionScope scope;
