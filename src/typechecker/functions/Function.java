@@ -13,6 +13,7 @@ import typechecker.scope.Variable;
 import typechecker.statements.Statement;
 import typechecker.types.Class;
 import typechecker.types.Type;
+import typechecker.types.UndeclaredClass;
 
 public class Function extends ExecutionScope{
 
@@ -36,9 +37,12 @@ public class Function extends ExecutionScope{
 		this.returnTypeId = returnTypeId;
 		boolean isGood = true;
 		for(Variable arg : args){
-			if(!this.addVariable(arg)){
+			if(resolveLocalVariable(arg.id()).isPresent()){
 				System.err.println("Formal parameter named "+arg.id()+" duplicates the name of another formal parameter.");
 				isGood = false;
+			} else {
+				addVariable(arg);
+				arg.setDeclared(true);
 			}
 		}
 		if(!isGood){
@@ -48,14 +52,15 @@ public class Function extends ExecutionScope{
 	}
 
 	public boolean resolveSignature() {
+		boolean ret = true;
 		if(!parent().resolveType(returnTypeId).map(t -> this.returnType = t).isPresent()){
+			returnType = new UndeclaredClass(returnTypeId);
 			System.err.println("Cannot find class named " + this.returnTypeId);
-			return false;
+			ret = false;
 		}
 		List<Type> types = new ArrayList<>(args.size());
-		boolean ret = true;
 		for(Variable v : args){
-			if(!v.resolveType(true)){
+			if(!v.resolveType()){
 				ret = false;
 			}
 			types.add(v.type());
@@ -65,6 +70,14 @@ public class Function extends ExecutionScope{
 		}
 		functionSignature = new FunctionSignature(id, types);
 		return true;
+	}
+
+	public void setReturnType(Type returnType) {
+		this.returnType = returnType;
+	}
+
+	public final boolean signatureResolved(){
+		return functionSignature != null;
 	}
 
 	public FunctionSignature functionSignature() {
@@ -77,7 +90,7 @@ public class Function extends ExecutionScope{
 		List<Variable> argList = new ArrayList<>();
 		ArgumentsContext args = method.arguments();
 		while(args != null && args.declaration() != null){
-			argList.add(Variable.fromDeclarationContext(args.declaration(), c));
+			argList.add(Variable.fromDeclarationContext(args.declaration(), c, true));
 			args = args.arguments();
 		}
 		Function f = new Function(id, retType, argList, c);

@@ -13,8 +13,8 @@ import typechecker.scope.Variable;
 public final class Subclass extends Class {
 
 	private final Map<String, Variable> fields = new HashMap<>();
-	private final List<Function> unresolvedMethods = new ArrayList<>();
-	private final Map<FunctionSignature, Function> methods = new HashMap<>();
+	private final List<Function> methods = new ArrayList<>();
+	private final Map<FunctionSignature, Function> resolvedMethods = new HashMap<>();
 	private boolean classIsGood = true;
 
 	Subclass(Class parent, String id){
@@ -22,7 +22,7 @@ public final class Subclass extends Class {
 	}
 
 	private boolean addResolvedMethod(Function method){
-		if(methods.containsKey(method.functionSignature())){
+		if(resolvedMethods.containsKey(method.functionSignature())){
 			System.err.println("Cannot redeclare method "+method.functionSignature()+
 					". Method "+method.functionSignature()+" is already declared in class "+id()+".");
 			return false;
@@ -35,10 +35,10 @@ public final class Subclass extends Class {
 				);
 				return false;
 			}
-			methods.put(method.functionSignature(), method);
+			resolvedMethods.put(method.functionSignature(), method);
 			return true;
 		}).orElseGet(() -> {
-			methods.put(method.functionSignature(), method);
+			resolvedMethods.put(method.functionSignature(), method);
 			return true;
 		});
 	}
@@ -48,13 +48,13 @@ public final class Subclass extends Class {
 		
 		// resolve the field types
 		for(Variable v : fields.values()){
-			if(!v.resolveType(true)){
+			if(!v.resolveType()){
 				ret = false;
 			}
 		}
 
 		// resolve method signatures
-		for(Function f : unresolvedMethods){
+		for(Function f : methods){
 			if(f.resolveSignature()){
 				if(!addResolvedMethod(f)){
 					ret = false;
@@ -71,7 +71,7 @@ public final class Subclass extends Class {
 		boolean ret = true;
 
 		// resolve method bodies
-		for(Function f : methods.values()){
+		for(Function f : methods){
 			if(!f.checkTypes()){
 				ret = false;
 			}
@@ -99,7 +99,7 @@ public final class Subclass extends Class {
 
 	@Override
 	public Optional<Function> resolveMethod(FunctionSignature id) {
-		Function local = methods.get(id);
+		Function local = resolvedMethods.get(id);
 		if(local == null){
 			return superClass().resolveMethod(id);
 		}
@@ -111,6 +111,7 @@ public final class Subclass extends Class {
 	}
 	
 	public boolean addField(Variable v){
+		v.setDeclared(true);
 		if(superClass().resolveField(v.id()).isPresent()){
 			System.err.println("The class variable "+v.id()+" is already declared. Redeclaration and shadowing are not allowed.");
 			return false;
@@ -123,7 +124,7 @@ public final class Subclass extends Class {
 	}
 
 	public void addMethod(Function f){
-		unresolvedMethods.add(f);
+		methods.add(f);
 	}
 
 	@Override

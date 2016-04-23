@@ -58,14 +58,6 @@ public abstract class ExecutionScope extends ClassScope {
 
 	public boolean checkTypes(){
 		boolean ret = true;
-		for(Variable v : variables.values()){
-			if(!v.resolveType(true)){
-				ret = false;
-			}
-		}
-		if(!ret){
-			return false;
-		}
 		for(Statement s : statements){
 			if(!s.checkTypes()){
 				ret = false;

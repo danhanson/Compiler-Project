@@ -17,7 +17,7 @@ running test ./test-data/FullTests/testcase00_04.java
 expecting:
 Cannot overload methods. Method start has different type signature than inherited method of the same name. Actual return type boolean of method start does not match declared type int
 Cannot overload methods. Method start has different type signature than inherited method of the same name. Actual return type boolean of method start does not match declared type int
-Actual return type boolean of method start does not match declared type int.
+Actual return type boolean of method int start() does not match declared type int.
 \n
 running test ./test-data/FullTests/testcase00_05.java
 expecting:
@@ -55,6 +55,7 @@ running test ./test-data/FullTests/testcase00_12.java
 expecting:
 Cannot find class named bool Cannot overload methods. Method bad has different type signature than inherited method of the same name. Actual return type boolean of method bad does not match declared type bool
 Cannot find class named bool
+Actual return type boolean of method bool bad() does not match declared type bool.
 \n
 running test ./test-data/FullTests/testcase00_13.java
 expecting:
@@ -96,6 +97,7 @@ Superclass name Foo1 not in scope
 \n
 running test ./test-data/FullTests/testcase00_22.java
 expecting:
+Formal parameter named Foo duplicates the name of another formal parameter.
 Formal parameter named Foo duplicates the name of another formal parameter.
 \n
 running test ./test-data/FullTests/testcase00_23.java
@@ -142,7 +144,9 @@ Superclass name Bar not in scope. Cannot redeclare method self Cannot find class
 Superclass name Bar not in scope
 Cannot redeclare method self(int). Method self(int) is already declared in class Baz.
 Cannot find class named Nonexistant
-Actual return type Baz of method self does not match declared type Bar.
+Actual return type Baz of method Bar self(int a) does not match declared type Bar.
+Actual return type Baz of method Bar self(int a) does not match declared type Bar.
+Actual return type Bar of method Nonexistant self2() does not match declared type Nonexistant.
 \n
 running test ./test-data/FullTests/testcase00_32.java
 expecting:
@@ -156,6 +160,7 @@ running test ./test-data/FullTests/testcase00_34.java
 expecting:
 Cannot find class named C Variable this is not declared. Cannot instantiate undeclared class named C
 Cannot find class named C
+No class C found in scope.
 \n
 running test ./test-data/FullTests/testcase00_35.java
 expecting:
@@ -170,6 +175,7 @@ running test ./test-data/FullTests/testcase00_37.java
 expecting:
 Cannot instantiate undeclared class named C
 Cannot find class named C
+No class C found in scope.
 \n
 running test ./test-data/FullTests/testcase00_38.java
 expecting:
@@ -178,7 +184,7 @@ Success!
 running test ./test-data/FullTests/testcase00_39.java
 expecting:
 Actual return type boolean of method start does not match declared type int
-Actual return type boolean of method start does not match declared type int.
+Actual return type boolean of method int start() does not match declared type int.
 \n
 running test ./test-data/FullTests/testcase00_40.java
 expecting:
@@ -198,9 +204,9 @@ Cannot assign type Bar to variable gamma of type int
 running test ./test-data/FullTests/testcase00_42.java
 expecting:
 Actual return type boolean of method inc does not match declared type int Right argument of type boolean does not match expected type int for operator MINUS Cannot assign type boolean to variable myInt of type int
-Actual return type boolean of method inc does not match declared type int.
-Cannot assign type boolean to variable myInt of type int
+Actual return type boolean of method int inc(int x) does not match declared type int.
 Operator - does not exist for types int and boolean
+Cannot assign type boolean to variable myInt of type int
 \n
 running test ./test-data/FullTests/testcase00_43.java
 expecting:
@@ -210,7 +216,7 @@ Variable bar is not declared
 running test ./test-data/FullTests/testcase00_44.java
 expecting:
 Variable bar is not declared. No method named fib found for class null In MiniJava, System.out.println only takes an int. The expression has type null Actual return type boolean of method fib does not match declared type int
-Actual return type boolean of method fib does not match declared type int.
+Actual return type boolean of method int fib(int a) does not match declared type int.
 Variable bar is not declared
 \n
 running test ./test-data/FullTests/testcase00_45.java
@@ -252,6 +258,7 @@ running test ./test-data/FullTests/testcase00_52.java
 expecting:
 Cannot assign type int to variable a of type bool
 Cannot find class named bool
+Cannot assign type int to variable a of type bool
 \n
 running test ./test-data/FullTests/testcase00_53.java
 expecting:
@@ -315,6 +322,8 @@ running test ./test-data/FullTests/testcase00_64.java
 expecting:
 Right argument of type boolean does not match expected type int for operator LT Variable y is not declared. Left argument of type null does not match expected type int for operator PLUS No variable named y exists in the current scope. Variable y is not declared. Cannot assign type null to variable x of type int In MiniJava, System.out.println only takes an int. The expression has type boolean
 Operator < does not exist for types int and boolean
+No variable named y exists in the current scope.
+Variable y is not declared
 Variable y is not declared
 System.out.println() requires integer as an argument
 \n
@@ -385,15 +394,18 @@ Cannot find class named Point
 Cannot redeclare method tryToRedeclare(void). Method tryToRedeclare(void) is already declared in class EntryPoint2.
 Cannot find class named Point
 Cannot find class named Point
+No class Point found in scope.
 Variable a is not declared
 System.out.println() requires integer as an argument
-Actual return type boolean of method returnTypeDoesNotMatch2 does not match declared type int.
-Actual return type int of method returnTypeDoesNotMatch1 does not match declared type boolean.
+No class Point found in scope.
+Actual return type int of method boolean returnTypeDoesNotMatch1() does not match declared type boolean.
+Actual return type boolean of method int returnTypeDoesNotMatch2() does not match declared type int.
+No class Point found in scope.
 \n
 running test ./test-data/FullTests/testcase00_78.java
 expecting:
 Condition for if statement is of type int instead of boolean While loop condition must be a boolean. The expressions has type int
-if statement condition requires type boolean but conditional expression is type int.
+If statement condition requires type boolean but conditional expression is type int.
 While conditional must return type boolean.
 \n
 running test ./test-data/FullTests/testcase00_79.java
@@ -465,13 +477,13 @@ Operator || does not exist for types Object and boolean
 running test ./test-data/FullTests/testcase00_91.java
 expecting:
 Actual return type int of method gety does not match declared type boolean Left argument of type null does not match expected type boolean for operator OR
-Actual return type int of method gety does not match declared type boolean.
+Actual return type int of method boolean gety() does not match declared type boolean.
 Operator || does not exist for types Object and boolean
 \n
 running test ./test-data/FullTests/testcase00_92.java
 expecting:
 Condition for if statement is of type int instead of boolean
-if statement condition requires type boolean but conditional expression is type int.
+If statement condition requires type boolean but conditional expression is type int.
 \n
 running test ./test-data/FullTests/testcase00_93.java
 expecting:
@@ -498,9 +510,9 @@ Class A6 has no method a5(int)
 running test ./test-data/FullTests/testcase01_02.java
 expecting:
 Actual return type int of method a4 does not match declared type double No method named a5 found for class A6 The operand types, null and int, are not compatible for equality comparison Actual return type boolean of method a4 does not match declared type double
-Actual return type int of method a4 does not match declared type double.
-Actual return type boolean of method a4 does not match declared type double.
+Actual return type int of method double a4(int a5) does not match declared type double.
 Class A6 has no method a5(int)
+Actual return type boolean of method double a4(int a5) does not match declared type double.
 \n
 running test ./test-data/FullTests/testcase01_03.java
 expecting:
@@ -510,7 +522,7 @@ Operator && does not exist for types boolean and int
 running test ./test-data/FullTests/testcase01_04.java
 expecting:
 Actual return type int of method a4 does not match declared type double Left argument of type boolean does not match expected type int for operator PLUS Actual return type int of method a9 does not match declared type boolean
-Actual return type int of method a4 does not match declared type double.
+Actual return type int of method double a4(int a5) does not match declared type double.
 Operator + does not exist for types boolean and int
 \n
 running test ./test-data/FullTests/testcase02_01.java
@@ -546,7 +558,7 @@ System.out.println() requires integer as an argument
 running test ./test-data/FullTests/testcase03_03.java
 expecting:
 Actual return type int of method getX3 does not match declared type Test3a
-Actual return type int of method getX3 does not match declared type Test3a.
+Actual return type int of method Test3a getX3() does not match declared type Test3a.
 \n
 running test ./test-data/FullTests/testcase03_04.java
 expecting:
@@ -556,7 +568,7 @@ Cannot assign type boolean to variable x of type int
 running test ./test-data/FullTests/testcase04_01.java
 expecting:
 Actual return type boolean of method baz does not match declared type int
-Actual return type boolean of method baz does not match declared type int.
+Actual return type boolean of method int baz(int Foo) does not match declared type int.
 \n
 running test ./test-data/FullTests/testcase04_02.java
 expecting:
@@ -566,13 +578,14 @@ Operator + does not exist for types boolean and int
 running test ./test-data/FullTests/testcase04_03.java
 expecting:
 Condition for if statement is of type int instead of boolean
-if statement condition requires type boolean but conditional expression is type int.
+If statement condition requires type boolean but conditional expression is type int.
 \n
 running test ./test-data/FullTests/testcase04_04.java
 expecting:
 Condition for if statement is of type int instead of boolean While loop condition must be a boolean. The expressions has type int Left argument of type int does not match expected type boolean for operator OR Right argument of type int does not match expected type boolean for operator OR Cannot assign type boolean to variable l1 of type int
-if statement condition requires type boolean but conditional expression is type int.
+If statement condition requires type boolean but conditional expression is type int.
 While conditional must return type boolean.
+Operator || does not exist for types int and int
 \n
 running test ./test-data/FullTests/testcase04_05.java
 expecting:
@@ -605,7 +618,7 @@ Cannot overload methods. Method method has different type signature than inherit
 running test ./test-data/FullTests/testcase91-02.java
 expecting:
 Actual return type boolean of method method does not match declared type int
-Actual return type boolean of method method does not match declared type int.
+Actual return type boolean of method int method(int test) does not match declared type int.
 \n
 running test ./test-data/FullTests/testcase91-03.java
 expecting:
@@ -629,7 +642,7 @@ Variable this is not declared.
 running test ./test-data/FullTests/testcase93-04.java
 expecting:
 Condition for if statement is of type int instead of boolean
-if statement condition requires type boolean but conditional expression is type int.
+If statement condition requires type boolean but conditional expression is type int.
 \n
 running test ./test-data/FullTests/testcase94-01.java
 expecting:
@@ -667,7 +680,7 @@ Cannot assign type AClass to variable b of type AnotherClass
 running test ./test-data/FullTests/testcase96-02.java
 expecting:
 Actual return type int of method foo does not match declared type Blob
-Actual return type int of method foo does not match declared type Blob.
+Actual return type int of method Blob foo(int Blob) does not match declared type Blob.
 \n
 running test ./test-data/FullTests/testcase96-03.java
 expecting:
@@ -686,9 +699,9 @@ Operator + does not exist for types int and Object
 running test ./test-data/FullTests/testcase97-02.java
 expecting:
 Argument type boolean is incompatible with formal parameter type int No method named developLists found for class Dude Cannot assign type null to variable numNaughty of type int Actual return type int of method eliminateNaughty does not match declared type boolean Cannot assign type Xmas to variable roboticSanta of type Santa Actual return type Santa of method developLists does not match declared type int
-Actual return type int of method eliminateNaughty does not match declared type boolean.
+Actual return type int of method boolean eliminateNaughty(int rpgs) does not match declared type boolean.
 Cannot assign type Xmas to variable roboticSanta of type Santa
-Actual return type Santa of method developLists does not match declared type int.
+Actual return type Santa of method int developLists() does not match declared type int.
 Class Xmas has no method eliminateNaughty(boolean)
 Class Xmas has no method developLists(void)
 \n

@@ -20,7 +20,7 @@ public final class DeclarationStatement extends Statement {
 	
 	public static DeclarationStatement fromStatementContext(StatementContext con, ExecutionScope scope){
 		DeclarationStatementContext ds = (DeclarationStatementContext) con;
-		Variable v = Variable.fromDeclarationContext(ds.declaration(), scope);
+		Variable v = Variable.fromDeclarationContext(ds.declaration(), scope, true);
 		Expression exp;
 		if(ds.expression() != null){
 			exp = Expression.fromExpressionContext(ds.expression(), scope);

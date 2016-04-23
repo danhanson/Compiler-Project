@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import parser.MiniJavaParser.DeclarationContext;
 import typechecker.types.Type;
+import typechecker.types.UndeclaredClass;
 
 public class Variable {
 
@@ -11,23 +12,23 @@ public class Variable {
 	private final Scope scope;
 	private final String typeId;
 	private Type type = null;
-	private boolean declared = false;
+	private boolean declared;
 	
-	public static final Variable fromDeclarationContext(DeclarationContext field, Scope c){
+	public static final Variable fromDeclarationContext(DeclarationContext field, Scope c, boolean declared){
 		String typeName = field.type().getText();
 		String id = field.ID().getText();
-		return new Variable(typeName, id, c);
+		return new Variable(typeName, id, c, declared);
 	}
 
 	/**
 	 * Variables should be resolved once all classes are added to the scope
 	 */
-	public boolean resolveType(boolean declared) {
+	public boolean resolveType() {
 		return scope.resolveType(typeId).map(type -> {
 			this.type = type;
-			this.declared = declared;
 			return true;
 		}).orElseGet(() -> {
+			this.type = new UndeclaredClass(typeId);
 			System.err.println("Cannot find class named "+typeId);
 			return false;
 		});
@@ -41,10 +42,11 @@ public class Variable {
 		this.declared = declared;
 	}
 
-	public Variable(String typeName, String id, Scope scope){
+	public Variable(String typeName, String id, Scope scope, boolean declared){
 		this.id = id;
 		this.scope = scope;
 		this.typeId = typeName;
+		this.declared = true;
 	}
 	
 	public String id(){
@@ -64,7 +66,7 @@ public class Variable {
 	}
 
 	public void setDeclared(boolean d){
-		this.declared = true;
+		this.declared = d;
 	}
 	
 	public boolean declared(){
@@ -88,9 +90,5 @@ public class Variable {
 	@Override
 	public String toString() {
 		return typeId+" "+id;
-	}
-
-	public boolean resolveType() {
-		return resolveType(true);
 	}
 }

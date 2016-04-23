@@ -27,7 +27,7 @@ public final class ReturnStatement extends Statement {
 		} else {
 			if(exp.checkTypes()){
 				if(!exp.scope().returnType().isSubType(exp.returnType())) {
-					System.err.println("Actual return type "+exp.returnType().id()+" of method "+scope.callee().functionSignature().id()+
+					System.err.println("Actual return type "+exp.returnType().id()+" of method "+scope.callee().toString()+
 							" does not match declared type "+scope.returnType().id()+".");
 					return false;
 				}

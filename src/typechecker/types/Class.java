@@ -60,7 +60,7 @@ public abstract class Class extends ClassScope implements Type {
 					GlobalScope.instance().setMainMethod(main);
 				}
 			} else if(mem.field() != null){
-				if(!newClass.addField(Variable.fromDeclarationContext(mem.field().declaration(), newClass))){
+				if(!newClass.addField(Variable.fromDeclarationContext(mem.field().declaration(), newClass, true))){
 					newClass.updateStatus(false);
 				}
 			} else {
