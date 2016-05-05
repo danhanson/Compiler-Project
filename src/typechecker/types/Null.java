@@ -5,12 +5,12 @@ import java.util.Optional;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.scope.GlobalScope;
+import typechecker.scope.Scope;
 import typechecker.scope.Variable;
 
-public final class Null extends Class {
+public final class Null implements Class {
 
 	private Null() {
-		super("Null", GlobalScope.instance());
 	}
 	
 	@Override
@@ -20,7 +20,7 @@ public final class Null extends Class {
 
 	@Override
 	public boolean isSubType(Type other) {
-		return false;
+		return other == this;
 	}
 
 	private static final Null instance = new Null();
@@ -37,5 +37,15 @@ public final class Null extends Class {
 	@Override
 	public Optional<Function> resolveMethod(FunctionSignature id) {
 		return Optional.empty();
+	}
+
+	@Override
+	public Scope parent() {
+		return GlobalScope.instance();
+	}
+
+	@Override
+	public Optional<Type> resolveType(String id) {
+		throw new UnsupportedOperationException("Cannot resolve type for null");
 	}
 }

@@ -9,14 +9,11 @@ import parser.MiniJavaParser.NormalMethodContext;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.functions.MainMethod;
-import typechecker.scope.ClassScope;
 import typechecker.scope.GlobalScope;
 import typechecker.scope.Scope;
 import typechecker.scope.Variable;
 
-public abstract class Class extends ClassScope implements Type {
-	
-	private final String id;
+public interface Class extends Scope, Type {
 	
 	public static Class fromClassDecl(ClassDeclContext con, Scope scope) {
 		String id = con.ID().getText();
@@ -70,24 +67,14 @@ public abstract class Class extends ClassScope implements Type {
 		return newClass;
 	}
 
-	public Class(String id, Scope parent) {
-		super(parent);
-		this.id = id;
-	}
+	String id();
 
-	public String id(){
-		return this.id;
-	}
+	abstract Optional<Variable> resolveField(String id);
 
-	public abstract Optional<Variable> resolveField(String id);
+	abstract Optional<Function> resolveMethod(FunctionSignature id);
 
-	public abstract Optional<Function> resolveMethod(FunctionSignature id);
-
-	public final Class thisClass() {
-		return this;
-	}
-
-	public boolean status(){
-		return true;
+	@Override
+	default String descriptor() {
+		return "L"+id()+";";
 	}
 }

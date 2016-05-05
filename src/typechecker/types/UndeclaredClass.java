@@ -4,12 +4,15 @@ import java.util.Optional;
 
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
+import typechecker.scope.Scope;
 import typechecker.scope.Variable;
 
-public final class UndeclaredClass extends Class {
+public final class UndeclaredClass implements Class {
+
+	private final String id;
 
 	public UndeclaredClass(String id) {
-		super(id, ObjectClass.instance());
+		this.id = id;
 	}
 
 	@Override
@@ -27,4 +30,18 @@ public final class UndeclaredClass extends Class {
 		return ObjectClass.instance().resolveMethod(id);
 	}
 
+	@Override
+	public Scope parent() {
+		return ObjectClass.instance();
+	}
+
+	@Override
+	public String id() {
+		return id;
+	}
+
+	@Override
+	public Optional<Type> resolveType(String id) {
+		return ObjectClass.instance().resolveType(id);
+	}
 }

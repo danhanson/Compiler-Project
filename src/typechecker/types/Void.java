@@ -29,4 +29,9 @@ public final class Void implements Type {
 	public static Void instance(){
 		return INSTANCE;
 	}
+
+	@Override
+	public String descriptor() {
+		return "V";
+	}
 }

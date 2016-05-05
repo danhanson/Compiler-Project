@@ -8,7 +8,7 @@ import typechecker.scope.Scope;
 
 public enum Primitive implements Type {
 
-	Boolean("boolean"), Integer("int");
+	Boolean("boolean","Z"), Integer("int","I");
 
 	private static Map<String, Primitive> byId = new HashMap<String, Primitive>();
 
@@ -23,9 +23,11 @@ public enum Primitive implements Type {
 	}
 
 	private final String id;
+	private final String descriptor;
 
-	Primitive(String id){
+	Primitive(String id, String descriptor){
 		this.id = id;
+		this.descriptor = descriptor;
 	}
 
 	@Override
@@ -36,6 +38,11 @@ public enum Primitive implements Type {
 	@Override
 	public final Scope parent() {
 		return GlobalScope.instance();
+	}
+
+	@Override
+	public String descriptor() {
+		return descriptor;
 	}
 
 	@Override
