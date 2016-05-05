@@ -27,9 +27,9 @@ public final class BlockStatement extends Statement {
 
 	@Override
 	public Code generateCode(Code insts) {
-		Code block = new Code(insts);
-		block.generateCode(block);
-		insts.addBlock(block);
+		Code blockCode = new Code(insts);
+		block.generateCode(blockCode);
+		insts.addBlock(blockCode);
 		return insts;
 	}
 
