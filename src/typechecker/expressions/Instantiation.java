@@ -2,6 +2,7 @@ package typechecker.expressions;
 
 import java.util.Optional;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.ExpressionContext;
 import parser.MiniJavaParser.InstantiationContext;
 import typechecker.scope.ExecutionScope;
@@ -43,4 +44,11 @@ public final class Instantiation extends Expression {
 		System.err.println("Type "+classId+" is not a class.");
 		return false;
 	}
+
+	@Override
+	public Code generateCode(Code block) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

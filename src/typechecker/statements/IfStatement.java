@@ -1,5 +1,6 @@
 package typechecker.statements;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.ElseBodyContext;
 import parser.MiniJavaParser.IfBodyContext;
 import parser.MiniJavaParser.IfStatementContext;
@@ -53,5 +54,19 @@ public final class IfStatement extends Statement {
 			}
 		}
 		return isGood;
+	}
+
+	@Override
+	public Code generateCode(Code code) {
+		Code ifBranch = new Code(code);
+		ifBody.generateCode(ifBranch);
+		if(elseBody != null){
+			Code elseBranch = new Code(code);
+			elseBody.generateCode(elseBranch);
+			code.addIfElse(conditional, ifBranch, elseBranch);
+		} else {
+			code.addIf(conditional, ifBranch);
+		}
+		return code;
 	}
 }

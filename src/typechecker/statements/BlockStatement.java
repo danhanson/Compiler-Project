@@ -1,5 +1,6 @@
 package typechecker.statements;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.BlockStatementContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.scope.Block;
@@ -22,6 +23,14 @@ public final class BlockStatement extends Statement {
 	@Override
 	public boolean checkTypes() {
 		return block.checkTypes();
+	}
+
+	@Override
+	public Code generateCode(Code insts) {
+		Code block = new Code(insts);
+		block.generateCode(block);
+		insts.addBlock(block);
+		return insts;
 	}
 
 }

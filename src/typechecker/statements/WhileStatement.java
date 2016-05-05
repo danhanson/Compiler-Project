@@ -1,5 +1,8 @@
 package typechecker.statements;
 
+
+import codegeneration.Code;
+import codegeneration.Instruction;
 import parser.MiniJavaParser.StatementContext;
 import parser.MiniJavaParser.WhileStatementContext;
 import typechecker.expressions.Expression;
@@ -38,5 +41,16 @@ public final class WhileStatement extends Statement {
 			isGood = false;
 		}
 		return isGood;
+	}
+
+	@Override
+	public Code generateCode(Code insts) {
+		Code block = new Code(insts);
+		body.generateCode(block);
+		block.add(Instruction.gotoI(-(block.getSize()+3))); // the 3 is for the added instruction
+		conditional.generateCode(insts);
+		insts.add(Instruction.ifeq(block.getSize()));
+		insts.addBlock(block);
+		return insts;
 	}
 }

@@ -1,5 +1,7 @@
 package typechecker.statements;
 
+import codegeneration.Code;
+import codegeneration.Instruction;
 import parser.MiniJavaParser.DeclarationStatementContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.expressions.Expression;
@@ -54,4 +56,16 @@ public final class DeclarationStatement extends Statement {
 		}
 		return true;
 	}
+
+	@Override
+	public Code generateCode(Code insts) {
+		if(exp != null){
+			exp.generateCode(insts);
+			insts.add(Instruction.store(variable.type(), insts.localVariable(variable)));
+		} else {
+			insts.localVariable(variable); // just add the variable to local scope
+		}
+		return insts;
+	}
+
 }

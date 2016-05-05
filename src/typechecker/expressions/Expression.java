@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.BinaryOperationContext;
 import parser.MiniJavaParser.BooleanContext;
 import parser.MiniJavaParser.ExpressionContext;
@@ -19,7 +20,7 @@ import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 
 public abstract class Expression {
-
+	
 	private static final Map<Class<? extends ExpressionContext>, BiFunction<ExpressionContext, ExecutionScope, ? extends Expression>> factoryLookup = new HashMap<>();
 	
 	static {
@@ -54,4 +55,6 @@ public abstract class Expression {
 	public ExecutionScope scope() {
 		return scope;
 	}
+
+	public abstract Code generateCode(Code c);
 }

@@ -1,5 +1,6 @@
 package typechecker.expressions;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.ExpressionContext;
 import parser.MiniJavaParser.IdentifierContext;
 import typechecker.scope.ExecutionScope;
@@ -37,4 +38,11 @@ public final class Identifier extends Expression {
 			return false;
 		});
 	}
+
+	@Override
+	public Code generateCode(Code block) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

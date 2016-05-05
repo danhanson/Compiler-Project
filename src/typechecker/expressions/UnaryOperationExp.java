@@ -1,5 +1,6 @@
 package typechecker.expressions;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.ExpressionContext;
 import parser.MiniJavaParser.UnaryOperationContext;
 import typechecker.operations.UnaryOperation;
@@ -40,5 +41,12 @@ public final class UnaryOperationExp extends Expression {
 		}
 		return true;
 	}
+
+	@Override
+	public Code generateCode(Code block) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

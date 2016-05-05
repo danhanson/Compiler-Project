@@ -2,6 +2,8 @@ package typechecker.statements;
 
 import java.util.Optional;
 
+import codegeneration.Code;
+import codegeneration.Instruction;
 import parser.MiniJavaParser.AssignmentStatementContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.expressions.Expression;
@@ -49,5 +51,14 @@ public final class AssignmentStatement extends Statement {
 			exp.scope().addVariable(v);
 		}
 		return false;
+	}
+
+	public Variable assignee(){
+		return assignee;
+	}
+
+	@Override
+	public Code generateCode(Code insts) {
+		return exp.generateCode(insts).add(Instruction.store(assignee.type(), insts.localVariable(assignee)));
 	}
 }

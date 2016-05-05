@@ -1,5 +1,6 @@
 package typechecker.expressions;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.BinaryOperationContext;
 import parser.MiniJavaParser.ExpressionContext;
 import typechecker.operations.BinaryOperation;
@@ -40,5 +41,11 @@ public final class BinaryOperationExp extends Expression {
 		}
 		op = BinaryOperation.get(symbol, arg1.returnType(), arg2.returnType());
 		return op != null;
+	}
+
+	@Override
+	public Code generateCode(Code c) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

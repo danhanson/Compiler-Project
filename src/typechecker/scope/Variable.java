@@ -1,24 +1,27 @@
 package typechecker.scope;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Objects;
 
+import codegeneration.constants.ConstantPool;
 import parser.MiniJavaParser.DeclarationContext;
 import typechecker.types.Type;
 import typechecker.types.UndeclaredClass;
 
 public class Variable {
 
+	public static Variable fromDeclarationContext(DeclarationContext var, ClassScope c, boolean declared){
+		String typeName = var.type().getText();
+		String id = var.ID().getText();
+		return new Variable(typeName, id, c, declared);
+	}
+
 	private final String id;
-	private final Scope scope;
+	private final ClassScope scope;
 	private final String typeId;
 	private Type type = null;
 	private boolean declared;
-	
-	public static final Variable fromDeclarationContext(DeclarationContext field, Scope c, boolean declared){
-		String typeName = field.type().getText();
-		String id = field.ID().getText();
-		return new Variable(typeName, id, c, declared);
-	}
 
 	/**
 	 * Variables should be resolved once all classes are added to the scope
@@ -34,7 +37,7 @@ public class Variable {
 		});
 	}
 
-	public Variable(Type type, String id, Scope scope, boolean declared){
+	public Variable(Type type, String id, ClassScope scope, boolean declared){
 		this.id = id;
 		this.scope = scope;
 		this.type = type;
@@ -42,7 +45,7 @@ public class Variable {
 		this.declared = declared;
 	}
 
-	public Variable(String typeName, String id, Scope scope, boolean declared){
+	public Variable(String typeName, String id, ClassScope scope, boolean declared){
 		this.id = id;
 		this.scope = scope;
 		this.typeId = typeName;
@@ -61,7 +64,7 @@ public class Variable {
 		return typeId;
 	}
 	
-	public Scope scope(){
+	public ClassScope scope(){
 		return scope;
 	}
 
@@ -90,5 +93,13 @@ public class Variable {
 	@Override
 	public String toString() {
 		return typeId+" "+id;
+	}
+
+	public void writeField(DataOutputStream out) throws IOException{
+		ConstantPool pool = scope().constantPool();
+		out.writeShort(1); // public
+		out.writeShort(pool.name(id()));
+		out.writeShort(pool.descriptor(type()));
+		out.writeShort(0); // no attributes
 	}
 }

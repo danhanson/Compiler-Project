@@ -1,5 +1,6 @@
 package typechecker.statements;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.scope.ExecutionScope;
 
@@ -12,5 +13,10 @@ public final class EmptyStatement extends Statement {
 	@Override
 	public boolean checkTypes() {
 		return true;
+	}
+
+	@Override
+	public Code generateCode(Code insts) {
+		return insts;
 	}
 }

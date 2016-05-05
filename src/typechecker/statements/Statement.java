@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.AssignmentStatementContext;
 import parser.MiniJavaParser.BlockStatementContext;
 import parser.MiniJavaParser.DeclarationStatementContext;
@@ -35,4 +36,6 @@ public abstract class Statement {
 	}
 
 	public abstract boolean checkTypes();
+
+	public abstract Code generateCode(Code insts);
 }

@@ -3,6 +3,7 @@ package typechecker.expressions;
 import java.util.ArrayList;
 import java.util.List;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.ExpressionContext;
 import parser.MiniJavaParser.InvokeMethodContext;
 import parser.MiniJavaParser.ParamsContext;
@@ -81,4 +82,11 @@ public final class InvokeMethod extends Expression {
         	return false;
         });
     }
+
+	@Override
+	public Code generateCode(Code block) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

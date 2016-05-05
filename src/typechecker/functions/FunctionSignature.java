@@ -45,4 +45,8 @@ public final class FunctionSignature {
 		}
 		return id()+"("+Arrays.stream(argTypes).map(Type::id).collect(Collectors.joining(", "))+")";
 	}
+
+	public Type[] argTypes() {
+		return argTypes;
+	}
 }

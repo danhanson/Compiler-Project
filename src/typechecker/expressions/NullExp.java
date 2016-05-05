@@ -1,5 +1,6 @@
 package typechecker.expressions;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.ExpressionContext;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Null;
@@ -19,4 +20,11 @@ public final class NullExp extends Expression {
 	public Type returnType() {
 		return Null.instance();
 	}
+
+	@Override
+	public Code generateCode(Code block) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

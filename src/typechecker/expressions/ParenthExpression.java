@@ -1,5 +1,6 @@
 package typechecker.expressions;
 
+import codegeneration.Code;
 import parser.MiniJavaParser.ExpressionContext;
 import parser.MiniJavaParser.ParenthExpressionContext;
 import typechecker.scope.ExecutionScope;
@@ -27,6 +28,12 @@ public final class ParenthExpression extends Expression {
 	@Override
 	public boolean checkTypes() {
 		return exp.checkTypes();
+	}
+
+	@Override
+	public Code generateCode(Code block) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

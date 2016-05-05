@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import codegeneration.Code;
+import codegeneration.constants.ConstantPool;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.statements.Statement;
@@ -51,7 +53,7 @@ public abstract class ExecutionScope extends ClassScope {
 	public Optional<Variable> resolveVariable(String id){
 		Variable var = variables.get(id);
 		if(var == null){
-			return ((ClassScope) parent()).resolveField(id);
+			return ((ClassScope) parent()).resolveField(id).map(f -> (Variable) f);
 		}
 		return Optional.of(var);
 	}
@@ -87,5 +89,25 @@ public abstract class ExecutionScope extends ClassScope {
 	@Override
 	public Optional<Variable> resolveField(String v) {
 		return ((ClassScope) parent()).resolveField(v);
+	}
+
+	@Override
+	public ConstantPool constantPool() {
+		return ((ClassScope) parent()).constantPool();
+	}
+
+	public List<Statement> statements() {
+		return statements;
+	}
+
+	public Collection<Variable> localVariables(){
+		return variables.values();
+	}
+
+	public Code generateCode(Code code){
+		for(Statement s : statements){
+			s.generateCode(code);
+		}
+		return code;
 	}
 }

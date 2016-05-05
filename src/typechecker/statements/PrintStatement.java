@@ -1,15 +1,18 @@
 package typechecker.statements;
 
+import codegeneration.Code;
+import codegeneration.constants.ConstantPool;
 import parser.MiniJavaParser.PrintStatementContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.expressions.Expression;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Primitive;
+import static codegeneration.Instruction.*;
 
 public final class PrintStatement extends Statement {
 
 	private final Expression exp;
-	
+
 	PrintStatement(Expression exp) {
 		this.exp = exp;
 	}
@@ -30,5 +33,14 @@ public final class PrintStatement extends Statement {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Code generateCode(Code block) {
+		ConstantPool constants = exp.scope().constantPool();
+		block.add(getstatic(constants.systemOut()));
+		exp.generateCode(block);
+		block.add(invokevirtual(constants.println(), 1, false));
+		return block;
 	}
 }

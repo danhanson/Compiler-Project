@@ -1,17 +1,20 @@
 package typechecker.functions;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import codegeneration.constants.ConstantPool;
 import parser.MiniJavaParser.ArgumentsContext;
 import parser.MiniJavaParser.NormalMethodContext;
 import parser.MiniJavaParser.StatementContext;
+import typechecker.scope.ClassScope;
 import typechecker.scope.ExecutionScope;
 import typechecker.scope.Variable;
 import typechecker.statements.Statement;
-import typechecker.types.Class;
 import typechecker.types.Type;
 import typechecker.types.UndeclaredClass;
 
@@ -22,8 +25,8 @@ public class Function extends ExecutionScope{
 	private final String returnTypeId;
 	private final List<Variable> args;
 	private Type returnType = null;
-	
-	protected Function(String id, Type returnType, Class parent){
+
+	protected Function(String id, Type returnType, ClassScope parent){
 		super(parent);
 		this.args = Collections.emptyList();
 		this.returnType = returnType;
@@ -31,7 +34,7 @@ public class Function extends ExecutionScope{
 		this.returnTypeId = returnType.id();
 	}
 
-	protected Function(String id, String returnTypeId, List<Variable> args, Class parent){
+	protected Function(String id, String returnTypeId, List<Variable> args, ClassScope parent){
 		super(parent);
 		this.id = id;
 		this.returnTypeId = returnTypeId;
@@ -84,7 +87,7 @@ public class Function extends ExecutionScope{
 		return functionSignature;
 	}
 
-	public static Function fromMethodContext(NormalMethodContext method, Class c) {
+	public static Function fromMethodContext(NormalMethodContext method, ClassScope c) {
 		String id = method.ID().getText();
 		String retType = method.returnType().getText();
 		List<Variable> argList = new ArrayList<>();
@@ -117,5 +120,27 @@ public class Function extends ExecutionScope{
 	@Override
 	public Function callee() {
 		return this;
+	}
+
+	public void writeMethod(DataOutputStream out) throws IOException {
+		ConstantPool pool = ((ClassScope) parent()).constantPool();
+		out.writeShort(1); // public
+		out.writeShort(pool.name(id()));
+		out.writeShort(pool.descriptor(this));
+		out.writeShort(1); // one attribute
+		//code.writeCode(out, pool);
+	}
+
+	public String descriptor() {
+		return "(" + 
+					args.stream()
+							.map(Variable::type)
+							.map(Type::descriptor)
+							.collect(Collectors.joining()) +
+				")" + returnType().descriptor();
+	}
+
+	public List<Variable> args() {
+		return args;
 	}
 }

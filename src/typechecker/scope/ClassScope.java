@@ -2,6 +2,7 @@ package typechecker.scope;
 
 import java.util.Optional;
 
+import codegeneration.constants.ConstantPool;
 import typechecker.functions.Function;
 import typechecker.functions.FunctionSignature;
 import typechecker.types.Class;;
@@ -17,4 +18,6 @@ public abstract class ClassScope extends AbstractScope {
 	public abstract Optional<Variable> resolveField(String v);
 
 	public abstract Class thisClass();
+
+	public abstract ConstantPool constantPool();
 }

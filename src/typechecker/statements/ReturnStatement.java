@@ -1,5 +1,7 @@
 package typechecker.statements;
 
+
+import codegeneration.Code;
 import parser.MiniJavaParser.ReturnStatementContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.expressions.Expression;
@@ -48,4 +50,10 @@ public final class ReturnStatement extends Statement {
         }
         return new ReturnStatement(exp, scope);
     }
+
+	@Override
+	public Code generateCode(Code insts) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
