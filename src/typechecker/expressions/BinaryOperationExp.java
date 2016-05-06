@@ -45,7 +45,6 @@ public final class BinaryOperationExp extends Expression {
 
 	@Override
 	public Code generateCode(Code c) {
-		// TODO Auto-generated method stub
-		return null;
+		return op.generateCode(c, arg1, arg2);
 	}
 }

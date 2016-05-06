@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import codegeneration.Code;
+import codegeneration.Instruction;
+import typechecker.expressions.Expression;
 import typechecker.types.Primitive;
 import typechecker.types.Type;
 
@@ -60,5 +63,19 @@ public enum UnaryOperation {
 
 	public Type returnType(){
 		return returnType;
+	}
+
+	public Code generateCode(Code c, Expression exp) {
+		switch(this) {
+		case Not:
+			c.add(Instruction.iconst_1);
+			c.add(Instruction.IXOR);
+			return c;
+		case Negate:
+			c.add(Instruction.INEG);
+			return c;
+		default:
+			throw new IllegalStateException("BAD SWITCH STATEMENT");
+		}
 	}
 }

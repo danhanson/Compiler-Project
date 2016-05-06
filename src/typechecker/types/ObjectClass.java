@@ -2,15 +2,19 @@ package typechecker.types;
 
 import java.util.Optional;
 
-import typechecker.functions.Function;
-import typechecker.functions.FunctionSignature;
+import codegeneration.constants.ConstantPool;
+import typechecker.functions.Method;
+import typechecker.functions.MethodSignature;
+import typechecker.scope.ClassScope;
 import typechecker.scope.GlobalScope;
-import typechecker.scope.Scope;
 import typechecker.scope.Variable;
 
-public final class ObjectClass implements Scope, Class {
+public final class ObjectClass extends ClassScope implements Type, Class {
+
+	private final Variable instance = new Variable(this, id(), this, true);
 
 	private ObjectClass() {
+		super(GlobalScope.instance());
 		GlobalScope.instance().addType(this);
 	}
 
@@ -26,18 +30,13 @@ public final class ObjectClass implements Scope, Class {
 	}
 
 	@Override
-	public Optional<Function> resolveMethod(FunctionSignature id) {
+	public Optional<Method> resolveMethod(MethodSignature id) {
 		return Optional.empty();
 	}
 
 	@Override
 	public boolean isSubType(Type other) {
 		return other == this;
-	}
-
-	@Override
-	public Scope parent() {
-		return GlobalScope.instance();
 	}
 
 	@Override
@@ -48,5 +47,32 @@ public final class ObjectClass implements Scope, Class {
 	@Override
 	public Optional<Type> resolveType(String id) {
 		return GlobalScope.instance().resolveType(id);
+	}
+
+	@Override
+	public String descriptor() {
+		return "Ljava.lang.Object;";
+	}
+
+	private static final Method constructor = new Method("<init>", instance(), instance());
+
+	@Override
+	public Method constructor() {
+		return constructor;
+	}
+
+	@Override
+	public Class thisClass() {
+		return instance();
+	}
+
+	@Override
+	public ConstantPool constantPool() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Variable thisInstance() {
+		return instance;
 	}
 }

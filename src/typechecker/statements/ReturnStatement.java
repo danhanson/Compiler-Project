@@ -2,6 +2,7 @@ package typechecker.statements;
 
 
 import codegeneration.Code;
+import codegeneration.Instruction;
 import parser.MiniJavaParser.ReturnStatementContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.expressions.Expression;
@@ -22,7 +23,7 @@ public final class ReturnStatement extends Statement {
 	public boolean checkTypes() {
 		if(exp == null){
 			if(scope.returnType() != Void.instance()){
-				System.err.println("Empty return statement in method "+scope.callee().functionSignature().id());
+				System.err.println("Empty return statement in method "+scope.callee().methodSignature().id());
 				return false;
 			}
 			return true;
@@ -53,7 +54,9 @@ public final class ReturnStatement extends Statement {
 
 	@Override
 	public Code generateCode(Code insts) {
-		// TODO Auto-generated method stub
-		return null;
+		if(exp != null){
+			exp.generateCode(insts);
+		}
+		return insts.add(Instruction.returnInst(scope.returnType()));
 	}
 }

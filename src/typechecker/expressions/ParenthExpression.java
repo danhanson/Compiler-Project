@@ -32,8 +32,7 @@ public final class ParenthExpression extends Expression {
 
 	@Override
 	public Code generateCode(Code block) {
-		// TODO Auto-generated method stub
-		return null;
+		return exp.generateCode(block);
 	}
 
 }

@@ -3,8 +3,10 @@ package typechecker.expressions;
 import java.util.Optional;
 
 import codegeneration.Code;
+import codegeneration.Instruction;
 import parser.MiniJavaParser.ExpressionContext;
 import parser.MiniJavaParser.InstantiationContext;
+import typechecker.functions.Method;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 import typechecker.types.Class;
@@ -47,8 +49,9 @@ public final class Instantiation extends Expression {
 
 	@Override
 	public Code generateCode(Code block) {
-		// TODO Auto-generated method stub
-		return null;
+		Method fun = type.constructor();
+		block.add(Instruction.newObj(type, scope().constantPool()));
+		return block.add(Instruction.invokespecial(fun, scope().constantPool()));
 	}
 
 }

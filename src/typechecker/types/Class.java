@@ -6,8 +6,8 @@ import parser.MiniJavaParser.ClassDeclContext;
 import parser.MiniJavaParser.MainMethodContext;
 import parser.MiniJavaParser.MemberContext;
 import parser.MiniJavaParser.NormalMethodContext;
-import typechecker.functions.Function;
-import typechecker.functions.FunctionSignature;
+import typechecker.functions.Method;
+import typechecker.functions.MethodSignature;
 import typechecker.functions.MainMethod;
 import typechecker.scope.GlobalScope;
 import typechecker.scope.Scope;
@@ -47,7 +47,7 @@ public interface Class extends Scope, Type {
 				if(mem.method() instanceof NormalMethodContext){
 					NormalMethodContext method = (NormalMethodContext) mem.method();
 					try {
-						newClass.addMethod(Function.fromMethodContext(method, newClass));
+						newClass.addMethod(Method.fromMethodContext(method, newClass));
 					} catch(IllegalArgumentException e){
 						newClass.updateStatus(false);
 					}
@@ -55,6 +55,7 @@ public interface Class extends Scope, Type {
 					MainMethodContext mmc = (MainMethodContext) mem.method();
 					MainMethod main = MainMethod.fromMainMethodContext(mmc, newClass);
 					GlobalScope.instance().setMainMethod(main);
+					newClass.addMethod(main);
 				}
 			} else if(mem.field() != null){
 				if(!newClass.addField(Variable.fromDeclarationContext(mem.field().declaration(), newClass, true))){
@@ -71,10 +72,12 @@ public interface Class extends Scope, Type {
 
 	abstract Optional<Variable> resolveField(String id);
 
-	abstract Optional<Function> resolveMethod(FunctionSignature id);
+	abstract Optional<Method> resolveMethod(MethodSignature id);
 
 	@Override
 	default String descriptor() {
 		return "L"+id()+";";
 	}
+
+	public Method constructor();
 }

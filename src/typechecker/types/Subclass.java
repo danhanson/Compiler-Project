@@ -9,33 +9,36 @@ import java.util.Map;
 import java.util.Optional;
 
 import codegeneration.constants.ConstantPool;
-import typechecker.functions.Function;
-import typechecker.functions.FunctionSignature;
+import typechecker.functions.Method;
+import typechecker.functions.MethodSignature;
 import typechecker.scope.ClassScope;
 import typechecker.scope.Variable;
 
 public final class Subclass extends ClassScope implements Class {
 
 	private final Map<String, Variable> fields = new HashMap<>();
-	private final List<Function> methods = new ArrayList<>();
-	private final Map<FunctionSignature, Function> resolvedMethods = new HashMap<>();
+	private final List<Method> methods = new ArrayList<>();
+	private final Map<MethodSignature, Method> resolvedMethods = new HashMap<>();
 	private final String id;
 	private final ConstantPool constants = new ConstantPool();
+	private final Method constructor = new Method("<init>", this, this);
+	private final Variable thisInstance;
 
 	private boolean classIsGood = true;
 
 	Subclass(Class parent, String id){
 		super(parent);
 		this.id = id;
+		thisInstance = new Variable(this, "this", this, true);
 	}
 
-	private boolean addResolvedMethod(Function method){
-		if(resolvedMethods.containsKey(method.functionSignature())){
-			System.err.println("Cannot redeclare method "+method.functionSignature()+
-					". Method "+method.functionSignature()+" is already declared in class "+id()+".");
+	private boolean addResolvedMethod(Method method){
+		if(resolvedMethods.containsKey(method.methodSignature())){
+			System.err.println("Cannot redeclare method "+method.methodSignature()+
+					". Method "+method.methodSignature()+" is already declared in class "+id()+".");
 			return false;
 		}
-		return ((Class) parent()).resolveMethod(method.functionSignature()).map( superFun -> {
+		return ((Class) parent()).resolveMethod(method.methodSignature()).map( superFun -> {
 			if(!superFun.returnType().isSubType(method.returnType())){
 				System.err.println(
 					"Cannot overload methods. Method "+method.id()+" has different type signature than inherited method of the same name. "
@@ -43,10 +46,10 @@ public final class Subclass extends ClassScope implements Class {
 				);
 				return false;
 			}
-			resolvedMethods.put(method.functionSignature(), method);
+			resolvedMethods.put(method.methodSignature(), method);
 			return true;
 		}).orElseGet(() -> {
-			resolvedMethods.put(method.functionSignature(), method);
+			resolvedMethods.put(method.methodSignature(), method);
 			return true;
 		});
 	}
@@ -62,7 +65,7 @@ public final class Subclass extends ClassScope implements Class {
 		}
 
 		// resolve method signatures
-		for(Function f : methods){
+		for(Method f : methods){
 			if(f.resolveSignature()){
 				if(!addResolvedMethod(f)){
 					ret = false;
@@ -79,7 +82,7 @@ public final class Subclass extends ClassScope implements Class {
 		boolean ret = true;
 
 		// resolve method bodies
-		for(Function f : methods){
+		for(Method f : methods){
 			if(!f.checkTypes()){
 				ret = false;
 			}
@@ -105,8 +108,8 @@ public final class Subclass extends ClassScope implements Class {
 	}
 
 	@Override
-	public Optional<Function> resolveMethod(FunctionSignature id) {
-		Function local = resolvedMethods.get(id);
+	public Optional<Method> resolveMethod(MethodSignature id) {
+		Method local = resolvedMethods.get(id);
 		if(local == null){
 			return superClass().resolveMethod(id);
 		}
@@ -130,7 +133,7 @@ public final class Subclass extends ClassScope implements Class {
 		return true;
 	}
 
-	public void addMethod(Function f){
+	public void addMethod(Method f){
 		methods.add(f);
 	}
 
@@ -160,7 +163,23 @@ public final class Subclass extends ClassScope implements Class {
 	}
 
 	public void generateCode(){
-		
+		constants.name(id());
+		constants.descriptor(this);
+		constants.name(superClass().id());
+		constants.descriptor(superClass());
+		constants.name(constructor.id());
+		constants.descriptor(constructor);
+		for(Variable v : fields.values()){
+			constants.descriptor(v.type());
+			constants.name(v.id());
+		}
+		for(Method m : methods){
+			constants.descriptor(m);
+			constants.name(m.id());
+		}
+		for(Method m : methods){
+			m.generateCode();
+		}
 	}
 
 	public void writeBytecode(DataOutputStream out) throws IOException {
@@ -172,12 +191,12 @@ public final class Subclass extends ClassScope implements Class {
 		out.writeShort(1); // this class is always the first constant
 		out.writeShort(2); // super class is always the second constant
 		out.writeShort(0); // interface count is 0
-		out.writeShort(this.fields.size()); // field count
+		out.writeShort(fields.size()); // field count
 		for(Variable field : fields.values()) {
 			field.writeField(out);
 		}
 		out.writeShort(methods.size());
-		for(Function fun : methods) {
+		for(Method fun : methods) {
 			fun.writeMethod(out);
 		}
 	}
@@ -190,5 +209,20 @@ public final class Subclass extends ClassScope implements Class {
 	@Override
 	public ConstantPool constantPool() {
 		return constants;
+	}
+
+	@Override
+	public String descriptor() {
+		return "L"+id+";";
+	}
+
+	@Override
+	public Method constructor() {
+		return constructor;
+	}
+
+	@Override
+	public Variable thisInstance() {
+		return thisInstance;
 	}
 }

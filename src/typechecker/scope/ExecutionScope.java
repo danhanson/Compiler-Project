@@ -9,8 +9,8 @@ import java.util.Optional;
 
 import codegeneration.Code;
 import codegeneration.constants.ConstantPool;
-import typechecker.functions.Function;
-import typechecker.functions.FunctionSignature;
+import typechecker.functions.Method;
+import typechecker.functions.MethodSignature;
 import typechecker.statements.Statement;
 import typechecker.types.Class;
 import typechecker.types.Type;
@@ -69,7 +69,7 @@ public abstract class ExecutionScope extends ClassScope {
 	}
 
 	@Override
-	public Optional<Function> resolveMethod(FunctionSignature fs) {
+	public Optional<Method> resolveMethod(MethodSignature fs) {
 		return thisClass().resolveMethod(fs);
 	}
 
@@ -82,7 +82,7 @@ public abstract class ExecutionScope extends ClassScope {
 		return ((ClassScope) parent()).thisClass();
 	}
 	
-	public abstract Function callee();
+	public abstract Method callee();
 
 	public abstract Type returnType();
 
@@ -109,5 +109,10 @@ public abstract class ExecutionScope extends ClassScope {
 			s.generateCode(code);
 		}
 		return code;
+	}
+
+	@Override
+	public Variable thisInstance() {
+		return ((ClassScope) parent()).thisInstance();
 	}
 }

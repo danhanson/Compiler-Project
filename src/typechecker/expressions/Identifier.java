@@ -1,6 +1,7 @@
 package typechecker.expressions;
 
 import codegeneration.Code;
+import codegeneration.Instruction;
 import parser.MiniJavaParser.ExpressionContext;
 import parser.MiniJavaParser.IdentifierContext;
 import typechecker.scope.ExecutionScope;
@@ -41,8 +42,11 @@ public final class Identifier extends Expression {
 
 	@Override
 	public Code generateCode(Code block) {
-		// TODO Auto-generated method stub
-		return null;
+		if(var.isField()){
+			block.add(Instruction.load(scope().thisClass(), block.localVariable(scope().thisInstance())));
+			return block.add(Instruction.getfield(var, scope().constantPool()));
+		} else {
+			return block.add(Instruction.load(var.type(), block.localVariable(var)));
+		}
 	}
-
 }

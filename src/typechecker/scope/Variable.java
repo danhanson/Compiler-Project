@@ -7,6 +7,7 @@ import java.util.Objects;
 import codegeneration.constants.ConstantPool;
 import parser.MiniJavaParser.DeclarationContext;
 import typechecker.types.Type;
+import typechecker.types.Class;
 import typechecker.types.UndeclaredClass;
 
 public class Variable {
@@ -93,6 +94,10 @@ public class Variable {
 	@Override
 	public String toString() {
 		return typeId+" "+id;
+	}
+
+	public boolean isField(){
+		return scope instanceof Class;
 	}
 
 	public void writeField(DataOutputStream out) throws IOException{

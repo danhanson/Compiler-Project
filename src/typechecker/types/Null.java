@@ -2,8 +2,8 @@ package typechecker.types;
 
 import java.util.Optional;
 
-import typechecker.functions.Function;
-import typechecker.functions.FunctionSignature;
+import typechecker.functions.Method;
+import typechecker.functions.MethodSignature;
 import typechecker.scope.GlobalScope;
 import typechecker.scope.Scope;
 import typechecker.scope.Variable;
@@ -35,7 +35,7 @@ public final class Null implements Class {
 	}
 
 	@Override
-	public Optional<Function> resolveMethod(FunctionSignature id) {
+	public Optional<Method> resolveMethod(MethodSignature id) {
 		return Optional.empty();
 	}
 
@@ -46,6 +46,16 @@ public final class Null implements Class {
 
 	@Override
 	public Optional<Type> resolveType(String id) {
-		throw new UnsupportedOperationException("Cannot resolve type for null");
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public String descriptor() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Method constructor() {
+		throw new UnsupportedOperationException();
 	}
 }

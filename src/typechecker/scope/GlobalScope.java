@@ -1,5 +1,10 @@
 package typechecker.scope;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,6 +21,7 @@ public class GlobalScope implements Scope {
 
 	private final Map<String, Type> types;
 	private MainMethod main;
+	private List<Subclass> classes;
 
 	private GlobalScope(){ 
 		types = new LinkedHashMap<String, Type>();
@@ -48,7 +54,7 @@ public class GlobalScope implements Scope {
 	}
 
 	public boolean checkTypes(){
-		List<Subclass> classes = types.values().stream().filter(t -> t instanceof Subclass).map(t -> (Subclass) t).collect(Collectors.toList());
+		classes = types.values().stream().filter(t -> t instanceof Subclass).map(t -> (Subclass) t).collect(Collectors.toList());
 		classes.stream().forEach(Subclass::checkMembers);
 		classes.stream().forEach(Subclass::checkMethodBodies);
 		boolean isGood = classes.stream().allMatch(Subclass::status);
@@ -56,6 +62,22 @@ public class GlobalScope implements Scope {
 			isGood = false;
 		}
 		return isGood;
+	}
+
+	public void generateCode(){
+		classes.forEach(Subclass::generateCode);
+	}
+
+	public void writeCode(Path p) throws IOException {
+		p.toFile().mkdirs();
+		for(Subclass c : classes){
+			File f = p.resolve(c.id() + ".class").toFile();
+			f.delete();
+			f.createNewFile();
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(f));
+			c.writeBytecode(out);
+			out.close();
+		}
 	}
 
 	public void setMainMethod(MainMethod b){

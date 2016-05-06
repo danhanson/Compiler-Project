@@ -1,6 +1,7 @@
 package typechecker.expressions;
 
 import codegeneration.Code;
+import codegeneration.Instruction;
 import parser.MiniJavaParser.ExpressionContext;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
@@ -21,8 +22,7 @@ public final class This extends Expression {
 
 	@Override
 	public Code generateCode(Code block) {
-		// TODO Auto-generated method stub
-		return null;
+		return block.add(Instruction.load(scope().thisClass(), block.localVariable(scope().thisInstance())));
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import codegeneration.Code;
 import codegeneration.constants.ConstantPool;
 import parser.MiniJavaParser.ArgumentsContext;
 import parser.MiniJavaParser.NormalMethodContext;
@@ -17,16 +18,18 @@ import typechecker.scope.Variable;
 import typechecker.statements.Statement;
 import typechecker.types.Type;
 import typechecker.types.UndeclaredClass;
+import static codegeneration.Instruction.*;
 
-public class Function extends ExecutionScope{
+public class Method extends ExecutionScope{
 
-	private FunctionSignature functionSignature;
+	private MethodSignature methodSignature;
 	private final String id;
 	private final String returnTypeId;
 	private final List<Variable> args;
 	private Type returnType = null;
+	protected final Code code = new Code();
 
-	protected Function(String id, Type returnType, ClassScope parent){
+	public Method(String id, Type returnType, ClassScope parent){
 		super(parent);
 		this.args = Collections.emptyList();
 		this.returnType = returnType;
@@ -34,7 +37,7 @@ public class Function extends ExecutionScope{
 		this.returnTypeId = returnType.id();
 	}
 
-	protected Function(String id, String returnTypeId, List<Variable> args, ClassScope parent){
+	public Method(String id, String returnTypeId, List<Variable> args, ClassScope parent){
 		super(parent);
 		this.id = id;
 		this.returnTypeId = returnTypeId;
@@ -71,7 +74,7 @@ public class Function extends ExecutionScope{
 		if(!ret){
 			return false;
 		}
-		functionSignature = new FunctionSignature(id, types);
+		methodSignature = new MethodSignature(id, types);
 		return true;
 	}
 
@@ -80,14 +83,14 @@ public class Function extends ExecutionScope{
 	}
 
 	public final boolean signatureResolved(){
-		return functionSignature != null;
+		return methodSignature != null;
 	}
 
-	public FunctionSignature functionSignature() {
-		return functionSignature;
+	public MethodSignature methodSignature() {
+		return methodSignature;
 	}
 
-	public static Function fromMethodContext(NormalMethodContext method, ClassScope c) {
+	public static Method fromMethodContext(NormalMethodContext method, ClassScope c) {
 		String id = method.ID().getText();
 		String retType = method.returnType().getText();
 		List<Variable> argList = new ArrayList<>();
@@ -96,7 +99,7 @@ public class Function extends ExecutionScope{
 			argList.add(Variable.fromDeclarationContext(args.declaration(), c, true));
 			args = args.arguments();
 		}
-		Function f = new Function(id, retType, argList, c);
+		Method f = new Method(id, retType, argList, c);
 		for(StatementContext statement : method.block().statement()){
 			f.addStatement(Statement.fromStatementContext(statement, f));
 		}
@@ -118,8 +121,20 @@ public class Function extends ExecutionScope{
 	}
 
 	@Override
-	public Function callee() {
+	public Method callee() {
 		return this;
+	}
+
+	public void generateCode(){
+		code.setStack(1+args.size());
+		code.add(store(thisClass(), code.localVariable(thisInstance()))); // at beginning, store all arguments
+		for(Variable arg : args){
+			code.add(store(arg.type(), code.localVariable(arg)));
+		}
+		for(Statement s : statements()){
+			s.generateCode(code);
+		}
+		code.add(RETURN);
 	}
 
 	public void writeMethod(DataOutputStream out) throws IOException {
@@ -128,7 +143,7 @@ public class Function extends ExecutionScope{
 		out.writeShort(pool.name(id()));
 		out.writeShort(pool.descriptor(this));
 		out.writeShort(1); // one attribute
-		//code.writeCode(out, pool);
+		code.writeCode(out, pool);
 	}
 
 	public String descriptor() {

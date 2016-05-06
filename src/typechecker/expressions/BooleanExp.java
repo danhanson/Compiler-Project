@@ -1,6 +1,8 @@
 package typechecker.expressions;
 
 import codegeneration.Code;
+import codegeneration.Instruction;
+import parser.MiniJavaParser.BooleanContext;
 import parser.MiniJavaParser.ExpressionContext;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
@@ -8,12 +10,15 @@ import typechecker.types.Primitive;
 
 public final class BooleanExp extends Expression {
 
-	BooleanExp(ExecutionScope scope) {
+	private final boolean value;
+
+	BooleanExp(ExecutionScope scope, boolean value) {
 		super(scope);
+		this.value = value;
 	}
 
 	public static BooleanExp fromExpressionContext(ExpressionContext con, ExecutionScope scope){
-		return new BooleanExp(scope);
+		return new BooleanExp(scope, Boolean.getBoolean(((BooleanContext) con).booleanExp().getText()));
 	}
 
 	@Override
@@ -23,8 +28,12 @@ public final class BooleanExp extends Expression {
 
 	@Override
 	public Code generateCode(Code block) {
-		// TODO Auto-generated method stub
-		return null;
+		if(value){
+			block.add(Instruction.iconst_1);
+		} else {
+			block.add(Instruction.iconst_0);
+		}
+		return block;
 	}
 
 }

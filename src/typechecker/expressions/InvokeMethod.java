@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import codegeneration.Code;
+import codegeneration.Instruction;
 import parser.MiniJavaParser.ExpressionContext;
 import parser.MiniJavaParser.InvokeMethodContext;
 import parser.MiniJavaParser.ParamsContext;
-import typechecker.functions.Function;
-import typechecker.functions.FunctionSignature;
+import typechecker.functions.Method;
+import typechecker.functions.MethodSignature;
 import typechecker.scope.ExecutionScope;
 import typechecker.types.Type;
 import typechecker.types.Class;
@@ -18,7 +19,7 @@ public final class InvokeMethod extends Expression {
     private final String methodId;
     private final Expression getObject;
     private final List<Expression> args;
-    private Function method;
+    private Method method;
 
     public InvokeMethod(String id, Expression object, List<Expression> args,
             ExecutionScope scope) {
@@ -73,7 +74,7 @@ public final class InvokeMethod extends Expression {
             return false;
         }
         c = (Class) t;
-        FunctionSignature sig = new FunctionSignature(methodId, argList);
+        MethodSignature sig = new MethodSignature(methodId, argList);
         return c.resolveMethod(sig).map(m -> {
         	this.method = m;
         	return true;	
@@ -85,8 +86,11 @@ public final class InvokeMethod extends Expression {
 
 	@Override
 	public Code generateCode(Code block) {
-		// TODO Auto-generated method stub
-		return null;
+		getObject.generateCode(block);
+		for(Expression arg : args){
+			arg.generateCode(block);
+		}
+		return block.add(Instruction.invokevirtual(method, scope().constantPool()));
 	}
 
 }

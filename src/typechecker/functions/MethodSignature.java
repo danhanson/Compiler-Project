@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import typechecker.types.Type;
 
-public final class FunctionSignature {
+public final class MethodSignature {
 
 	private final String id;
 	private final Type[] argTypes;
@@ -16,7 +16,7 @@ public final class FunctionSignature {
 		return id;
 	}
 
-	public FunctionSignature(String id, List<Type> args){
+	public MethodSignature(String id, List<Type> args){
 		this.id = id;
 		this.argTypes = new Type[args.size()];
 		for(int i = 0; i < args.size(); i++){
@@ -31,8 +31,8 @@ public final class FunctionSignature {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof FunctionSignature){
-			FunctionSignature other = (FunctionSignature) obj;
+		if(obj instanceof MethodSignature){
+			MethodSignature other = (MethodSignature) obj;
 			return id.equals(other.id) && Arrays.equals(argTypes, other.argTypes);
 		}
 		return false;

@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import typechecker.functions.Function;
+import typechecker.functions.Method;
 import typechecker.scope.Variable;
+import typechecker.types.Class;
 import typechecker.types.Type;
 
 public class ConstantPool {
@@ -58,7 +59,7 @@ public class ConstantPool {
 		});
 	}
 
-	public short method(Function f) {
+	public short method(Method f) {
 		MethodInfo method = new MethodInfo(f.thisClass().id(), f.descriptor());
 		return methodInfo(method);
 	}
@@ -100,7 +101,11 @@ public class ConstantPool {
 		return utf8(new Utf8Info(type.descriptor()));
 	}
 
-	public short descriptor(Function function) {
-		return utf8(new Utf8Info(function.descriptor()));
+	public short descriptor(Method method) {
+		return utf8(new Utf8Info(method.descriptor()));
+	}
+
+	public short classRef(Class c) {
+		return classInfo(new ClassInfo(c.id()));
 	}
 }

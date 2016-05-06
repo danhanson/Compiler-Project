@@ -1,9 +1,12 @@
 package typechecker.functions;
 
+import static codegeneration.Instruction.RETURN;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import codegeneration.Instruction;
 import codegeneration.constants.ConstantPool;
 import parser.MiniJavaParser.MainMethodContext;
 import parser.MiniJavaParser.StatementContext;
@@ -13,7 +16,7 @@ import typechecker.statements.Statement;
 import typechecker.types.Type;
 import typechecker.types.Void;
 
-public final class MainMethod extends Function {
+public final class MainMethod extends Method {
 	
 	public static MainMethod fromMainMethodContext(MainMethodContext con, ClassScope parent){
 		MainMethod m = new MainMethod(parent);
@@ -32,13 +35,23 @@ public final class MainMethod extends Function {
 		return Void.instance();
 	}
 
+	@Override
+	public void generateCode() {
+		code.setStack(1);
+		code.add(Instruction.POP); // ignore args
+		for(Statement s : statements()){
+			s.generateCode(code);
+		}
+		code.add(RETURN);
+	}
+
 	public void writeMethod(DataOutputStream out) throws IOException {
 		ConstantPool pool = ((ClassScope) parent()).constantPool();
-		out.writeShort(1); // public
+		out.writeShort(1 | 8); // public and static
 		out.writeShort(pool.name(id()));
 		out.writeShort(pool.descriptor(this));
 		out.writeShort(1); // one attribute
-		//code.writeCode(out, pool);
+		code.writeCode(out, pool);
 	}
 
 	public String descriptor() {

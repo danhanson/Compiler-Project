@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import codegeneration.Code;
+import codegeneration.Instruction;
 import typechecker.types.ObjectClass;
 import typechecker.types.Primitive;
 import typechecker.types.Type;
+import typechecker.expressions.Expression;
 import typechecker.types.Class;
+import static codegeneration.Instruction.*;
 
 public enum BinaryOperation {
 	DIV("/", Primitive.Integer, Primitive.Integer, Primitive.Integer),
@@ -86,6 +90,74 @@ public enum BinaryOperation {
 	}
 
 	public Type returnType(){
-		return returnType;
+		return returnType;		
+	}
+
+	public Code generateCode(Code c, Expression arg1, Expression arg2) {
+		switch(this){
+		case DIV:
+		case MULT:
+		case ADD:
+		case SUB:
+		case LT:
+		case GT:
+		case LTE:
+		case GTE:
+		case IntEQ:
+		case BoolEQ:
+		case ObjEQ:
+		case IntNEQ:
+		case BoolNEQ:
+		case ObjNEQ:
+			arg1.generateCode(c);
+			arg2.generateCode(c);
+			switch(this){
+			case DIV: c.add(IDIV); return c;
+			case MULT: c.add(IMUL); return c;
+			case ADD: c.add(IADD); return c;
+			case SUB: c.add(ISUB); return c;
+			default:
+				Instruction cmp;
+				switch(this){
+				case LT: cmp = if_icmplt(4); break;
+				case GT: cmp = if_icmpgt(4); break;
+				case LTE: cmp = if_icmple(4); break;
+				case GTE: cmp = if_icmpgt(4); break;
+				case IntEQ: cmp = if_icmpeq(4); break;
+				case BoolEQ: cmp = if_icmpeq(4); break;
+				case ObjEQ: cmp = if_acmpeq(4); break;
+				case IntNEQ: cmp = if_icmpne(4); break;
+				case BoolNEQ: cmp = if_icmpne(4); break;
+				case ObjNEQ: cmp = if_acmpne(4); break;
+				default: throw new IllegalStateException("BAD SWITCH STATEMENT");
+				}
+				c.add(cmp);
+				c.add(iconst_0); // false
+				c.add(gotoInst(2)); // skip setting to true
+				c.add(iconst_1); // true
+				return c;
+			}
+		default: // AND and OR
+			arg1.generateCode(c); // puts true or false on stack
+			Code rest = new Code(c);
+			arg2.generateCode(rest);
+			rest.add(gotoInst(2)); // to jump over iconst if no short ciruiting occurs
+			switch(this) {
+			case AND:
+				c.add(IAND);
+				c.add(ifeq(rest.getSize()+1)); // if false, skip rest to short circuit
+				c.addBlock(rest); // this puts a boolean value on the stack and jumps over the next instruction
+				c.add(iconst_0);
+				break;
+			case OR:
+				c.add(IOR);
+				c.add(ifne(rest.getSize()+1)); // if true, skip rest to short circuit;
+				c.addBlock(rest);
+				c.add(iconst_1);
+				break;
+			default: throw new IllegalStateException("BAD SWITCH STATEMENT");	
+			}
+			return c;
+		}
 	}
 }

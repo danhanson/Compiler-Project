@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import parser.MiniJavaParser.BlockContext;
 import parser.MiniJavaParser.StatementContext;
-import typechecker.functions.Function;
+import typechecker.functions.Method;
 import typechecker.statements.Statement;
 import typechecker.types.Type;
 
@@ -28,7 +28,7 @@ public class Block extends ExecutionScope {
 	}
 
 	@Override
-	public Function callee() {
+	public Method callee() {
 		return ((ExecutionScope) parent()).callee();
 	}
 

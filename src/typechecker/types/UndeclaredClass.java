@@ -2,8 +2,8 @@ package typechecker.types;
 
 import java.util.Optional;
 
-import typechecker.functions.Function;
-import typechecker.functions.FunctionSignature;
+import typechecker.functions.Method;
+import typechecker.functions.MethodSignature;
 import typechecker.scope.Scope;
 import typechecker.scope.Variable;
 
@@ -26,7 +26,7 @@ public final class UndeclaredClass implements Class {
 	}
 
 	@Override
-	public Optional<Function> resolveMethod(FunctionSignature id) {
+	public Optional<Method> resolveMethod(MethodSignature id) {
 		return ObjectClass.instance().resolveMethod(id);
 	}
 
@@ -43,5 +43,15 @@ public final class UndeclaredClass implements Class {
 	@Override
 	public Optional<Type> resolveType(String id) {
 		return ObjectClass.instance().resolveType(id);
+	}
+
+	@Override
+	public String descriptor() {
+		return "L"+id()+";";
+	}
+
+	@Override
+	public Method constructor() {
+		throw new UnsupportedOperationException();
 	}
 }
