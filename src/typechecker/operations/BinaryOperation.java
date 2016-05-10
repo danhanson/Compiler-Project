@@ -119,21 +119,21 @@ public enum BinaryOperation {
 			default:
 				Instruction cmp;
 				switch(this){
-				case LT: cmp = if_icmplt(4); break;
-				case GT: cmp = if_icmpgt(4); break;
-				case LTE: cmp = if_icmple(4); break;
-				case GTE: cmp = if_icmpgt(4); break;
-				case IntEQ: cmp = if_icmpeq(4); break;
-				case BoolEQ: cmp = if_icmpeq(4); break;
-				case ObjEQ: cmp = if_acmpeq(4); break;
-				case IntNEQ: cmp = if_icmpne(4); break;
-				case BoolNEQ: cmp = if_icmpne(4); break;
-				case ObjNEQ: cmp = if_acmpne(4); break;
+				case LT: cmp = if_icmplt(7); break;
+				case GT: cmp = if_icmpgt(7); break;
+				case LTE: cmp = if_icmple(7); break;
+				case GTE: cmp = if_icmpgt(7); break;
+				case IntEQ: cmp = if_icmpeq(7); break;
+				case BoolEQ: cmp = if_icmpeq(7); break;
+				case ObjEQ: cmp = if_acmpeq(7); break;
+				case IntNEQ: cmp = if_icmpne(7); break;
+				case BoolNEQ: cmp = if_icmpne(7); break;
+				case ObjNEQ: cmp = if_acmpne(7); break;
 				default: throw new IllegalStateException("BAD SWITCH STATEMENT");
 				}
 				c.add(cmp);
 				c.add(iconst_0); // false
-				c.add(gotoInst(2)); // skip setting to true
+				c.add(gotoInst(4)); // skip setting to true
 				c.add(iconst_1); // true
 				return c;
 			}

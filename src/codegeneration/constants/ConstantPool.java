@@ -2,7 +2,7 @@ package codegeneration.constants;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import typechecker.functions.Method;
@@ -12,7 +12,7 @@ import typechecker.types.Type;
 
 public class ConstantPool {
 
-	private final Map<ConstantInfo, Short> constants = new LinkedHashMap<>();
+	private final Map<ConstantInfo, Short> constants = new HashMap<>();
 
 	public short integer(int value){
 		IntegerInfo info = new IntegerInfo(value);
@@ -96,7 +96,9 @@ public class ConstantPool {
 
 	public void writeConstants(DataOutputStream out) throws IOException {
 		out.writeShort(constants.size()+1); // constant count
-		for(ConstantInfo ci : constants.keySet()){
+		ConstantInfo[] cs = new ConstantInfo[constants.size()];
+		constants.forEach((k,v) -> cs[v-1] = k);
+		for(ConstantInfo ci : cs){
 			ci.write(out, this);
 		}
 	}

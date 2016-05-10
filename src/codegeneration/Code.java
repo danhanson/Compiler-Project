@@ -16,7 +16,7 @@ public class Code {
 	private int stack = 0;
 	private int maxStack = 0;
 	private int maxLocals = 0;
-	private Map<Variable, Integer> localVariables;
+	private final Map<Variable, Integer> localVariables;
 	private final List<Instruction> instructions = new ArrayList<>();
 
 	public Code() {
@@ -54,10 +54,12 @@ public class Code {
 	}
 
 	public void addBlock(Code block) {
+		if(block.stack != 0){
+			throw new IllegalArgumentException("A block must have a net stack size change of 0");
+		}
 		instructions.addAll(block.instructions);
-		stack += block.stack;
-		if(stack > maxStack){
-			maxStack = stack;
+		if(stack + block.maxStack > maxStack){
+			maxStack = stack + block.maxStack;
 		}
 		size += block.size;
 		maxLocals += block.maxLocals;
@@ -65,8 +67,8 @@ public class Code {
 
 	public void addIfElse(Expression condition, Code ifBranch, Code elseBranch){
 		condition.generateCode(this);
-		add(Instruction.ifeq(ifBranch.size+1)); // if condition is equal to 0, skip the if block
-		ifBranch.add(Instruction.gotoInst(elseBranch.getSize())); // skip else block after finishing if block
+		ifBranch.add(Instruction.gotoInst(elseBranch.getSize()+3)); // skip else block after finishing if block
+		add(Instruction.ifeq(ifBranch.size+3)); // if condition is equal to 0, skip the if block
 		stack += (ifBranch.stack > elseBranch.stack) ? ifBranch.stack : elseBranch.stack;
 		if(stack > maxStack){
 			maxStack = stack;
@@ -79,7 +81,7 @@ public class Code {
 
 	public void addIf(Expression condition, Code ifBranch) {
 		condition.generateCode(this);
-		add(Instruction.ifeq(ifBranch.size+1));
+		add(Instruction.ifeq(ifBranch.size+3));
 		addBlock(ifBranch);
 	}
 
@@ -93,7 +95,7 @@ public class Code {
 			out.write(inst.bytes);
 		}
 		out.writeShort(0);
-		out.writeShort(0);
+		out.writeShort(0);		
 	}
 
 	public void setStack(int i){
@@ -105,5 +107,13 @@ public class Code {
 
 	public void setLocals(int i) {
 		maxLocals = i;
+	}
+
+	public int getLocals() {
+		return maxLocals;
+	}
+
+	public int getStack() {
+		return stack;
 	}
 }

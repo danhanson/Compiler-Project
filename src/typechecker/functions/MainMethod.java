@@ -39,11 +39,13 @@ public final class MainMethod extends Method {
 
 	@Override
 	public void generateCode() {
-		code.setLocals(1);
 		for(Statement s : statements()){
 			s.generateCode(code);
 		}
 		code.add(RETURN);
+		if(code.getLocals() == 0){
+			code.setLocals(1);
+		}
 	}
 
 	public void writeMethod(DataOutputStream out) throws IOException {

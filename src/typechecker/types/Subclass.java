@@ -186,7 +186,7 @@ public final class Subclass extends ClassScope implements Class {
 	public void writeBytecode(DataOutputStream out) throws IOException {
 		out.writeInt(0xCAFEBABE); // magic
 		out.writeShort(0); // class version is always 45.0
-		out.writeShort(0x34);
+		out.writeShort(46);
 		constants.writeConstants(out); // writes constant count and all constants
 		out.writeShort(1); // access flag for public
 		out.writeShort(constants.classRef(this)); // this class

@@ -47,9 +47,11 @@ public final class WhileStatement extends Statement {
 	public Code generateCode(Code insts) {
 		Code block = new Code(insts);
 		body.generateCode(block);
-		block.add(Instruction.gotoInst(-(block.getSize()+3))); // the 3 is for the added instruction
+		int start = insts.getSize();
 		conditional.generateCode(insts);
-		insts.add(Instruction.ifeq(block.getSize()));
+		int condSize = insts.getSize() - start;
+		block.add(Instruction.gotoInst(-(block.getSize()+condSize+3))); // the 3 is for the added instruction
+		insts.add(Instruction.ifeq(block.getSize()+3));
 		insts.addBlock(block);
 		return insts;
 	}

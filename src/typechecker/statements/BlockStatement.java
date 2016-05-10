@@ -1,6 +1,7 @@
 package typechecker.statements;
 
 import codegeneration.Code;
+import codegeneration.Instruction;
 import parser.MiniJavaParser.BlockStatementContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.scope.Block;
@@ -29,6 +30,9 @@ public final class BlockStatement extends Statement {
 	public Code generateCode(Code insts) {
 		Code blockCode = new Code(insts);
 		block.generateCode(blockCode);
+		while(blockCode.getStack() > 0){
+			blockCode.add(Instruction.POP);
+		}
 		insts.addBlock(blockCode);
 		return insts;
 	}
