@@ -58,4 +58,9 @@ public final class Null implements Class {
 	public Method constructor() {
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public String binaryName() {
+		throw new UnsupportedOperationException();
+	}
 }

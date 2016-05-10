@@ -3,6 +3,7 @@ package typechecker.types;
 import java.util.Optional;
 
 import codegeneration.constants.ConstantPool;
+import typechecker.functions.Constructor;
 import typechecker.functions.Method;
 import typechecker.functions.MethodSignature;
 import typechecker.scope.ClassScope;
@@ -49,12 +50,11 @@ public final class ObjectClass extends ClassScope implements Type, Class {
 		return GlobalScope.instance().resolveType(id);
 	}
 
-	@Override
-	public String descriptor() {
-		return "Ljava.lang.Object;";
+	public String binaryName(){
+		return "java/lang/Object";
 	}
 
-	private static final Method constructor = new Method("<init>", instance(), instance());
+	private static final Method constructor = new Constructor(ObjectClass.instance());
 
 	@Override
 	public Method constructor() {

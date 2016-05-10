@@ -46,12 +46,12 @@ public final class UndeclaredClass implements Class {
 	}
 
 	@Override
-	public String descriptor() {
-		return "L"+id()+";";
+	public Method constructor() {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Method constructor() {
+	public String binaryName() {
 		throw new UnsupportedOperationException();
 	}
 }

@@ -29,7 +29,7 @@ final class FieldInfo extends ConstantInfo {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ClassInfo) {
+		if(obj instanceof FieldInfo) {
 			FieldInfo ref = (FieldInfo) obj;
 			return className.equals(ref.className) && field.equals(ref.field) && type.equals(ref.type);
 		}

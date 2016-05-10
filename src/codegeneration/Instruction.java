@@ -64,19 +64,23 @@ public class Instruction {
 	}
 
 	public static Instruction invokevirtual(int ref, int argsLen, boolean notVoid) {
-		return shortInstruction("invokevirtual", 0xb6, ref, argsLen - (notVoid ? 1 : 0));
+		return shortInstruction("invokevirtual", 0xb6, ref, (notVoid ? 1 : 0) - argsLen);
 	}
 
 	public static Instruction invokevirtual(Method f, ConstantPool pool) {
-		return invokevirtual(pool.method(f), 1 + f.args().size(), !Void.instance().equals(f.returnType()));
+		return invokevirtual(pool.method(f), 1+f.args().size(), !Void.instance().equals(f.returnType()));
 	}
 
 	public static Instruction invokespecial(int ref, int argsLen, boolean notVoid) {
-		return shortInstruction("invokespecial", 0xb7, ref, argsLen - (notVoid ? 1 : 0));
+		return shortInstruction("invokespecial", 0xb7, ref, (notVoid ? 1 : 0) - argsLen);
 	}
 
 	public static Instruction invokespecial(Method f, ConstantPool pool) {
-		return invokevirtual(pool.method(f), 1 + f.args().size(), !Void.instance().equals(f.returnType()));
+		return invokespecial(pool.method(f), 1 + f.args().size(), !Void.instance().equals(f.returnType()));
+	}
+
+	public static Instruction invokestatic(int index, int argsLen){
+		return shortInstruction("invokestatic", 0xb8, index, -argsLen);
 	}
 
 	Instruction(String mem, byte[] bytes, int stack){

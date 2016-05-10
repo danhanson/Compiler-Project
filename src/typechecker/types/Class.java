@@ -76,8 +76,10 @@ public interface Class extends Scope, Type {
 
 	@Override
 	default String descriptor() {
-		return "L"+id()+";";
+		return "L"+binaryName()+";";
 	}
+
+	abstract String binaryName();
 
 	public Method constructor();
 }

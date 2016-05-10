@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import codegeneration.constants.ConstantPool;
+import typechecker.functions.Constructor;
 import typechecker.functions.Method;
 import typechecker.functions.MethodSignature;
 import typechecker.scope.ClassScope;
@@ -21,7 +22,7 @@ public final class Subclass extends ClassScope implements Class {
 	private final Map<MethodSignature, Method> resolvedMethods = new HashMap<>();
 	private final String id;
 	private final ConstantPool constants = new ConstantPool();
-	private final Method constructor = new Method("<init>", this, this);
+	private final Method constructor = new Constructor(this);
 	private final Variable thisInstance;
 
 	private boolean classIsGood = true;
@@ -163,20 +164,20 @@ public final class Subclass extends ClassScope implements Class {
 	}
 
 	public void generateCode(){
-		constants.name(id());
-		constants.descriptor(this);
-		constants.name(superClass().id());
-		constants.descriptor(superClass());
-		constants.name(constructor.id());
-		constants.descriptor(constructor);
+		constants.classRef(this); // this class
+		constants.classRef(superClass()); // super class
+		constants.name("Code");
 		for(Variable v : fields.values()){
 			constants.descriptor(v.type());
 			constants.name(v.id());
 		}
+		constants.name(constructor.id());
+		constants.descriptor(constructor);
 		for(Method m : methods){
 			constants.descriptor(m);
 			constants.name(m.id());
 		}
+		constructor.generateCode();
 		for(Method m : methods){
 			m.generateCode();
 		}
@@ -188,17 +189,19 @@ public final class Subclass extends ClassScope implements Class {
 		out.writeShort(0x34);
 		constants.writeConstants(out); // writes constant count and all constants
 		out.writeShort(1); // access flag for public
-		out.writeShort(1); // this class is always the first constant
-		out.writeShort(2); // super class is always the second constant
+		out.writeShort(constants.classRef(this)); // this class
+		out.writeShort(constants.classRef(superClass())); // super class
 		out.writeShort(0); // interface count is 0
 		out.writeShort(fields.size()); // field count
 		for(Variable field : fields.values()) {
 			field.writeField(out);
 		}
-		out.writeShort(methods.size());
+		out.writeShort(methods.size()+1);
+		constructor.writeMethod(out);
 		for(Method fun : methods) {
 			fun.writeMethod(out);
 		}
+		out.writeShort(0); // no attributes
 	}
 
 	@Override
@@ -212,11 +215,6 @@ public final class Subclass extends ClassScope implements Class {
 	}
 
 	@Override
-	public String descriptor() {
-		return "L"+id+";";
-	}
-
-	@Override
 	public Method constructor() {
 		return constructor;
 	}
@@ -224,5 +222,10 @@ public final class Subclass extends ClassScope implements Class {
 	@Override
 	public Variable thisInstance() {
 		return thisInstance;
+	}
+
+	@Override
+	public String binaryName() {
+		return id;
 	}
 }

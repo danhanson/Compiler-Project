@@ -4,14 +4,11 @@ import static codegeneration.Instruction.RETURN;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.stream.Collectors;
 
-import codegeneration.Instruction;
 import codegeneration.constants.ConstantPool;
 import parser.MiniJavaParser.MainMethodContext;
 import parser.MiniJavaParser.StatementContext;
 import typechecker.scope.ClassScope;
-import typechecker.scope.Variable;
 import typechecker.statements.Statement;
 import typechecker.types.Type;
 import typechecker.types.Void;
@@ -31,14 +28,18 @@ public final class MainMethod extends Method {
 	}
 
 	@Override
+	public String descriptor(){
+		return "([Ljava/lang/String;)V";
+	}
+
+	@Override
 	public Type returnType() {
 		return Void.instance();
 	}
 
 	@Override
 	public void generateCode() {
-		code.setStack(1);
-		code.add(Instruction.POP); // ignore args
+		code.setLocals(1);
 		for(Statement s : statements()){
 			s.generateCode(code);
 		}
@@ -52,14 +53,5 @@ public final class MainMethod extends Method {
 		out.writeShort(pool.descriptor(this));
 		out.writeShort(1); // one attribute
 		code.writeCode(out, pool);
-	}
-
-	public String descriptor() {
-		return "(" + 
-					args().stream()
-							.map(Variable::type)
-							.map(Type::descriptor)
-							.collect(Collectors.joining()) +
-				")" + returnType().descriptor();
 	}
 }

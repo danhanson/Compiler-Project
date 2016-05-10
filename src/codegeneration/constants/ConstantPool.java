@@ -28,52 +28,61 @@ public class ConstantPool {
 	}
 
 	short classInfo(ClassInfo c){
-		return constants.computeIfAbsent(c, o -> {
+		Short ret = constants.get(c);
+		if(ret == null){
 			utf8(c.utf8Info());
-			return nextIndex();
-		});
+			ret = nextIndex();
+			constants.put(c, ret);
+		}
+		return ret;
 	}
 
 	short nameAndType(NameAndTypeInfo n){
-		return constants.computeIfAbsent(n, o -> {
+		Short ret = constants.get(n);
+		if(ret == null){
 			utf8(n.nameInfo());
 			utf8(n.descriptor());
-			return nextIndex();
-		});
+			ret = nextIndex();
+			constants.put(n, ret);
+		}
+		return ret;
 	}
 
 	short fieldInfo(FieldInfo fi){
-		return constants.computeIfAbsent(fi, o -> {
+		Short ret = constants.get(fi);
+		if(ret == null){
 			classInfo(fi.classInfo());
 			nameAndType(fi.nameAndTypeInfo());
-			return nextIndex();
-		});
+			ret = nextIndex();
+			constants.put(fi, ret);
+		}
+		return ret;
 	}
 
 	public short systemOut(){
-		FieldInfo fri = new FieldInfo("java/lang/system","Out","Ljava/io/PrintStream;");
-		return constants.computeIfAbsent(fri, obj -> {
-			classInfo(fri.classInfo());
-			nameAndType(fri.nameAndTypeInfo());
-			return nextIndex();
-		});
+		FieldInfo fi = new FieldInfo("java/lang/System","out","Ljava/io/PrintStream;");
+		
+		return fieldInfo(fi);
 	}
 
 	public short method(Method f) {
-		MethodInfo method = new MethodInfo(f.thisClass().id(), f.descriptor());
+		MethodInfo method = new MethodInfo(f.thisClass().binaryName(), f.id(), f.descriptor());
 		return methodInfo(method);
 	}
 
 	short methodInfo(MethodInfo method){
-		return constants.computeIfAbsent(method, obj -> {
+		Short ret = constants.get(method);
+		if(ret == null){
 			classInfo(method.classInfo());
-			utf8(method.descriptor());
-			return nextIndex();
-		});
+			nameAndType(method.nameAndTypeInfo());
+			ret = nextIndex();
+			constants.put(method, ret);
+		}
+		return ret;
 	}
 
 	public short println(){
-		MethodInfo method = new MethodInfo("java/io/PrintStream.println", "(I)V");
+		MethodInfo method = new MethodInfo("java/io/PrintStream", "println", "(I)V");
 		return methodInfo(method);
 	}
 
@@ -87,8 +96,8 @@ public class ConstantPool {
 
 	public void writeConstants(DataOutputStream out) throws IOException {
 		out.writeShort(constants.size()+1); // constant count
-		for(ConstantInfo con : constants.keySet()){
-			con.write(out, this);
+		for(ConstantInfo ci : constants.keySet()){
+			ci.write(out, this);
 		}
 	}
 
@@ -106,6 +115,6 @@ public class ConstantPool {
 	}
 
 	public short classRef(Class c) {
-		return classInfo(new ClassInfo(c.id()));
+		return classInfo(new ClassInfo(c.binaryName()));
 	}
 }

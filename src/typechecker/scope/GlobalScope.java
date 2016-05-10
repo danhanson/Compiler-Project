@@ -57,11 +57,7 @@ public class GlobalScope implements Scope {
 		classes = types.values().stream().filter(t -> t instanceof Subclass).map(t -> (Subclass) t).collect(Collectors.toList());
 		classes.stream().forEach(Subclass::checkMembers);
 		classes.stream().forEach(Subclass::checkMethodBodies);
-		boolean isGood = classes.stream().allMatch(Subclass::status);
-		if(!main.checkTypes()){
-			isGood = false;
-		}
-		return isGood;
+		return classes.stream().allMatch(Subclass::status);
 	}
 
 	public void generateCode(){

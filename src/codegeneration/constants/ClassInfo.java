@@ -36,6 +36,6 @@ public class ClassInfo extends ConstantInfo {
 	@Override
 	public void write(DataOutputStream out, ConstantPool constants) throws IOException {
 		out.write(tag().value);
-		out.writeShort(constants.classInfo(this));
+		out.writeShort(constants.name(name));
 	}
 }

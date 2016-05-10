@@ -2,6 +2,7 @@ package codegeneration;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ public class Code {
 	private int maxStack = 0;
 	private int maxLocals = 0;
 	private Map<Variable, Integer> localVariables;
-	private List<Instruction> instructions;
+	private final List<Instruction> instructions = new ArrayList<>();
 
 	public Code() {
 		localVariables = new HashMap<Variable, Integer>();
@@ -50,10 +51,6 @@ public class Code {
 	
 	public int getSize() {
 		return size;
-	}
-
-	public int localVariableCount() {
-		return localVariables.size();
 	}
 
 	public void addBlock(Code block) {
@@ -104,5 +101,9 @@ public class Code {
 		if(i > maxStack){
 			maxStack = i;
 		}
+	}
+
+	public void setLocals(int i) {
+		maxLocals = i;
 	}
 }

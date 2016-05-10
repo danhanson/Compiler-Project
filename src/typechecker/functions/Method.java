@@ -17,6 +17,7 @@ import typechecker.scope.ExecutionScope;
 import typechecker.scope.Variable;
 import typechecker.statements.Statement;
 import typechecker.types.Type;
+import typechecker.types.Void;
 import typechecker.types.UndeclaredClass;
 import static codegeneration.Instruction.*;
 
@@ -59,7 +60,9 @@ public class Method extends ExecutionScope{
 
 	public boolean resolveSignature() {
 		boolean ret = true;
-		if(!parent().resolveType(returnTypeId).map(t -> this.returnType = t).isPresent()){
+		if(Void.instance().id().equals(returnTypeId)){
+			returnType = Void.instance();
+		} else if(!parent().resolveType(returnTypeId).map(t -> this.returnType = t).isPresent()){
 			returnType = new UndeclaredClass(returnTypeId);
 			System.err.println("Cannot find class named " + this.returnTypeId);
 			ret = false;
@@ -126,10 +129,8 @@ public class Method extends ExecutionScope{
 	}
 
 	public void generateCode(){
-		code.setStack(1+args.size());
-		code.add(store(thisClass(), code.localVariable(thisInstance()))); // at beginning, store all arguments
 		for(Variable arg : args){
-			code.add(store(arg.type(), code.localVariable(arg)));
+			code.localVariable(arg);
 		}
 		for(Statement s : statements()){
 			s.generateCode(code);

@@ -40,7 +40,7 @@ public final class PrintStatement extends Statement {
 		ConstantPool constants = exp.scope().constantPool();
 		block.add(getstatic(constants.systemOut()));
 		exp.generateCode(block);
-		block.add(invokevirtual(constants.println(), 1, false));
+		block.add(invokevirtual(constants.println(),1, false));
 		return block;
 	}
 }
