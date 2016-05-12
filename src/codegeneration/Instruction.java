@@ -12,9 +12,9 @@ import typechecker.types.Class;
 
 public class Instruction {
 
-	protected final String mem;
-	protected final byte[] bytes;
-	protected final int stackAmt;
+	public final String mem;
+	public final byte[] bytes;
+	public final int stackAmt;
 
 	public static final Instruction iconst_m1 = new Instruction("iconst_m1", 0x02, 1);
 
@@ -269,5 +269,11 @@ public class Instruction {
 
 	public static Instruction newObj(Class c, ConstantPool pool){
 		return newObj(pool.classRef(c));
+	}
+
+	public static final Instruction DUP = new Instruction("dup", 0x59, 1);
+
+	public static Instruction putfield(int index){
+		return shortInstruction("putfield", 0xb5, (short) index, -2);
 	}
 }

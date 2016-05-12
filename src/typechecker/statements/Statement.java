@@ -9,6 +9,7 @@ import parser.MiniJavaParser.AssignmentStatementContext;
 import parser.MiniJavaParser.BlockStatementContext;
 import parser.MiniJavaParser.DeclarationStatementContext;
 import parser.MiniJavaParser.EmptyStatementContext;
+import parser.MiniJavaParser.ExpressionStatementContext;
 import parser.MiniJavaParser.IfStatementContext;
 import parser.MiniJavaParser.PrintStatementContext;
 import parser.MiniJavaParser.ReturnStatementContext;
@@ -29,6 +30,7 @@ public abstract class Statement {
 		factoryLookup.put(AssignmentStatementContext.class, AssignmentStatement::fromStatementContext);
 		factoryLookup.put(ReturnStatementContext.class, ReturnStatement::fromStatementContext);
 		factoryLookup.put(EmptyStatementContext.class, EmptyStatement::fromStatementContext);
+		factoryLookup.put(ExpressionStatementContext.class, ExpressionStatement::fromStatementContext);
 	}
 
 	public static Statement fromStatementContext(StatementContext s, ExecutionScope parent) {

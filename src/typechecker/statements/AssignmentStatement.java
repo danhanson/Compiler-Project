@@ -59,6 +59,13 @@ public final class AssignmentStatement extends Statement {
 
 	@Override
 	public Code generateCode(Code insts) {
-		return exp.generateCode(insts).add(Instruction.store(assignee.type(), insts.localVariable(assignee)));
+		if(assignee.isField()){
+			Variable thisInstance = exp.scope().thisInstance();
+			insts.add(Instruction.load(thisInstance.type(), insts.localVariable(thisInstance)));
+			exp.generateCode(insts);
+			return insts.add(Instruction.putfield(exp.scope().constantPool().field(assignee)));
+		}
+		exp.generateCode(insts);
+		return insts.add(Instruction.store(assignee.type(), insts.localVariable(assignee)));
 	}
 }

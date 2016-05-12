@@ -97,7 +97,7 @@ public class Variable {
 	}
 
 	public boolean isField(){
-		return scope instanceof Class;
+		return !(scope instanceof ExecutionScope);
 	}
 
 	public void writeField(DataOutputStream out) throws IOException{

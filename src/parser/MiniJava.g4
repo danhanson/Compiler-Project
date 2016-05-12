@@ -36,6 +36,7 @@ statement : declaration ('=' expression)? ';'                     #declarationSt
           | 'System.out.println' '(' expression ')' ';'           #printStatement
           | ID '=' expression ';'                                 #assignmentStatement
           | 'return' expression? ';'                              #returnStatement
+          | expression ';'                                        #expressionStatement
           | ';'                                                   #emptyStatement ;
 
 ifBody : 'if' '(' expression ')' statement ;

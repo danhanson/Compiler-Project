@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import codegeneration.Code;
+import codegeneration.Instruction;
 import codegeneration.constants.ConstantPool;
 import parser.MiniJavaParser.ArgumentsContext;
 import parser.MiniJavaParser.NormalMethodContext;
@@ -19,14 +20,13 @@ import typechecker.statements.Statement;
 import typechecker.types.Type;
 import typechecker.types.Void;
 import typechecker.types.UndeclaredClass;
-import static codegeneration.Instruction.*;
 
 public class Method extends ExecutionScope{
 
 	private MethodSignature methodSignature;
 	private final String id;
 	private final String returnTypeId;
-	private final List<Variable> args;
+	private List<Variable> args;
 	private Type returnType = null;
 	protected final Code code = new Code();
 
@@ -38,24 +38,10 @@ public class Method extends ExecutionScope{
 		this.returnTypeId = returnType.id();
 	}
 
-	public Method(String id, String returnTypeId, List<Variable> args, ClassScope parent){
+	public Method(String id, String returnTypeId, ClassScope parent){
 		super(parent);
 		this.id = id;
 		this.returnTypeId = returnTypeId;
-		boolean isGood = true;
-		for(Variable arg : args){
-			if(resolveLocalVariable(arg.id()).isPresent()){
-				System.err.println("Formal parameter named "+arg.id()+" duplicates the name of another formal parameter.");
-				isGood = false;
-			} else {
-				addVariable(arg);
-				arg.setDeclared(true);
-			}
-		}
-		if(!isGood){
-			throw new IllegalArgumentException();
-		}
-		this.args = args;
 	}
 
 	public boolean resolveSignature() {
@@ -98,15 +84,33 @@ public class Method extends ExecutionScope{
 		String retType = method.returnType().getText();
 		List<Variable> argList = new ArrayList<>();
 		ArgumentsContext args = method.arguments();
+		Method f = new Method(id, retType, c);
 		while(args != null && args.declaration() != null){
-			argList.add(Variable.fromDeclarationContext(args.declaration(), c, true));
+			argList.add(Variable.fromDeclarationContext(args.declaration(), f, true));
 			args = args.arguments();
 		}
-		Method f = new Method(id, retType, argList, c);
+		f.addArguments(argList);
 		for(StatementContext statement : method.block().statement()){
 			f.addStatement(Statement.fromStatementContext(statement, f));
 		}
 		return f;
+	}
+
+	private void addArguments(List<Variable> argList) {
+		boolean isGood = true;
+		for(Variable arg : argList){
+			if(resolveLocalVariable(arg.id()).isPresent()){
+				System.err.println("Formal parameter named "+arg.id()+" duplicates the name of another formal parameter.");
+				isGood = false;
+			} else {
+				addVariable(arg);
+				arg.setDeclared(true);
+			}
+		}
+		args = argList;
+		if(!isGood){
+			throw new IllegalArgumentException();
+		}
 	}
 
 	public String id(){
@@ -129,13 +133,16 @@ public class Method extends ExecutionScope{
 	}
 
 	public void generateCode(){
+		code.localVariable(thisInstance());
 		for(Variable arg : args){
 			code.localVariable(arg);
 		}
 		for(Statement s : statements()){
 			s.generateCode(code);
 		}
-		code.add(RETURN);
+		if(Void.instance().equals(returnType)){
+			code.add(Instruction.RETURN);
+		}
 	}
 
 	public void writeMethod(DataOutputStream out) throws IOException {

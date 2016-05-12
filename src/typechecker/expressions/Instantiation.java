@@ -51,6 +51,7 @@ public final class Instantiation extends Expression {
 	public Code generateCode(Code block) {
 		Method fun = type.constructor();
 		block.add(Instruction.newObj(type, scope().constantPool()));
+		block.add(Instruction.DUP);
 		return block.add(Instruction.invokespecial(fun, scope().constantPool()));
 	}
 

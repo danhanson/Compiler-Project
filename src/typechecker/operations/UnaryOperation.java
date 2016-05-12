@@ -66,6 +66,7 @@ public enum UnaryOperation {
 	}
 
 	public Code generateCode(Code c, Expression exp) {
+		exp.generateCode(c);
 		switch(this) {
 		case Not:
 			c.add(Instruction.iconst_1);
