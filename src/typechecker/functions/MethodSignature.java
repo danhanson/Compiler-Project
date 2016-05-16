@@ -49,4 +49,19 @@ public final class MethodSignature {
 	public Type[] argTypes() {
 		return argTypes;
 	}
+
+	public boolean isCovariant(MethodSignature sig){
+		if(!id.equals(sig.id)){
+			return false;
+		}
+		if(argTypes.length != sig.argTypes.length){
+			return false;
+		}
+		for(int i = 0; i < argTypes.length; i++){
+			if(!argTypes[i].isSubType(sig.argTypes[i])){
+				return false;
+			}
+		}
+		return true;
+	}
 }

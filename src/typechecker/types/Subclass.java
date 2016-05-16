@@ -11,6 +11,7 @@ import java.util.Optional;
 import codegeneration.constants.ConstantPool;
 import typechecker.functions.Constructor;
 import typechecker.functions.Method;
+import typechecker.functions.MethodResolver;
 import typechecker.functions.MethodSignature;
 import typechecker.scope.ClassScope;
 import typechecker.scope.Variable;
@@ -19,7 +20,7 @@ public final class Subclass extends ClassScope implements Class {
 
 	private final Map<String, Variable> fields = new HashMap<>();
 	private final List<Method> methods = new ArrayList<>();
-	private final Map<MethodSignature, Method> resolvedMethods = new HashMap<>();
+	private final MethodResolver resolvedMethods;
 	private final String id;
 	private final ConstantPool constants = new ConstantPool();
 	private final Method constructor = new Constructor(this);
@@ -31,28 +32,33 @@ public final class Subclass extends ClassScope implements Class {
 		super(parent);
 		this.id = id;
 		thisInstance = new Variable(this, "this", this, true);
+		resolvedMethods = new MethodResolver(parent);
 	}
 
 	private boolean addResolvedMethod(Method method){
-		if(resolvedMethods.containsKey(method.methodSignature())){
-			System.err.println("Cannot redeclare method "+method.methodSignature()+
-					". Method "+method.methodSignature()+" is already declared in class "+id()+".");
+		if(resolvedMethods.containsSignature(method.methodSignature())){
+			System.err.println("A method with name and arguments "+method.methodSignature()+
+					" already declared in class "+id()+".");
 			return false;
 		}
-		return ((Class) parent()).resolveMethod(method.methodSignature()).map( superFun -> {
+		return resolvedMethods.resolveMethod(method.methodSignature()).map( superFun -> {
 			if(!superFun.returnType().isSubType(method.returnType())){
 				System.err.println(
-					"Cannot overload methods. Method "+method.id()+" has different type signature than inherited method of the same name. "
-					+ "Actual return type "+method.returnType().id()+" of method start does not match declared type "+superFun.returnType().id()
+					"Ambiguous method declaration. Methods "+method.toString()+" and  "+superFun+" are ambiguous."
 				);
 				return false;
 			}
-			resolvedMethods.put(method.methodSignature(), method);
+			if(resolvedMethods.putMethod(method).isPresent()){
+				throw new RuntimeException("BAD METHOD");
+			}
 			return true;
-		}).orElseGet(() -> {
-			resolvedMethods.put(method.methodSignature(), method);
-			return true;
-		});
+		}).orElseGet(() -> resolvedMethods.putMethod(method).map(other -> {
+				System.err.println(
+						"Ambiguous methods declared in class "+id+": " + method + " and " + other
+				);
+				return false;
+			}).orElse(true)
+		);
 	}
 
 	public boolean checkMembers() {
@@ -110,11 +116,7 @@ public final class Subclass extends ClassScope implements Class {
 
 	@Override
 	public Optional<Method> resolveMethod(MethodSignature id) {
-		Method local = resolvedMethods.get(id);
-		if(local == null){
-			return superClass().resolveMethod(id);
-		}
-		return Optional.of(local);
+		return resolvedMethods.resolveMethod(id);
 	}
 	
 	public Class superClass(){

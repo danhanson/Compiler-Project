@@ -166,4 +166,11 @@ public class Method extends ExecutionScope{
 	public List<Variable> args() {
 		return args;
 	}
+
+	boolean isCovariant(Method m){
+		if(!m.methodSignature.isCovariant(methodSignature)){
+			return false;
+		}
+		return returnType.isSubType(m.returnType);
+	}
 }

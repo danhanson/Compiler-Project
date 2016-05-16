@@ -79,7 +79,7 @@ public final class InvokeMethod extends Expression {
         	this.method = m;
         	return true;	
         }).orElseGet(() -> {
-        	System.err.println("Class "+scope().thisClass().id()+" has no method "+sig.toString());
+        	System.err.println("Class "+c.id()+" has no method "+sig.toString());
         	return false;
         });
     }
