@@ -133,7 +133,7 @@ public enum BinaryOperation {
 				}
 				c.add(cmp);
 				c.add(iconst_0); // false
-				c.add(gotoInst(2)); // skip setting to true
+				c.add(gotoInst(4)); // skip setting to true
 				c.add(iconst_1); // true
 				return c;
 			}
