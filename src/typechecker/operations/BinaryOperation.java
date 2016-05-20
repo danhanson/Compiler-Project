@@ -133,7 +133,7 @@ public enum BinaryOperation {
 				}
 				c.add(cmp);
 				c.add(iconst_0); // false
-				c.add(gotoInst(4)); // skip setting to true
+				c.add(gotoInst(2)); // skip setting to true
 				c.add(iconst_1); // true
 				return c;
 			}
@@ -144,12 +144,12 @@ public enum BinaryOperation {
 			rest.add(gotoInst(4)); // to jump over iconst if no short ciruiting occurs
 			switch(this) {
 			case AND:
-				c.add(ifeq(rest.getSize()+1)); // if false, skip rest to short circuit
+				c.add(ifeq(rest.getSize()+3)); // if false, skip rest to short circuit
 				c.addCode(rest); // this puts a boolean value on the stack and jumps over the next instruction
 				c.add(iconst_0);
 				break;
 			case OR:
-				c.add(ifne(rest.getSize()+1)); // if true, skip rest to short circuit;
+				c.add(ifne(rest.getSize()+3)); // if true, skip rest to short circuit;
 				c.addCode(rest);
 				c.add(iconst_1);
 				break;

@@ -18,7 +18,7 @@ public final class BooleanExp extends Expression {
 	}
 
 	public static BooleanExp fromExpressionContext(ExpressionContext con, ExecutionScope scope){
-		return new BooleanExp(scope, Boolean.getBoolean(((BooleanContext) con).booleanExp().getText()));
+		return new BooleanExp(scope,  ((BooleanContext) con).booleanExp().TRUE() != null);
 	}
 
 	@Override
