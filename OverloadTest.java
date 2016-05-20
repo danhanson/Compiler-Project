@@ -7,7 +7,7 @@ class OverloadTest {
 		System.out.println(o.overload(11));
 		System.out.println(o.overload(b));
 		
-		CovarianceTest ct = new CovarianceTest();*/
+		CovarianceTest ct = new CovarianceTest();
 		CovarianceTestChild ctc = new CovarianceTestChild();
 		CovarianceTest ct2 = ctc;
 	
