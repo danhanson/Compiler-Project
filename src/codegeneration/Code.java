@@ -68,7 +68,7 @@ public class Code {
 	public void addIfElse(Expression condition, Code ifBranch, Code elseBranch){
 		condition.generateCode(this);
 		ifBranch.add(Instruction.gotoInst(elseBranch.getSize()+3)); // skip else block after finishing if block
-		add(Instruction.ifeq(ifBranch.size+3)); // if condition is equal to 0, skip the if block
+		add(Instruction.ifne(ifBranch.size+3)); // if condition is equal to 0, skip the if block
 		stack += (ifBranch.stack > elseBranch.stack) ? ifBranch.stack : elseBranch.stack;
 		if(stack > maxStack){
 			maxStack = stack;
@@ -115,5 +115,14 @@ public class Code {
 
 	public int getStack() {
 		return stack;
+	}
+
+	public void addCode(Code block) {
+		instructions.addAll(block.instructions);
+		if(stack + block.maxStack > maxStack){
+			maxStack = stack + block.maxStack;
+		}
+		size += block.size;
+		maxLocals += block.maxLocals;
 	}
 }

@@ -10,4 +10,7 @@ public interface Type {
 	default int size(){
 		return 1; // all sizes are 1 except for doubles and longs
 	}
+	default boolean isAmbiguos(Type other){
+		return isSubType(other) || other.isSubType(this);
+	}
 }

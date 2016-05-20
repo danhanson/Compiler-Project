@@ -173,4 +173,11 @@ public class Method extends ExecutionScope{
 		}
 		return returnType.isSubType(m.returnType);
 	}
+
+	boolean isAmbiguous(Method m){
+		if(returnType.isAmbiguos(m.returnType)){
+			return methodSignature.isAmbiguous(m.methodSignature);
+		}
+		return false;
+	}
 }

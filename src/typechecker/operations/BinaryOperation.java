@@ -141,18 +141,16 @@ public enum BinaryOperation {
 			arg1.generateCode(c); // puts true or false on stack
 			Code rest = new Code(c);
 			arg2.generateCode(rest);
-			rest.add(gotoInst(2)); // to jump over iconst if no short ciruiting occurs
+			rest.add(gotoInst(4)); // to jump over iconst if no short ciruiting occurs
 			switch(this) {
 			case AND:
-				c.add(IAND);
 				c.add(ifeq(rest.getSize()+1)); // if false, skip rest to short circuit
-				c.addBlock(rest); // this puts a boolean value on the stack and jumps over the next instruction
+				c.addCode(rest); // this puts a boolean value on the stack and jumps over the next instruction
 				c.add(iconst_0);
 				break;
 			case OR:
-				c.add(IOR);
 				c.add(ifne(rest.getSize()+1)); // if true, skip rest to short circuit;
-				c.addBlock(rest);
+				c.addCode(rest);
 				c.add(iconst_1);
 				break;
 			default: throw new IllegalStateException("BAD SWITCH STATEMENT");	

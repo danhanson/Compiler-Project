@@ -32,8 +32,7 @@ public class MethodResolver {
 	public Optional<Method> putMethod(Method m){
 		List<Method> overloads = methods.computeIfAbsent(m.id(), obj -> new ArrayList<Method>());
 		for(Method other : overloads){
-			if(m.methodSignature().isCovariant(other.methodSignature()) ||
-					other.methodSignature().isCovariant(m.methodSignature())){
+			if(m.methodSignature().isAmbiguous(other.methodSignature())){
 				return Optional.of(other);
 			}
 		}

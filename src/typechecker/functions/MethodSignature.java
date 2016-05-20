@@ -64,4 +64,16 @@ public final class MethodSignature {
 		}
 		return true;
 	}
+
+	public boolean isAmbiguous(MethodSignature other){
+		if(other.argTypes.length == argTypes.length){
+			for(int i = 0; i < argTypes.length; i++){
+				if(!argTypes[i].isAmbiguos(other.argTypes[i])){
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 }
